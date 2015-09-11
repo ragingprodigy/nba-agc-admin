@@ -1,0 +1,136 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{session.title}}</h3>
+</div>
+<div class="modal-body session-detail">
+
+    <div class="alert alert-info">Starts <b>{{ago(session.start_time)}}</b> and Ends
+        <b>{{ago(session.end_time)}}</b></div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <pre>{{session.description}}</pre>
+        </div>
+    </div>
+
+    <div ng-show="session.speakers.length">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <img ng-src="{{speaker.photo}}" ng-repeat="speaker in session.speakers"
+                     class="pull-left speaker-avatar"  popover="{{speaker.bio}}"
+                     popover-title="{{speaker.name}} - {{speaker.organization}}"
+                     popover-trigger="mouseenter">
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <div class="panel-title">
+                Session Papers
+                <button class="btn btn-xs btn-primary pull-right"
+                        ng-click="paperForm=!paperForm"><i class="glyphicon glyphicon-plus-sign"></i> Add New Paper</button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div ng-hide="!paperForm">
+                <form name="pForm" ng-submit="pForm.$valid && newPaper(pForm)" class="form-horizontal form-striped">
+
+                    <div class="form-group">
+                        <label for="p_title" class="col-md-3">Paper Title:</label>
+                        <div class="col-md-9">
+                            <input class="form-control" ng-model="paper.title" id="p_title" ng-required="true">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="p_speaker" class="col-md-3">Delivered By: </label>
+                        <div class="col-md-9">
+                            <ui-select ng-model="paper.speaker" id="p_speaker" ng-required="true">
+                                <ui-select-match placeholder="Delivered By...">
+                                    {{$select.selected.name}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="person in speakers | filter: $select.search track by person._id">
+                                    <div class="row">
+                                        <img ng-src="{{person.photo}}" style="height: 20px;" class="pull-left">
+                                        <div ng-bind-html="person.name | highlight: $select.search"
+                                             class="pull-left ml-20"></div>
+                                        <div ng-bind-html="person.email | highlight: $select.search" class="pull-right"></div>
+                                    </div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="p_document" class="col-md-3">Paper Url:</label>
+                        <div class="col-md-9">
+                            <input class="form-control" ng-model="paper.document" id="p_document" ng-required="true">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-9 col-md-offset-3">
+                            <button type="submit" class="btn btn-success" ng-disabled="pForm.$invalid">
+                                <i class="glyphicon glyphicon-ok-circle"></i>
+                                Add Paper</button>
+                        </div>
+                    </div>
+                </form>
+                <hr>
+            </div>
+            <table class="table table-bordered table-striped" ng-show="session.papers.length">
+                <tr>
+                    <th/>
+                    <th>Title</th>
+                    <th>Author / Presenter</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr data-ng-repeat="paper in session.papers">
+                    <td class="col-md-1 text-center">{{$index+1}}.</td>
+                    <td>{{paper.title}}</td>
+                    <td class="col-md-3">{{paper.speaker.prefix}} {{paper.speaker.name}}
+                        <small>{{paper.speaker.suffix}}</small></td>
+                    <td class="col-md-2"><a href="{{paper.document}}"
+                                            class="btn btn-xs btn-block btn-success"
+                                            target="_blank">
+                        <i class="glyphicon glyphicon-cloud-download"></i> DOWNLOAD
+                    </a> </td>
+                    <td class="col-md-2"><a ng-click="deletePaper(paper._id)" class="btn btn-xs btn-block btn-danger">
+                        <i class="glyphicon glyphicon-remove"></i> DELETE
+                    </a> </td>
+                </tr>
+            </table>
+            <div class="alert alert-warning" ng-hide="session.papers.length">
+                <h4>No papers have been added to this session.</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <div class="panel-title">Session Questions</div>
+        </div>
+        <div class="panel-body">
+            <div class="alert alert-success mb-10" ng-repeat="question in session.questions">
+                <h5>{{question.name}}<a class="text-danger pull-right" ng-click="deleteQuestion(question._id)"><i
+                        class="glyphicon glyphicon-remove"></i> Delete
+                    Question</a> </h5>
+                <p class="text-white">{{question.question}}</p>
+            </div>
+            <div class="alert alert-warning" ng-if="!session.questions.length">
+                <h4>No questions have been asked in this session yet.</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <div class="panel-title">Ratings Open <b>{{ago(session.rating_start)}}</b> - <rating class="overall-rating" readonly="true" ng-model="rate"></rating></div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="editSession()">Edit Session Details</button>
+    <button class="btn btn-warning" type="button" ng-click="close()">Close</button>
+</div>

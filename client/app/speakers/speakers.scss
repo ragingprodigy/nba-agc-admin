@@ -1,0 +1,20 @@
+.speaker {
+  .center-form {
+    width: 500px;
+
+    .ava-preview {
+      max-width: 60%;
+      display: block;
+      margin: 5px auto;
+      padding: 5px;
+      border: 1px solid #cccccc;
+      border-radius: 5px;
+    }
+  }
+
+  .grid-photo {
+    max-height: 50px;
+    display: block;
+    margin: 0 auto;
+  }
+}

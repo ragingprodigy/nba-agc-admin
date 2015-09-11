@@ -1,0 +1,82 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel">
+            <div class="panel-body">
+                <h4 class="text-center">Update Registration Payment Details - {{registration.prefix+' '+registration.firstName+' '+registration.middleName+' '+registration.surname+' '+registration.suffix}} <button ng-click="cancel()"
+                                                                                    class=" pull-right btn btn-xs btn-danger"><i
+                        class="glyphicon glyphicon-remove"></i> Cancel
+                </button>
+                </h4><br>
+
+                <form method="post" ng-submit="rForm.$valid && updateBank(rForm)" name="rForm">
+
+                    <div class="alert alert-danger" ng-show="error.length">{{error}} <button
+                            class="btn btn-xs btn-success" type="button" ng-click="error=''"><i
+                            class="glyphicon glyphicon-remove-circle"></i>
+                    </button> </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="email" name="email"
+                                       ng-model="registration.email" required readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="code" value="{{registration.regCode+'-'+registration.conferenceFee}}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="fee"
+                                       value="NGN {{registration.conferenceFee.formatMoney(2)}}" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle my-toggle-select" id="dLabel2" role="button" data-toggle="dropdown" data-target="#" href="">
+                                        <input type="text" class="form-control" ng-model="registration.bankDatePaid"
+                                               placeholder="Date of Payment" id="datePaid" required>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel2">
+                                        <datetimepicker ng-model="registration.bankDatePaid"
+                                                        ng-required="true"
+                                                        data-datetimepicker-config="{ minView:'day', dropdownSelector: '.my-toggle-select' }"></datetimepicker>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="bankDeposit"
+                                       ng-model="registration.bankDeposit" placeholder="Amount Paid" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="bankTeller"
+                                       ng-model="registration.bankTeller" placeholder="Teller No / Narration" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="bankBranch"
+                                       ng-model="registration.bankBranch" placeholder="Bank Branch">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" ng-disabled="rForm.$invalid"
+                            class="btn btn-block btn-success"> Confirm Registration Payment
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

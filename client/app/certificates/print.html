@@ -1,0 +1,46 @@
+<div class="hidden-print print-control text-center">
+    Pages Visible: {{pagesVisible}}<br>
+    Records Showing: {{currentFirstPage}} - {{lastPage}}<br><br>
+    <button class="btn btn-danger" ng-click="remove100()">Remove Next 100</button>
+</div>
+
+<div class="book">
+    <div class="page bp" ng-repeat="r in printData">
+        <div class="subpage">
+            <div class="surname"><span>{{r.surname.toLowerCase()}}</span></div>
+            <div class="firstName"><span>{{r.firstName.toLowerCase()}}</span></div>
+            <div class="middleName"><span>{{r.middleName.toLowerCase()}}</span></div>
+            <div class="branch"><span>{{branch.length?branch.toLowerCase():r.branch.toLowerCase()}}</span></div>
+        </div>
+    </div>
+
+    <div class="page" data-ng-repeat="r in data">
+        <div class="subpage">
+            <ul class="no-margin list-unstyled membersList">
+                <li data-ng-repeat="a in r">{{($parent.$index*45)+$index+1}}. {{a.firstName.toLowerCase()}}
+                    {{a.middleName.toLowerCase()}}
+                    {{a.surname.toLowerCase()}}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="subpage">
+            <br><br><br>
+            ------------------------------------
+            <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Branch Chairman
+        </div>
+    </div>
+</div>
+
+<!--<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="membersList">
+                <li data-ng-repeat="r in printData">{{r.surname.toLowerCase()}} {{r.middleName.toLowerCase()}}
+                    {{r.surname.toLowerCase()}}</li>
+            </ol>
+        </div>
+    </div>
+</div>-->

@@ -1,0 +1,23 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="jumbotron">
+    <div class="container">
+        <h2>Group Registrations</h2>
+    </div>
+</div>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="text-center">
+                <a ui-sref=".successful" class="btn btn-primary">CONFIRMED REGISTRATIONS</a>
+                <a ui-sref=".pending" class="btn btn-info">PENDING PAYMENTS</a>
+                <a ui-sref=".successful_web" class="btn btn-success">SUCCESSFUL WEB PAYMENTS</a>
+                <a ui-sref=".successful_bank" class="btn btn-success">SUCCESSFUL BANK PAYMENTS</a>
+                <a ui-sref=".failed_web" class="btn btn-danger">FAILED WEB PAYMENTS</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ui-view></div>

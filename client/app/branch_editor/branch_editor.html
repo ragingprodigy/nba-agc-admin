@@ -1,0 +1,92 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="jumbotron" ng-hide="doingPrint">
+    <div class="container">
+        <h2>Branch Standardizer
+        </h2>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    All REGISTERED Branches
+                    <div class="pull-right">
+                        <input class="search" type="text" ng-model="query" placeholder="Search...">
+                    </div>
+                </div>
+                <div class="panel-body main-grid">
+                    <div class="row">
+                        <table class="table table-hover table-striped table-condensed" id="lH-table">
+                            <thead>
+                            <tr>
+                                <th style="width: 40px;">S/N.</th>
+                                <th>Branch Name</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="lH in regBranches | filter: query" hover-row>
+                                <td>{{$index+1}}.</td>
+                                <td>{{lH._id}} <span class="label label-info">{{lH.count}}</span> </td>
+                                <td><button class="btn-block btn btn-xs btn-danger c-btn" ng-click="activateRow(lH._id, $index)"><i class="glyphicon glyphicon-check"></i></button></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Standard Branches
+                    <div class="pull-right">
+                        <button class="btn btn-xs" ng-class="{'btn-success':!showingForm, 'btn-danger':showingForm}" ng-click="toggleForm()">{{showingForm?'Hide Branch
+                            Form':'Add New Branch'}}</button>
+                        <input class="search" type="text" ng-model="squery" placeholder="Search...">
+                    </div>
+                </div>
+                <div class="panel-body main-grid">
+                    <form ng-show="showingForm" class="form-inline pad-20" name="branchForm"
+                          ng-submit="branchForm.$valid && addBranch(branchForm)">
+                        <div class="form-group">
+                            <label class="control-label">Branch Name</label>
+                            <input class="form-control" ng-model="branch.name" required type="text">
+                        </div>
+                        <button type="submit" class="btn"
+                                ng-class="{'btn-success':!editingBranch, 'btn-warning':editingBranch}"
+                                ng-disabled="branchForm.$invalid">{{editingBranch?'Save':'Add'}}
+                            Branch</button>
+                        <hr>
+                    </form>
+                    <div class="row">
+                        <table class="table table-hover table-striped table-condensed">
+                            <thead>
+                            <tr>
+                                <th style="width: 40px;">S/N.</th>
+                                <th>Branch Name</th>
+                                <th style="width: 60px;"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="lH in branches | filter: squery">
+                                <td><button class="btn btn-xs disabled">{{$index+1}}.</button></td>
+                                <td><button
+                                        class="btn btn-warning btn-xs"
+                                        ng-click="edit(lH, $index)"
+                                        ng-hide="rowActive || showingForm"><i class="glyphicon glyphicon-edit"></i> Edit
+                                </button>
+                                    {{lH.name}}</td>
+                                <td><button class="btn btn-primary btn-xs" ng-show="rowActive" ng-click="doReplace(lH.name)">Replace</button></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

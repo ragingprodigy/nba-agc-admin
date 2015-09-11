@@ -1,0 +1,52 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="jumbotron">
+    <div class="container">
+        <h2>
+            NBA Members List
+            <div class="pull-right">
+                <form class="form-inline" name="mForm" ng-submit="mForm.$valid && doLookup()">
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="term" autofocus required
+                               placeholder="Member's Name">
+                    </div>
+                    <button class="btn btn-success" ng-disabled="mForm.$invalid"><i class="glyphicon glyphicon-search"></i>
+                        Search</button>
+                </form>
+            </div>
+        </h2>
+    </div>
+</div>
+
+<div ui-view></div>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Members Matching Query - {{members.length}}
+        </div>
+        <div class="panel-body main-grid">
+            <div class="row">
+                <table class="table table-hover table-striped" datatable="ng">
+                    <thead class="bg-success">
+                    <tr>
+                        <th>Name</th>
+                        <th>Call Number</th>
+                        <th>Year Called</th>
+                        <th/>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="m in members">
+                        <td>{{m.name}}</td>
+                        <td>{{m.nbaId}}</td>
+                        <td>{{m.yearCalled}}</td>
+                        <td><a ui-sref="members.edit({id: m._id})" class="btn btn-sm btn-primary">
+                            <i class="glyphicon glyphicon-edit"></i> Update Record</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

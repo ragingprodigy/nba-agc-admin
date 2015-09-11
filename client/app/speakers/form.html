@@ -1,0 +1,82 @@
+<div class="row speaker">
+    <div class="center-form panel">
+        <div class="panel-body">
+            <h4 class="text-center">Add New Conference Speaker <button ng-click="cancel()"
+                                                            class=" pull-right btn btn-xs btn-danger"><i
+                    class="glyphicon glyphicon-remove"></i> Cancel
+            </button>
+            </h4><br>
+
+            <form method="post" ng-submit="sForm.$valid && createSpeakerProfile(sForm)" name="sForm">
+
+                <div class="alert alert-danger" ng-show="error.length">{{error}} <button
+                        class="btn btn-xs btn-success" type="button" ng-click="error=''"><i
+                        class="glyphicon glyphicon-remove-circle"></i>
+                </button> </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="title" ng-model="speaker.title"
+                                   placeholder="Mr, Mrs, etc" autofocus>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="name" ng-model="speaker.name"
+                                   placeholder="Speaker Name" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="suffix" ng-model="speaker.suffix"
+                                   placeholder="SAN, CON, etc">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input class="form-control" type="email" name="email"
+                                   ng-model="speaker.email" placeholder="Email Address">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="phone"
+                                   ng-model="speaker.phone" placeholder="Phone Number">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="file" ngf-select ng-model="file" id="file" name="file" class="form-control">
+                    <h6 class="text-success text-center">New Photo</h6>
+                    <img ngf-src="file" ngf-accept="'image/*'" class="ava-preview">
+
+                    <div ng-show="speaker._id && !progressPercentage" class="text-center">
+                        <h6 class="text-primary">Current Photo</h6>
+                        <img ng-src="{{speaker.photo}}" class="ava-preview">
+                    </div>
+
+                    <progressbar class="progress-striped active progress-success" value="progressPercentage" type="success" ng-show="progressPercentage">{{progressPercentage}}%</progressbar>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" ng-model="speaker.organization" placeholder="Firm / Organization"
+                           class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <textarea ng-model="speaker.bio" name="bio" class="form-control"
+                              placeholder="Speaker's Bio" rows="5"></textarea>
+                </div>
+
+                <button type="submit" ng-disabled="sForm.$invalid || formSubmitted"
+                        class="btn btn-block btn-success"> Save Record
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+<div class="container">
+
+    <div ui-view></div>
+
+    <group-members invoice="selectedInvoice" ng-show="selectedInvoice"></group-members>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            All Invoices Awaiting Payment ({{invoices.length}})
+            <div class="pull-right">
+                {{countDelegates(invoices)}} DELEGATES
+            </div>
+        </div>
+        <div class="panel-body main-grid">
+            <div class="row">
+                <table class="table table-hover table-striped" datatable="ng">
+                    <thead class="bg-info">
+                    <tr>
+                        <th>Group Name</th>
+                        <th>Contact</th>
+                        <th>Order ID</th>
+                        <th>Conference Fee</th>
+                        <th>Payment Channel</th>
+                        <th>Date</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="r in invoices">
+                        <td>{{r._group.groupName}} ({{r.registrations.length}})</td>
+                        <td>{{r._group.email}}<br>{{r._group.phone}}</td>
+                        <td>{{r.code+'-'+r.invoiceAmount}}</td>
+                        <td>NGN {{r.invoiceAmount.formatMoney(2)}}</td>
+                        <td>{{(r.webpay?'WEB':'BANK')}}</td>
+                        <td>{{r.lastModified | date}}</td>
+                        <td><button class="btn btn-xs btn-success" type="button" ng-click="showMembers(r)">DETAILS
+                        </button> <button class="btn btn-xs btn-info" type="button" ng-show="r.bankpay"
+                                          ng-click="updateBank(r)"> UPDATE
+                        </button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

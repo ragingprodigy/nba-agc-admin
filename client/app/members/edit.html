@@ -1,0 +1,43 @@
+
+
+<div class="row">
+    <div class="center-form panel">
+        <div class="panel-body">
+            <h4 class="text-center">Update Member Detail <button ng-click="cancel()"
+                                                            class=" pull-right btn btn-xs btn-danger"><i
+                    class="glyphicon glyphicon-remove"></i> Cancel
+            </button>
+            </h4><br>
+
+            <form method="post" ng-submit="mForm.$valid && updateMember(mForm)" name="mForm">
+
+                <div class="alert alert-danger" ng-show="error.length">{{error}} <button
+                        class="btn btn-xs btn-success" type="button" ng-click="error=''"><i
+                        class="glyphicon glyphicon-remove-circle"></i>
+                </button> </div>
+
+                <div class="form-group">
+                    <input class="form-control" type="text" name="name"
+                           ng-model="member.name" placeholder="Member's Name" required autofocus>
+                </div>
+
+                <div class="form-group">
+                    <input class="form-control" type="text" name="nbaId"
+                           ng-model="member.nbaId" placeholder="NBA Call Number" required>
+                </div>
+
+                <div class="form-group">
+                    <div class="text-center">{{member.yearCalled}}</div>
+                    <select class="form-control" ng-model="member.yearCalled" required>
+                        <option value="">Year of Call</option>
+                        <option ng-repeat="y in years">{{y}}</option>
+                    </select>
+                </div>
+
+                <button type="submit" ng-disabled="mForm.$invalid"
+                        class="btn btn-lg btn-block btn-success"> Save Member Detail
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

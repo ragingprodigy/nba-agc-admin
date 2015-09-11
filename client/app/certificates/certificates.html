@@ -1,0 +1,37 @@
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    All REGISTERED Branches
+                    <div class="pull-right">
+                        <input class="search" type="text" ng-model="query" placeholder="Search...">
+                    </div>
+                </div>
+                <div class="panel-body main-grid">
+                    <div class="row">
+                        <table class="table table-hover table-striped table-condensed" id="lH-table">
+                            <thead>
+                            <tr>
+                                <th style="width: 40px;">S/N.</th>
+                                <th>Branch Name</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="lH in branches | filter: query">
+                                <td>{{$index+1}}.</td>
+                                <td>{{lH._id}} - <em class="label label-success">{{lH.count}}</em></td>
+                                <td><button ng-click="doPrint(lH._id)" class="btn-block btn btn-xs btn-primary"><i
+                                        class="glyphicon glyphicon-print"></i> Print Certificates</button></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

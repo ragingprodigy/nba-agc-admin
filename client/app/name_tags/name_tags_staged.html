@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="panel panel-default text-center">
+        <div class="panel-body">
+            <form class="form-inline" name="mForm" ng-submit="mForm.$valid && doLookup()">
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="term" autofocus required
+                           placeholder="Member's Name">
+                </div>
+                <button class="btn btn-success" ng-disabled="mForm.$invalid"><i class="glyphicon glyphicon-search"></i>
+                    Search</button>
+            </form>
+
+            <div class="pull-left">
+                <input type="checkbox" ng-click="checkAll()" ng-model="selectedAll"> Select ALL
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-default">
+        <div class="panel-body main-grid">
+            <div class="row">
+                <div class="text-center" ng-show="selection.length" style="margin: 10px auto;">
+                    <button class="btn btn-primary"
+                            ng-click="printSelected()"><i class="fa fa-print"></i> PRINT SELECTED</button>
+                </div>
+                <table class="table table-hover table-striped" datatable="ng">
+                    <thead class="bg-primary">
+                    <tr>
+                        <th class="col-sm-1">S/N</th>
+                        <th>Email Address</th>
+                        <th>Name</th>
+                        <th>Bag</th>
+                        <th class="col-sm-1" ng-show="printed"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="r in users">
+                        <td>{{$index+1}}. <input ng-hide="printed" class="pull-right" type="checkbox" value="{{r._id}}"
+                                                 ng-click="toggleSelection(r._id)" ng-checked="selection.indexOf(r._id) > -1">
+                        </td>
+                        <td>{{r.email}}</td>
+                        <td>{{r.prefix}} {{r.name}} {{r.suffix}}</td>
+                        <td>{{r.bag}}</td>
+                        <td ng-show="printed">
+                            <button class="btn btn-xs btn-block btn-primary">PRINT TAG
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="jumbotron">
+    <div class="container">
+        <h2>Accounts Without Registration Info</h2>
+    </div>
+</div>
+
+<div ui-view></div>
+
+<div class="container">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                ALL USERS WITHOUT REGISTRATION INFO
+            </div>
+            <div class="panel-body main-grid">
+                <div class="row">
+                    <table class="table table-hover table-striped" datatable="ng">
+                        <thead class="bg-primary">
+                        <tr>
+                            <th class="col-sm-1">S/N</th>
+                            <th>Email Address</th>
+                            <th>Last Modified</th>
+                            <th style="width: 60px;"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="r in users">
+                            <td>{{$index+1}}</td>
+                            <td>{{r.email}}</td>
+                            <td>{{ago(r.lastModified)}}</td>
+                            <td>
+                                <div class="btn-group btn-group-xs">
+                                    <button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Action <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a ui-sref=".createLP({id: r._id})">Legal Practitioner</a></li>
+                                        <li><a ui-sref=".createBencher({id: r._id})">SAN & Bencher</a></li>
+                                        <li><a ui-sref=".createMagistrate({id: r._id})">Magistrate</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a ui-sref=".createJudge({id: r._id})">Judges</a></li>
+                                        <li><a ui-sref=".createOther({id: r._id})">Politicians</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

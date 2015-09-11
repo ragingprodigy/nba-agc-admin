@@ -1,0 +1,23 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="jumbotron">
+    <div class="container">
+        <h2>New Offline Registration</h2>
+    </div>
+</div>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="text-center">
+                <a ui-sref=".legalPractitioner" class="btn btn-primary">Legal Practitioner</a>
+                <a ui-sref=".sanAndBench" class="btn btn-info">SAN, AGS, Bencher</a>
+                <a ui-sref=".magistrate" class="btn btn-success">Magistrates and Judicial Officers</a>
+                <a ui-sref=".judge" class="btn btn-success">Justices</a>
+                <a ui-sref=".others" class="btn btn-danger">Political Appointees</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ui-view></div>

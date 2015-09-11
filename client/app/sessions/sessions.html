@@ -1,0 +1,48 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="jumbotron">
+    <div class="container">
+        <h2>Conference Sessions
+            <a ui-sref=".new"
+               class="btn btn-success pull-right btn-lg"><i class="glyphicon glyphicon-plus"></i> Add New</a>
+        </h2>
+    </div>
+</div>
+
+<div ui-view></div>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            All Conference Sessions ({{sessions.length}})
+        </div>
+        <div class="panel-body main-grid">
+            <div class="row">
+                <table class="table table-hover table-striped" datatable="ng">
+                    <thead class="bg-success">
+                    <tr>
+                        <th>Topic</th>
+                        <TH>Venue</TH>
+                        <th>Starts</th>
+                        <th>Ends</th>
+                        <th>Rating Starts</th>
+                        <th/>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="s in sessions">
+                        <td>{{s.title}}</td>
+                        <td>{{s.venue}}</td>
+                        <td>{{ago(s.start_time)}}</td>
+                        <td>{{ago(s.end_time)}}</td>
+                        <td>{{ago(s.rating_start)}}</td>
+                        <td><button class="btn btn-xs btn-block btn-success" ng-click="showDetails(s)">VIEW
+                            DETAILS</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

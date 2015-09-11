@@ -1,0 +1,93 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+
+    <div ui-view></div>
+
+    <div class="row" ng-show="newUser">
+        <div class="center-form panel">
+            <div class="panel-body">
+                <h4 class="text-center">Add User <button ng-click="toggleForm()"
+                                                         class=" pull-right btn btn-xs btn-danger"><i
+                        class="glyphicon glyphicon-remove"></i> Cancel
+                </button>
+                </h4><br>
+
+                <form method="post" ng-submit="userForm.$valid && createUser(userForm)" name="userForm">
+
+                    <div class="alert alert-danger" ng-show="error.length">{{error}} <button
+                            class="btn btn-xs btn-success" type="button" ng-click="error=''"><i
+                            class="glyphicon glyphicon-remove-circle"></i>
+                    </button> </div>
+
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="name"
+                               ng-model="user.name" placeholder="Account Name" required autofocus>
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control" type="email" name="email"
+                               ng-model="user.email" placeholder="Email Address" required>
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control" type="password" name="password"
+                               ng-model="user.password" placeholder="Password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <select class="form-control" ng-model="user.role" required>
+                            <option value="">Role</option>
+                            <option value="other">OBSERVER</option>
+                            <option value="admin">ADMINISTRATOR</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" ng-disabled="userForm.$invalid"
+                            class="btn btn-lg btn-block btn-success"> Create Account
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Admin Users
+            <div class="pull-right">
+                <input class="search" type="text" ng-model="query" placeholder="Search...">
+                <button class="btn btn-xs btn-primary" ng-click="toggleForm()"><i
+                        class="glyphicon glyphicon-plus"></i> New
+                    User</button>
+            </div>
+        </div>
+        <div class="panel-body main-grid">
+            <div class="row">
+                <table class="table table-hover table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th style="width: 40px;">S/N.</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th style="width: 140px;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="r in users | filter: query">
+                        <td>{{$index+1}}.</td>
+                        <td>{{r.name}} </td>
+                        <td>{{r.email}}</td>
+                        <td>{{r.role}}</td>
+                        <td><button ng-hide="$user.email==r.email" class="btn btn-block btn-primary btn-xs"
+                                    type="button"
+                                    ng-click="changePassword(r)"> Change
+                            Password
+                        </button> </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

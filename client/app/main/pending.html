@@ -1,0 +1,43 @@
+<div class="container">
+
+    <div ui-view></div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            All Registrations Awaiting Payment ({{registrations.length}})
+        </div>
+        <div class="panel-body main-grid">
+            <div class="row">
+                <table class="table table-hover table-striped" datatable="ng">
+                    <thead class="bg-info">
+                    <tr>
+                        <th>Name</th>
+                        <th>Contact</th>
+                        <th>Reg. Code</th>
+                        <th>Conference Fee</th>
+                        <th>Payment Channel</th>
+                        <th>Date</th>
+                        <th style="width: 60px;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="r in registrations">
+                        <td>{{r.prefix+' '+r.firstName+' '+r.middleName+' '+r.surname}} <em class="text-muted">{{r
+                            .suffix}}</em> </td>
+                        <td>{{r.email}}<br>{{r.mobile}}</td>
+                        <td>{{r.regCode+'-'+r.conferenceFee}}</td>
+                        <td>NGN {{r.conferenceFee.formatMoney(2)}}</td>
+                        <td>{{r.webpay?'WEB PAY':'BANK DEPOSIT'}}</td>
+                        <td>{{r.lastModified | date}}
+                            <br><span class="label label-info">{{ago(r.lastModified)}}</span></td>
+                        <td><button class="btn btn-xs btn-info" type="button"
+                                    ng-click="updateBank(r)"> UPDATE
+                        </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

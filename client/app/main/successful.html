@@ -1,0 +1,62 @@
+<div class="container">
+
+    <div ui-view></div>
+
+    <div class="panel panel-default text-center">
+        <div class="panel-body">
+            <form class="form-inline" name="mForm" ng-submit="mForm.$valid && doLookup()">
+                <div class="form-group">
+                    <label class="control-label">Use Name, Email, Phone No or Reg. Code to Search:</label>
+                    <input style="width:400px;;" type="text" class="form-control" ng-model="term" autofocus required
+                           placeholder="Name, Registration Code, Email, Phone...">
+                </div>
+                <button class="btn btn-success" ng-disabled="mForm.$invalid"><i class="glyphicon glyphicon-search"></i>
+                    Search</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="panel panel-default" ng-show="registrations.length">
+        <div class="panel-heading">
+            All Confirmed Registrations ({{registrations.length}})
+        </div>
+        <div class="panel-body main-grid">
+
+            <div class="row">
+                <table class="table table-hover table-striped" datatable="ng">
+                    <thead class="bg-success">
+                    <tr>
+                        <th>Name</th>
+                        <th>Contact</th>
+                        <th>Reg. Code</th>
+                        <th>Amount Paid</th>
+                        <th>Payment Date</th>
+                        <th/>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="r in registrations">
+                        <td><span title="{{r.mobile}}">{{r.prefix+' '+r.firstName+' '+r.middleName+' '+r
+                            .surname}}</span> <em
+                                class="text-muted">{{r
+                            .suffix}}</em> </td>
+                        <td>{{r.email}}<br>{{r.mobile}}</td>
+                        <td>{{r.regCode+'-'+r.conferenceFee}}</td>
+                        <td>NGN {{formatMoney(r.webpay?r.Amount:r.bankDeposit)}}</td>
+                        <td>{{(r.webpay?r.DateTime:r.bankDatePaid) | date}}
+                            <!--<br><span class="label label-info">{{ago(r.webpay?r.DateTime:r.bankDatePaid)}}</span>--></td>
+                        <td><!--<span class="label label-success"
+                                  ng-show="r.successTextSent">SMS</span> <span class="label label-primary"
+                                                                               ng-show="r.successMailSent">MAIL
+                        </span>
+                        <br>--><a ui-sref="main.successful.update({id:r._id})" class="btn btn-xs btn-warning"><i
+                                    class="glyphicon glyphicon-edit"></i> EDIT
+                                NAME</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

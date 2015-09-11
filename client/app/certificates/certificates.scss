@@ -1,0 +1,115 @@
+@font-face {
+  font-family: 'Old English';
+  src: url('certificates/oer.ttf');
+}
+
+@font-face {
+  font-family: 'Exmouth';
+  src: url('certificates/exmouth.ttf');
+}
+
+@font-face {
+  font-family: 'adinekir';
+  src: url('certificates/adinekir.ttf');
+}
+
+.print-control {
+  position:absolute;
+  right:0;
+  top:0;
+  width: 400px;
+  background: #FFF;
+}
+
+.book {
+  .subpage {
+    div {
+      text-transform: capitalize;
+      font-family: "Snell Roundhand", sans-serif!important;
+      margin-left: 2.25cm!important;
+      font-weight: 900;
+      font-size: 24pt;
+      letter-spacing: 5px;
+      min-height: 40pt;
+      /*border: 1px solid #000;*/
+    }
+  }
+}
+
+.membersList {
+  li {
+    text-transform: capitalize;
+  }
+}
+
+@page {
+  size: A4;
+  margin: 0;
+}
+@media print {
+
+  body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #FAFAFA;
+    //font: 12pt "Tahoma";
+  }
+  * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+  }
+  html, body {
+    width: 210mm;
+    height: 297mm;
+  }
+
+  /*.span {
+    width: 100%;
+    border-bottom: 2px dotted #000;
+    font: 14pt "Old English", sans-serif!important;
+    margin-left: 4cm!important;
+  }*/
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 20mm;
+    //border: 1px #D3D3D3 solid;
+    border-radius: 5px;
+    //background: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+
+    margin: 0;
+    border: initial;
+    /*border-radius: initial;
+    width: initial;
+    min-height: initial;
+    box-shadow: initial;*/
+    background: initial;
+    page-break-after: always;
+
+    .surname {
+      margin-top: 495px;
+      height: 35pt!important;
+      padding-top: 5px;
+    }
+    .firstName{
+      margin-top: 2px;
+    }
+    .middleName {
+      margin-top: 0px;
+    }
+    .branch {
+      margin-top: 0px;
+    }
+
+  }
+  .subpage {
+    padding: 1cm;
+    //border: 5px red solid;
+    height: 257mm;
+    //outline: 2cm #FFEAEA solid;
+  }
+}

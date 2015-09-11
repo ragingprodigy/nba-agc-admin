@@ -1,0 +1,119 @@
+<div ng-include="'components/navbar/navbar.html'" ng-hide="doingPrint"></div>
+
+<div class="jumbotron" ng-hide="doingPrint">
+    <div class="container">
+        <h2>Custom Name Tag Printer
+        </h2>
+    </div>
+</div>
+
+<div class="container" ng-hide="doingPrint">
+    <form name="tagForm" ng-submit="tagForm.$valid && printTags(tagForm)">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">Tag 1</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="leftTitle">Title</label>
+                            <input class="form-control" ng-model="nameTags[0].title" id="leftTitle">
+                        </div>
+                        <div class="form-group">
+                            <label for="leftName">Name <span class="required">*</span> </label>
+                            <input class="form-control" ng-model="nameTags[0].name" id="leftName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="leftSuf">Suffix</label>
+                            <input class="form-control" ng-model="nameTags[0].suffix" id="leftSuf">
+                        </div>
+                        <div class="form-group">
+                            <label for="leftFirm">Firm / Court <span class="required">*</span> </label>
+                            <input class="form-control" ng-model="nameTags[0].company" id="leftFirm" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="leftCode">Registration Code </label>
+                            <input class="form-control" ng-model="nameTags[0].code" id="leftCode" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="leftPhone">Phone </label>
+                            <input class="form-control" ng-model="nameTags[0].phone" id="leftPhone">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">Tag 2</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="rightTitle">Title </label>
+                            <input class="form-control" ng-model="nameTags[1].title" id="rightTitle">
+                        </div>
+                        <div class="form-group">
+                            <label for="rightName">Name <span class="required">*</span> </label>
+                            <input class="form-control" ng-model="nameTags[1].name" id="rightName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="rightSuf">Suffix </label>
+                            <input class="form-control" ng-model="nameTags[1].suffix" id="rightSuf">
+                        </div>
+                        <div class="form-group">
+                            <label for="rightFirm">Firm / Court <span class="required">*</span> </label>
+                            <input class="form-control" ng-model="nameTags[1].company" id="rightFirm" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="rightCode">Registration Code </label>
+                            <input class="form-control" ng-model="nameTags[1].code" id="rightCode">
+                        </div>
+                        <div class="form-group">
+                            <label for="rightPhone">Phone </label>
+                            <input class="form-control" ng-model="nameTags[1].phone" id="rightPhone">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-lg btn-block btn-success btn" type="submit" ng-disabled="tagForm.$invalid"> <i
+            class="glyphicon glyphicon-print"></i> PRINT TAGS</button>
+    </form>
+</div>
+
+<div class="container tag-printer" ng-show="doingPrint">
+    <div class="hidden-print text-center">
+        <button class="btn-danger btn" ng-click="cancelPrint()"> CANCEL</button>
+    </div>
+    <div class="row">
+        <div class="my-col text-center" ng-repeat="tag in nameTags" ng-class="{'right':($index%2)}">
+            <div class="card" style="-webkit-transform: rotate(180deg);">
+                <div class="name-layer"></div>
+                <div class="name-row reverse" contenteditable>
+                    <h3 class="prefix text-ellipsis"><span ng-hide="tag.title.toLowerCase().indexOf('mr')>-1||tag.title.toLowerCase().indexOf('mis')>-1">{{tag.title}}</span></h3>
+                    <h1 class="text-uppercase">{{tag.name}} <small>{{tag.suffix}}</small></h1>
+                    <h4 class="text-uppercase company text-ellipsis">{{tag.company}}</h4>
+                </div>
+                <div class="qr-code">
+                    <h6>{{tag.code}}</h6>
+                    <img
+                            ng-src="/api/registrations/qrCodeInstant?name={{tag.name}}&company={{tag.company}}&phone={{tag.phone}}">
+                </div>
+            </div>
+            <div class="card regular">
+                <div class="name-layer"></div>
+                <div class="name-row" contenteditable>
+                    <h3 class="prefix text-ellipsis"><span ng-hide="tag.title.toLowerCase().indexOf('mr')>-1||tag.title.toLowerCase().indexOf('mis')>-1">{{tag.title}}</span></h3>
+                    <h1 class="text-uppercase">{{tag.name}} <small>{{tag.suffix}}</small></h1>
+                    <h4 class="text-uppercase company text-ellipsis">{{tag.company}}</h4>
+                </div>
+                <div class="qr-code">
+                    <img
+                            ng-src="/api/registrations/qrCodeInstant?name={{tag.name}}&company={{tag.company}}&phone={{tag.phone}}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

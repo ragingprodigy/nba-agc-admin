@@ -1,0 +1,20 @@
+<div class="modal-header">
+    <h3 class="modal-title">Pick a Bag</h3>
+</div>
+<div class="modal-body">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="bag-selector">
+                <div class="single-bag" ng-click="selectBag($index)" ng-repeat="slide in bags">
+                    <img ng-src="{{slide.image}}" class="img-thumbnail">
+                    <h4>{{slide.name}} - <span class="label label-success">{{slide.quantity}} Units</span> </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="close()">Close</button>
+</div>

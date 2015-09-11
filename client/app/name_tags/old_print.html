@@ -1,0 +1,50 @@
+<h1 class="text-center hidden-print">PRINT PAGE</h1>
+
+<div class="container tag-printer">
+    <div class="row">
+        <div class="col-md-6 text-center" ng-repeat="tag in nameTags">
+            <div class="card" style="-webkit-transform: rotate(180deg);">
+                <img src="assets/images/tag-header.jpg" class="card-head">
+                <div class="name-layer">
+                    <h2 class="prefix text-ellipsis"><span ng-hide="tag.title.toLowerCase().indexOf('mr')>-1||tag.title.toLowerCase().indexOf('mis')>-1">{{tag.title}}</span></h2>
+                    <h1 class="text-uppercase">{{tag.name}} <small>{{tag.suffix}}</small></h1>
+                    <h3 class="text-uppercase company text-ellipsis">{{tag.company}}</h3>
+                </div>
+                <img src="assets/images/tag-label.jpg">
+                <div class="qr-code">
+                    <h5>{{tag.code}}</h5>
+                    <!--<img src="https://nba-agc.org/auth/qrCode?me={{tag.id}}">-->
+                    <img src="https://nba-agc.org/auth/qrCode?me=55a529c12aa4bf110054c9cc">
+                </div>
+            </div>
+            <div class="card">
+                <img src="assets/images/tag-header.jpg" class="card-head">
+                <div class="name-layer">
+                    <h2 class="prefix text-ellipsis"><span ng-hide="tag.title.toLowerCase().indexOf('mr')>-1||tag.title.toLowerCase().indexOf('mis')>-1">{{tag.title}}</span></h2>
+                    <h1 class="text-uppercase">{{tag.name}} <small>{{tag.suffix}}</small></h1>
+                    <h3 class="text-uppercase company text-ellipsis">{{tag.company}}</h3>
+                </div>
+                <img src="assets/images/tag-label.jpg">
+                <div class="qr-code">
+                    <h5>{{tag.code}}</h5>
+                    <!--<img src="https://nba-agc.org/auth/qrCode?me={{tag.id}}">-->
+                    <img src="https://nba-agc.org/auth/qrCode?me=55a529c12aa4bf110054c9cc">
+                </div>
+            </div>
+        </div>
+        <!--<div class="col-md-6 card text-center">
+            <img src="assets/images/tag-header.jpg" class="card-head">
+            <div class="name-layer">
+                <h2 class="prefix text-ellipsis"><span ng-hide="tag.title.toLowerCase().indexOf('mr')>-1||tag.title.toLowerCase().indexOf('mis')>-1">{{tag.title}}</span></h2>
+                <h1 class="text-uppercase">{{tag.name}} <small>{{tag.suffix}}</small></h1>
+                <h3 class="text-uppercase company text-ellipsis">{{tag.company}}</h3>
+            </div>
+            <img src="assets/images/tag-label.jpg">
+            <div class="qr-code">
+                <h5>{{tag.code}}</h5>
+                <img src="https://nba-agc.org/auth/qrCode?me={{tag.id}}">
+                <!--<img src="https://nba-agc.org/auth/qrCode?me=55a529c12aa4bf110054c9cc">-->
+        <!--</div>
+    </div>-->
+    </div>
+</div>

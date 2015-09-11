@@ -1,0 +1,21 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="jumbotron">
+    <div class="container">
+        <h2>Name Tags</h2>
+    </div>
+</div>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="text-center">
+                <a ui-sref=".staged_unprinted" class="btn btn-warning">YET TO BE PRINTED TAGS</a>
+                <!--<a ui-sref=".unprinted" class="btn btn-danger">YET TO BE PRINTED TAGS</a>-->
+                <a ui-sref=".tag_printed" class="btn btn-success">PRINTED TAGS</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ui-view></div>

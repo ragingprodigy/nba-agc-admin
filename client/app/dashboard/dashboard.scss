@@ -1,0 +1,17 @@
+.success{
+  .panel {
+    h4 {
+      text-transform: uppercase;
+      color: $alert-success-text;
+    }
+  }
+}
+
+.pending{
+  .panel {
+    h4 {
+      text-transform: uppercase;
+      color: $alert-danger-text;
+    }
+  }
+}

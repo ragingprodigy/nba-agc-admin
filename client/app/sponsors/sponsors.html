@@ -1,0 +1,93 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="jumbotron">
+    <div class="container">
+        <h2>
+            Conference Sponsors
+            <button class="btn btn-success pull-right btn-lg" ng-click="newForm=!newForm">Add New SPONSOR</button>
+        </h2>
+    </div>
+</div>
+
+<div ui-view></div>
+
+<div class="container">
+
+    <div class="row speaker" ng-show="newForm">
+        <div class="center-form panel">
+            <div class="panel-body">
+                <h4 class="text-center">Add New SPONSOR <button ng-click="newForm=false"
+                                                                class=" pull-right btn btn-xs btn-danger"><i
+                        class="glyphicon glyphicon-remove"></i> Cancel
+                </button>
+                </h4><br>
+
+                <form method="post" ng-submit="sForm.$valid && saveSponsor(sForm)" name="sForm">
+
+                    <div class="alert alert-danger" ng-show="error.length">
+                        {{error}}
+                        <button
+                            class="btn btn-xs btn-success" type="button" ng-click="error=''"><i
+                            class="glyphicon glyphicon-remove-circle"></i>
+                        </button>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="name" ng-model="sponsor.name"
+                                   placeholder="SPONSOR NAME" required autofocus>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input class="form-control" type="number" name="amount" ng-model="sponsor.amount"
+                                   placeholder="AMOUNT PAID" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" ng-disabled="sForm.$invalid || formSubmitted"
+                            class="btn btn-block btn-success"> Save Record
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                ALL CONFERENCE SPONSORS
+            </div>
+            <div class="panel-body main-grid">
+                <div class="row">
+                    <table class="table table-hover table-striped" datatable="ng">
+                        <thead class="bg-primary">
+                        <tr>
+                            <th class="col-sm-1">S/N</th>
+                            <th>Name</th>
+                            <th>Amount Paid</th>
+                            <th>Delegates</th>
+                            <th>Last Modified</th>
+                            <th style="width: 60px;"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="r in sponsors">
+                            <td>{{$index+1}}</td>
+                            <td>{{r.name}}</td>
+                            <td>{{r.amount}}</td>
+                            <td>{{r._delegates.length}}</td>
+                            <td>{{ago(r.lastModified)}}</td>
+                            <td class="col-sm-2">
+                                <button class="btn btn-xs btn-block btn-info" ng-click="showDetails(r._id)">Show
+                                    Delegates</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

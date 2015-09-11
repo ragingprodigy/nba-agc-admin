@@ -1,0 +1,174 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{sponsor.name}}</h3>
+</div>
+<div class="modal-body session-detail">
+
+    <div class="alert alert-success text-white text-center"><h3>{{formatMoney(sponsor.amount)}}</h3></div>
+
+    <div ng-show="editingSponsor">
+        <div class="panel panel-success">
+            <div class="panel-body">
+                <form class="form-inline" name="sForm" ng-submit="sForm.$valid && saveSponsor(sForm)">
+                    <div class="form-group">
+                        <label for="s_name">NAME</label>
+                        <input class="form-control" ng-model="sponsor.name" id="s_name" type="text" required  autofocus>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="s_amount">AMOUNT PAID</label>
+                        <input class="form-control" id="s_amount" ng-model="sponsor.amount" type="number" required
+                               autofocus>
+                    </div>
+
+                    <button class="btn btn-danger" ng-click="editingSponsor=false">Cancel Edit</button>
+                    <button class="btn btn-info" ng-disabled="sForm.$invalid" type="submit"> Save Changes!</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-success" ng-hide="editingSponsor">
+        <div class="panel-heading">
+            <div class="panel-title">
+                DELEGATES
+                <div class="btn-group btn-group-xs pull-right">
+                    <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="glyphicon glyphicon-plus-sign"></i>  ADD NEW DELEGATE :: <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a ng-click="newDelegate('lp')">Legal Practitioner</a></li>
+                        <li><a ng-click="newDelegate('nl')">Non-Lawyer</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div ng-hide="!delegateForm">
+                <form name="dForm" ng-submit="dForm.$valid && addDelegate(dForm)">
+
+                    <div class="alert alert-danger text-white" ng-show="error.length">{{error}}</div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="prefix">Prefix</label>
+                                <input type="text" name="prefix" id="prefix" ng-model="data.prefix"
+                                       class="form-control" placeholder="Mr, Mrs, Chief, Dr, etc" autofocus>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="surname">Surname <span class="required">*</span></label>
+                                <input class="form-control" type="text" name="surname" id="surname"
+                                       ng-model="data.surname"
+                                       placeholder="Surname" required>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="middleName">Middle Name</label>
+                                <input class="form-control" type="text" name="middleName" id="middleName"
+                                       ng-model="data.middleName"
+                                       placeholder="Middle Name">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="firstName">First Name <span class="required">*</span></label>
+                                <input class="form-control" type="text" name="firstName" id="firstName"
+                                       ng-model="data.firstName"
+                                       placeholder="First Name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="suffix">Suffix</label>
+                                <input type="text" name="suffix" id="suffix" ng-model="data.suffix"
+                                       class="form-control" placeholder="SAN, MNI, MON, CON, GCON, etc.">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3" ng-hide="data.registrationType=='others'">
+                            <div class="form-group">
+                                <label for="yearCalled">Year of Call</label>
+                                <input class="form-control" type="text" id="yearCalled"
+                                       ng-model="data.yearCalled"
+                                       placeholder="Year of Call">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="email">Email Address <span class="required">*</span> </label>
+                                <input type="email" id="email" ng-model="data.email"
+                                       class="form-control" placeholder="Email Address">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="mobile">Phone No. <span class="required">*</span> </label>
+                                <input type="text" id="mobile" ng-model="data.mobile"
+                                       class="form-control" placeholder="Mobile Phone Number" required>
+                            </div>
+                        </div>
+                        <div
+                                ng-class="{'col-md-6':data.registrationType=='others', 'col-md-3':data.registrationType!='others'}">
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input type="text" id="address" ng-model="data.address"
+                                       class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <button type="button" class="btn btn-block btn-danger" ng-click="delegateForm=false">
+                                <i class="glyphicon glyphicon-remove"></i> Cancel</button>
+                        </div>
+
+                        <div class="col-sm-7">
+                            <button type="submit" class="btn btn-block btn-success" ng-disabled="dForm.$invalid">
+                                <i class="glyphicon glyphicon-ok-circle"></i>
+                                Add Delegate</button>
+                        </div>
+                    </div>
+
+                </form>
+                <hr>
+            </div>
+
+            <table class="table table-bordered table-striped" ng-show="sponsor._delegates.length">
+                <tr>
+                    <th/>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Reg. Code</th>
+                    <th></th>
+                </tr>
+                <tr data-ng-repeat="r in sponsor._delegates">
+                    <td class="col-md-1 text-center">{{$index+1}}.</td>
+                    <td>{{r.prefix+' '+r.firstName+' '+r.middleName+' '+r.surname}}<em>{{r.suffix}}</em></td>
+                    <td>{{r.email}}</td>
+                    <td>{{r.mobile}}</td>
+                    <td>{{r.regCode+'-'+r.conferenceFee}}</td>
+                    <td class="col-md-2"><a ng-click="deletePaper(paper._id)" class="btn btn-xs btn-block btn-danger">
+                        <i class="glyphicon glyphicon-remove"></i> DELETE
+                    </a> </td>
+                </tr>
+            </table>
+            <div class="alert alert-danger text-white" ng-hide="sponsor._delegates.length">
+                <b>No Delegates have been added to this Sponsor.</b>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="editSponsor()">Edit Session Details</button>
+    <button class="btn btn-warning" type="button" ng-click="close()">Close</button>
+</div>

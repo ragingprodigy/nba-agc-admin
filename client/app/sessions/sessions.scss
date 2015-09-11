@@ -1,0 +1,21 @@
+.session {
+
+  .center-form {
+    width: 600px;
+  }
+
+}
+
+.ml-20 {
+  margin-left: 20px;
+}
+
+.session-detail {
+  max-height: 550px;
+  overflow-y: auto;
+
+  .speaker-avatar {
+    margin: 0 5px;
+    height: 50px;
+  }
+}

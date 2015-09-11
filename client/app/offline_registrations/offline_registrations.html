@@ -1,0 +1,63 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="jumbotron">
+    <div class="container">
+        <h2>
+            DIRECT REGISTRATIONS AT THE BANK
+            <a ui-sref="new_offline" class="btn btn-success pull-right"> <i class="glyphicon glyphicon-plus-sign"></i>
+                Add New
+                Record</a>
+
+            <a ui-sref="bank_errors" style="margin-right: 10px;" class="btn btn-danger pull-right"> <i
+                    class="glyphicon glyphicon-plus-sign"></i>
+                Bank Registration Errors</a>
+        </h2>
+    </div>
+</div>
+
+<div ui-view></div>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            ALL DIRECT REGISTRATIONS
+        </div>
+        <div class="panel-body main-grid">
+            <div class="row">
+                <table class="table table-hover table-striped" datatable="ng">
+                    <thead class="bg-primary">
+                    <tr>
+                        <th>Date</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Reg. Code</th>
+                        <th>Amount Paid</th>
+                        <th>STATUS</th>
+                        <th></th>
+                        <th style="width: 60px;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="r in registrations">
+                        <td>{{r.bankDatePaid | date}}</td>
+                        <td>{{r.prefix+' '+r.firstName+' '+r.middleName+' '+r.surname}} <em class="text-muted">{{r
+                            .suffix}}</em> </td>
+                        <td>{{r.email}}</td>
+                        <td>{{r.regCode+'-'+r.conferenceFee}}</td>
+                        <td>NGN {{formatMoney(r.bankDeposit)}}</td>
+                        <td>{{r.statusConfirmed?'CONFIRMED':'PENDING'}}</td>
+                        <td><span class="label label-success"
+                                  ng-show="r.successTextSent">SMS</span> <span class="label label-primary"
+                                                                               ng-show="r.successMailSent">MAIL
+                        </span></td>
+                        <td><a class="btn btn-xs btn-info" type="button" ng-show="r.bankpay"
+                                    ui-sref="offline_registrations.{{r.registrationType}}({id: r._id})"> UPDATE
+                        </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,79 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel">
+            <div class="panel-body">
+                <h4 class="text-center">Update Invoice Payment Details - {{invoice.code+'-'+invoice.invoiceAmount}} -
+                    {{invoice._group.groupName}} <button ng-click="cancel()"
+                                                                                                                                                                                                                      class=" pull-right btn btn-xs btn-danger"><i
+                        class="glyphicon glyphicon-remove"></i> Cancel
+                </button>
+                </h4><br>
+
+                <form method="post" ng-submit="rForm.$valid && updateBank(rForm)" name="rForm">
+
+                    <div class="alert alert-danger" ng-show="error.length">{{error}} <button
+                            class="btn btn-xs btn-success" type="button" ng-click="error=''"><i
+                            class="glyphicon glyphicon-remove-circle"></i>
+                    </button> </div>
+
+                    {{invoice._group}}
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="email" name="email"
+                                       ng-model="invoice._group.email" required readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="code"
+                                       value="{{invoice.registrations.length}} DELEGATES" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="fee"
+                                       value="NGN {{invoice.invoiceAmount.formatMoney(2)}}" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <datepicker date-format="mediumDate">
+                                    <input class="form-control" type="date" name="datePaid"
+                                       ng-model="invoice.bankDatePaid" placeholder="Date of Payment" required autofocus>
+                                </datepicker>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="bankDeposit"
+                                       ng-model="invoice.bankDeposit" placeholder="Amount Paid" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="bankTeller"
+                                       ng-model="invoice.bankTeller" placeholder="Teller No / Narration" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="bankBranch"
+                                       ng-model="invoice.bankBranch" placeholder="Bank Branch">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" ng-disabled="rForm.$invalid"
+                            class="btn btn-block btn-success"> Confirm Invoice Payment
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

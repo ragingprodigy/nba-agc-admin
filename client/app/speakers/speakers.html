@@ -1,0 +1,48 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="jumbotron">
+    <div class="container">
+        <h2>Conference Speakers
+            <a ui-sref=".new"
+               class="btn btn-success pull-right btn-lg"><i class="glyphicon glyphicon-plus"></i> Add New</a>
+        </h2>
+    </div>
+</div>
+
+<div ui-view></div>
+
+<div class="container speaker">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            All Conference Speakers ({{speakers.length}})
+        </div>
+        <div class="panel-body main-grid">
+            <div class="row">
+                <table class="table table-hover table-striped" datatable="ng">
+                    <thead class="bg-success">
+                    <tr>
+                        <th/>
+                        <th>Name + Email</th>
+                        <th>Firm / Organization</th>
+                        <th>Phone Number</th>
+                        <th>Bio</th>
+                        <th/>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="s in speakers">
+                        <td class="col-md-1"><img ng-src="{{s.photo}}" class="grid-photo"></td>
+                        <td>{{s.title+' '+s.name+' '+s.suffix}}<br>{{s.email}}</td>
+                        <td>{{s.organization}}</td>
+                        <td>{{s.phone}}</td>
+                        <td><small>{{s.bio}}</small></td>
+                        <td>
+                            <a ui-sref=".edit({id:s._id})" class="btn btn-xs btn-primary">Edit Profile</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel">
+            <div class="panel-body">
+                <h4 class="text-center">Update Attendee Name <button ng-click="cancel()"
+                                                                                                                                                                                                                      class=" pull-right btn btn-xs btn-danger"><i
+                        class="glyphicon glyphicon-remove"></i> Cancel
+                </button>
+                </h4><br>
+
+                <form method="post" ng-submit="rForm.$valid && saveDetails(rForm)" name="rForm">
+
+                    <div class="alert alert-danger" ng-show="error.length">{{error}} <button
+                            class="btn btn-xs btn-success" type="button" ng-click="error=''"><i
+                            class="glyphicon glyphicon-remove-circle"></i>
+                    </button> </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="prefix">Prefix</label>
+                                <input class="form-control" type="text" id="prefix" ng-model="registration.prefix">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <input class="form-control" type="text" id="firstName"
+                                       ng-model="registration.firstName">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="middleName">Middle Name</label>
+                                <input class="form-control" type="text" id="middleName"
+                                       ng-model="registration.middleName">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="surname">Surname</label>
+                                <input class="form-control" type="text" id="surname"
+                                       ng-model="registration.surname">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="suffix">Suffix</label>
+                                <input class="form-control" type="text" id="suffix" ng-model="registration.suffix">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" ng-disabled="rForm.$invalid"
+                            class="btn btn-block btn-success"> Update Attendee Name
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

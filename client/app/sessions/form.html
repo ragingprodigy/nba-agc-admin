@@ -1,0 +1,104 @@
+<div class="row session">
+    <div class="center-form panel">
+        <div class="panel-body">
+            <h4 class="text-center">{{session._id?'UPDATE':'NEW'}} Conference Session <button ng-click="cancel()"
+                                                            class=" pull-right btn btn-xs btn-danger"><i
+                    class="glyphicon glyphicon-remove"></i> Cancel
+            </button>
+            </h4><br>
+
+            <form method="post" ng-submit="sForm.$valid && createSession(sForm)" name="sForm">
+
+                <div class="alert alert-danger" ng-show="error.length">{{error}} <button
+                        class="btn btn-xs btn-success" type="button" ng-click="error=''"><i
+                        class="glyphicon glyphicon-remove-circle"></i>
+                </button> </div>
+
+                <div class="form-group">
+                    <input class="form-control" type="text" name="title" ng-model="session.title"
+                           placeholder="Session Title" required autofocus>
+                </div>
+
+                <div class="form-group">
+                    <input class="form-control" type="text" name="venue" ng-model="session.venue"
+                           placeholder="Session Venue" required>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <a class="dropdown-toggle my-toggle-select" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="">
+                                <input type="text" class="form-control" ng-model="session.start_time"
+                                           placeholder="Start Date & Time">
+                            </a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <datetimepicker ng-model="session.start_time" ng-required="true"
+                                                data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select' }"></datetimepicker>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <a class="dropdown-toggle my-toggle-select1" id="dLabel2" role="button" data-toggle="dropdown" data-target="#" href="">
+                                <input type="text" class="form-control" ng-model="session.end_time"
+                                           placeholder="End Date & Time">
+                            </a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel2">
+                                <datetimepicker ng-model="session.end_time" ng-required="true"
+                                                data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select1' }"></datetimepicker>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <a class="dropdown-toggle my-toggle-select2" id="dLabel3" role="button" data-toggle="dropdown" data-target="#" href="">
+                                <input type="text" class="form-control" ng-model="session.rating_start"
+                                           placeholder="Rating Starts">
+                            </a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel3">
+                                <datetimepicker ng-model="session.rating_start"
+                                                data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select2' }"></datetimepicker>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="form-group">
+                    <ui-select multiple ng-model="session.speakers">
+                        <ui-select-match placeholder="Choose Session Facilitators...">
+                            {{$item.name}} ({{$item.email}})
+                        </ui-select-match>
+                        <ui-select-choices repeat="person in speakers | filter: $select.search track by person._id">
+                            <div class="row">
+                                <img ng-src="{{person.photo}}" style="height: 20px;" class="pull-left">
+                                <div ng-bind-html="person.name | highlight: $select.search"
+                                     class="pull-left ml-20"></div>
+                                <div ng-bind-html="person.email | highlight: $select.search" class="pull-right"></div>
+                            </div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+                <div class="form-group">
+                    <textarea class="form-control" type="text" name="description" ng-model="session.description"
+                       placeholder="Session Description" rows="6"></textarea>
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="session.canRegister"> Check to allow people to register to
+                        attend
+                    </label>
+                </div>
+
+                <button type="submit"
+                        class="btn btn-block btn-success"> Save Record
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="container tag-printer">
+    <div class="row">
+        <div class="my-col text-center" ng-repeat="tag in nameTags" ng-class="{'right':($index%2)}">
+            <div class="card" style="-webkit-transform: rotate(180deg);">
+                <div class="name-layer"></div>
+                <div class="name-row reverse" contenteditable>
+                    <h3 class="prefix text-ellipsis"><span ng-hide="tag.title.toLowerCase().indexOf('mr')>-1||tag.title.toLowerCase().indexOf('mis')>-1">{{tag.title}}</span></h3>
+                    <h1 class="text-uppercase">{{tag.name}} <small>{{tag.suffix}}</small></h1>
+                    <h4 class="text-uppercase company text-ellipsis">{{tag.company}}</h4>
+                </div>
+                <div class="qr-code">
+                    <h6>{{tag.code}}</h6>
+                    <img ng-src="/api/registrations/qrCode?me={{tag.id}}">
+                </div>
+            </div>
+            <div class="card regular">
+                <div class="name-layer"></div>
+                <div class="name-row" contenteditable>
+                    <h3 class="prefix text-ellipsis"><span ng-hide="tag.title.toLowerCase().indexOf('mr')>-1||tag.title.toLowerCase().indexOf('mis')>-1">{{tag.title}}</span></h3>
+                    <h1 class="text-uppercase">{{tag.name}} <small>{{tag.suffix}}</small></h1>
+                    <h4 class="text-uppercase company text-ellipsis">{{tag.company}}</h4>
+                </div>
+                <div class="qr-code">
+                    <img ng-src="/api/registrations/qrCode?me={{tag.id}}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

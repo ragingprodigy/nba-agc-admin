@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="pull-left">
+                <input type="checkbox" ng-click="checkAll()" ng-model="selectedAll"> Select ALL
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span ng-show="printed">ALL USERS WITH PRINTED TAGS</span>
+            <span ng-hide="printed">ALL USERS WITH TAGS YET TO BE PRINTED</span>
+        </div>
+        <div class="panel-body main-grid">
+            <div class="row">
+                <div class="text-center" ng-show="selection.length" style="margin: 10px auto;">
+                    <button class="btn btn-primary"
+                            ng-click="printSelected()"><i class="fa fa-print"></i> PRINT SELECTED</button>
+                </div>
+                <table class="table table-hover table-striped" datatable="ng">
+                    <thead class="bg-primary">
+                    <tr>
+                        <th class="col-sm-1">S/N</th>
+                        <th>Email Address</th>
+                        <th>Name</th>
+                        <th>Bag</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="r in users">
+                        <td>{{$index+1}}. <input class="pull-right" type="checkbox" value="{{r._id}}"
+                                   ng-click="toggleSelection(r._id)" ng-checked="selection.indexOf(r._id) > -1">
+                            </td>
+                        <td>{{r.email}}</td>
+                        <td>{{r.prefix}} {{r.name}} {{r.suffix}}</td>
+                        <td>{{r.bag}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
