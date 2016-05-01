@@ -124,6 +124,13 @@
         </div>
     </div>
 
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <div class="panel-title">Rappoteur Content</div>
+        </div>
+        <div class="panel-body" ng-bind-html="session.rappoteur"></div>
+    </div>
+
     <div class="panel panel-warning">
         <div class="panel-heading">
             <div class="panel-title">Ratings Open <b>{{ago(session.rating_start)}}</b> - <rating class="overall-rating" readonly="true" ng-model="rate"></rating></div>

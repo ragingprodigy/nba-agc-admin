@@ -110,7 +110,7 @@ angular.module 'nbaAgcAdminApp'
 
   $scope.createSession = (form) ->
     if form.$valid
-      payLoad = _.pick $scope.session, ['title','description','venue','start_time','end_time','rating_start']
+      payLoad = _.pick $scope.session, ['title','description','venue','start_time','end_time','rating_start','rappoteur']
       payLoad.speakers = _.pluck $scope.session.speakers, '_id'
       Sessions.update id:$stateParams.id, payLoad, ->
         $rootScope.$broadcast 'reloadSessions'

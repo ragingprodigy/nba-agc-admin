@@ -31,7 +31,8 @@ var SessionSchema = new Schema({
         uppercase:true
     },
     document: String
-  }]
+  }],
+  rappoteur : String
 });
 
 // generating a hash
