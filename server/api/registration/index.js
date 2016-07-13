@@ -2,11 +2,13 @@
 
 var express = require('express');
 var controller = require('./registration.controller');
-
+var controller2 = require('./access.controller');
 var sessionSec = require('../../components/tools/sessionSec');
 
 var router = express.Router();
 
+router.get('/access/index', sessionSec, controller2.index);
+router.get('/check', sessionSec, controller.check);
 router.get('/', sessionSec, controller.index);
 router.get('/stats', sessionSec, controller.stats);
 router.get('/withTags', sessionSec, controller.withTags);

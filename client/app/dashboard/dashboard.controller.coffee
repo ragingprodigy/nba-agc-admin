@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'nbaAgcAdminApp'
-.controller 'DashboardCtrl', ($scope, Registration, Invoice) ->
+.controller 'DashboardCtrl', ($scope, Registration, Invoice, $state) ->
 
   Invoice.query().$promise.then (invoices) ->
 
@@ -68,3 +68,5 @@ angular.module 'nbaAgcAdminApp'
     $scope.pendingBank = _.filter registrations, (r)->
       not r.isDirect and r.bankpay and not r.statusConfirmed and not r.paymentSuccessful and not r.responseGotten
     .length"""
+  $scope.dataSheet = ->
+    $state.go 'accessSheet'

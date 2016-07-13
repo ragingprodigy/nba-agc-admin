@@ -12,7 +12,7 @@ angular.module 'nbaAgcAdminApp'
       $scope.registrations = registrations
 
   #$scope.getAll()
-
+#  $scope.doLookup()
   $rootScope.$on 'reloadSuccess', ->
     #$scope.getAll()
 
@@ -126,6 +126,7 @@ angular.module 'nbaAgcAdminApp'
     .$promise.then (registrations) ->
       $scope.registrations = registrations
 
+  $scope.doLookup()
 .controller 'BankSuccessCtrl', ($scope, Registration) ->
 
   $scope.term = ''

@@ -26,6 +26,7 @@
       <!-- injector:css -->
       <!-- endinjector -->
     <!-- endbuild -->
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
 
       <script>
           var _rollbarConfig = {
@@ -107,14 +108,8 @@
         <!-- build:js({.tmp,client}) app/app.js -->
         <script src="app/app.js"></script>
           <!-- injector:js -->
-          <script src="app/AWS/AWS.js"></script>
-          <script src="app/Invoice/Invoice.js"></script>
-          <script src="app/Member/Member.js"></script>
-          <script src="app/Registration/Registration.js"></script>
-          <script src="app/Users/Users.js"></script>
-          <script src="app/bags/bags.js"></script>
+          <script src="app/access_sheet/accessData.js"></script>
           <script src="app/bank_errors/bank_errors.js"></script>
-          <script src="app/branch/branch.js"></script>
           <script src="app/branch_editor/branch_editor.js"></script>
           <script src="app/certificates/certificates.js"></script>
           <script src="app/custom_tag_printer/custom_tag_printer.js"></script>
@@ -127,12 +122,19 @@
           <script src="app/members/members.js"></script>
           <script src="app/name_tags/name_tags.js"></script>
           <script src="app/offline_registrations/offline_registrations.js"></script>
-          <script src="app/registered_user/registered_user.js"></script>
-          <script src="app/request_interceptor/request_interceptor.js"></script>
+          <script src="app/services/AWS/AWS.js"></script>
+          <script src="app/services/Invoice/Invoice.js"></script>
+          <script src="app/services/Member/Member.js"></script>
+          <script src="app/services/Registration/Registration.js"></script>
+          <script src="app/services/Users/Users.js"></script>
+          <script src="app/services/bags/bags.js"></script>
+          <script src="app/services/branch/branch.js"></script>
+          <script src="app/services/registered_user/registered_user.js"></script>
+          <script src="app/services/request_interceptor/request_interceptor.js"></script>
+          <script src="app/services/ui_block/ui_block.js"></script>
           <script src="app/sessions/sessions.js"></script>
           <script src="app/speakers/speakers.js"></script>
           <script src="app/sponsors/sponsors.js"></script>
-          <script src="app/ui_block/ui_block.js"></script>
           <script src="app/user_accounts/user_accounts.js"></script>
           <script src="components/navbar/navbar.js"></script>
           <!-- endinjector -->

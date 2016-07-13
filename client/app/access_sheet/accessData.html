@@ -1,0 +1,69 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h2>
+      Unresolved Bank Registration (Access bank)
+      <!--<div class="pull-right">-->
+        <!--<form class="form-inline" name="mForm" ng-submit="mForm.$valid && doLookup()">-->
+          <!--<div class="form-group">-->
+            <!--<input type="text" class="form-control" ng-model="term" autofocus required-->
+                   <!--placeholder="REGISTRATION CODE, NAME, PHONE, EMAIL">-->
+          <!--</div>-->
+          <!--<button class="btn btn-success" ng-disabled="mForm.$invalid"><i class="glyphicon glyphicon-search"></i>-->
+            <!--Search</button>-->
+        <!--</form>-->
+      <!--</div>-->
+    </h2>
+  </div>
+</div>
+
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Data Found - {{bankData.length}}
+    </div>
+    <div class="panel-body main-grid">
+      <div class="row">
+        <table class="table table-hover table-responsive table-striped" datatable="ng">
+          <thead class="bg-success">
+          <tr>
+            <th>Name</th>
+            <!--<th>Code</th>-->
+            <th>Amount Remitted</th>
+            <th>Category</th>
+            <th>Email</th>
+            <th>Deposit Slip</th>
+            <th>Enrollment No</th>
+            <th>Branch</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="m in bankData track by $index">
+            <td>{{m.Prefix}} {{m.Call_FirstName}} {{m.Call_MiddleName}} <b>{{m.Call_Surname}}</b></td>
+            <!--<td>{{m.regCode}}-{{m.conferenceFee}}</td>-->
+            <!--<td>N {{formatMoney(m.conferenceFee)}}</td>-->
+            <td>N{{m.AmountRemitted}}</td>
+            <td>{{m.Category}}</td>
+            <td>{{m.email}}</td>
+            <td>{{m.DepositSlipNo}}</td>
+            <td>{{m.EnrolmentNo}}</td>
+            <td>{{m.Branch}}</td>
+            <td >
+              <button ng-click="checkData(m,$index)" class="btn btn-info" style="margin-bottom:3px; font-size: 12px"><i
+                class="fa fa-database"></i>Check
+                Data</button>
+              <button ng-click="" class="btn btn-primary" style="margin-bottom:3px; font-size: 12px"><i
+                class="fa fa-search"></i>SCN
+                Check</button>
+              <button ng-click="" class="btn btn-success" style="margin-bottom:3px; font-size: 12px"><i class="fa fa-check-square-o"></i>Process</button>
+            </td>
+
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

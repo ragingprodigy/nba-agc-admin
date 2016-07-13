@@ -34,14 +34,14 @@ exports.getTags = function(req, res) {
                     name: u.name,
                     company: u.firm,
                     id: u._id,
-                    code: reg?(reg.regCode+'-'+ reg.conferenceFee):''
+                    code: reg?(reg.registrationCode):''
                 }:reg?{
                     title: reg.prefix,
                     suffix: reg.suffix,
                     name: reg.firstName+' '+ (!reg.middleName.length?'':(reg.middleName.substring(0,1)+'. '))+ reg.surname,
                     company: reg.registrationType!='judge'&&reg.registrationType!='magistrate'?reg.company:(reg.court+' '+reg.state+' '+reg.division),
                     id: u._id,
-                    code: reg.regCode+'-'+ reg.conferenceFee
+                    code: reg.registrationCode
                 }:{}));
 
                 User.update({_id: {$in: req.query.tags}}, {'$set': {tagPrinted:true, lastModified:new Date()}}, function() { return; });
@@ -63,14 +63,14 @@ exports.getTags = function(req, res) {
                         name: u.name,
                         company: u.firm,
                         id: u._id,
-                        code: theReg?(theReg.regCode+'-'+ theReg.conferenceFee):''
+                        code: theReg?(theReg.registrationCode):''
                     }:theReg?{
                         title: theReg.prefix,
                         suffix: theReg.suffix,
                         name: theReg.firstName+' '+ (!theReg.middleName.length?'':(theReg.middleName.substring(0,1)+'. '))+ theReg.surname,
                         company: theReg.registrationType!='judge'&&theReg.registrationType!='magistrate'?theReg.company:(theReg.court+' '+theReg.state+' '+theReg.division),
                         id: u._id,
-                        code: theReg.regCode+'-'+ theReg.conferenceFee
+                        code: theReg.registrationCode
                     }:{}));
                 });
 

@@ -9,7 +9,8 @@ var Registration = require('./registration.model'),
     mailer = require('../../components/tools/mailer'),
     request = require('request'),
     parseString = require('xml2js').parseString,
-    csv = require('express-csv');
+    csv = require('express-csv'),
+    Access = require('./access.model');
 
 var ObjectId = require('mongoose').Types.ObjectId;
 var qr = require('qr-image');
@@ -180,7 +181,11 @@ exports.stats = function(req, res) {
 
                         User.count({ fastTrackTime: { $gt: new Date(year+','+(month+1)+','+day) }}, function(err, count){
                             ret.fastTrackedToday = count;
+
+                          Access.count({resolved:false}, function (err,count) {
+                            ret.accessData = count;
                             return res.json(ret);
+                          });
                         });
                     });
                 });
@@ -196,7 +201,7 @@ exports.index = function(req, res) {
 
     Registration.find()
     .and([
-        { $or: [ { email: { $regex: n_sn }}, { mobile: { $regex: n_sn }}, { firstName: { $regex: n_sn }}, { surname: { $regex: n_sn }}, { middleName: { $regex: n_sn }}, { regCode: { $regex: n_sn }} ] },
+        { $or: [ { email: { $regex: n_sn }}, { mobile: { $regex: n_sn }}, { firstName: { $regex: n_sn }}, { surname: { $regex: n_sn }}, { middleName: { $regex: n_sn }}, { regCode: { $regex: n_sn }}, { registrationCode: { $regex: n_sn }}] },
         req.query
     ]).exec(function(err, registrations) {
         if (err) return handleError(res, err);
@@ -331,6 +336,28 @@ exports.destroy = function(req, res) {
     });
   });
 };
+
+exports.check = function (req,res) {
+  if(!req.query.code){
+    var n_sn = new RegExp('otayemi@gmail.com+', 'i');
+    Registration.findOne({email:{$regex:n_sn}}).select('_id email')
+      .exec(function (err,result) {
+        console.log(result);
+        if(err){return handleError(res,err);}
+        if(result){ return res.send(200,{status:true,_id:result._id})}
+        else {return res.send(304,{status:false});}
+      });
+  }
+  if(req.query.code){
+    Registration.findOne({$or:[{email:req.query.email},{regCode:req.query.code}]}).select('_id email')
+      .exec(function (err,result) {
+        if(err){return handleError(res,err);}
+        if(result){ return res.send(200,{status:true,_id:result._id})}
+        else {return res.send(304,{status:false});}
+      });
+  }
+};
+
 
 function handleError(res, err) {
     console.log(err);

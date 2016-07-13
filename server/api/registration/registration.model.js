@@ -7,6 +7,9 @@ var mongoose = require('mongoose'),
 var pRef = require('../../components/tools/pRef');
 
 var RegistrationSchema = new Schema({
+
+
+    registrationCode : String,
     member: { type:String, default: 0 },
     user : { type: Schema.Types.ObjectId, ref: 'User' },
     _staff_ : { type: Schema.Types.ObjectId, ref: 'Auth' },
