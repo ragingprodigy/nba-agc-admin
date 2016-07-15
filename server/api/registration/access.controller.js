@@ -1,5 +1,6 @@
 'use strict';
 var Access = require('./access.model');
+var _ = require('lodash');
 
 exports.index = function (req,res) {
   Access.find({resolved:false,dataType:'offline'}, function (err, data) {
@@ -17,6 +18,17 @@ exports.index = function (req,res) {
   })
 };
 
+exports.resolve = function (req,res) {
+  Access.findById(req.body._id, function (err, access) {
+    if (err) { return handleError(res, err); }
+    if(!access) { return res.send(404); }
+    var updated = _.merge(access, req.body);
+    updated.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.json(200, {id:access._id});
+    });
+  });
+};
 
 function handleError(res, err) {
   console.log(err);

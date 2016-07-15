@@ -13,7 +13,7 @@ router.get('/', sessionSec, controller.index);
 router.get('/stats', sessionSec, controller.stats);
 router.get('/withTags', sessionSec, controller.withTags);
 router.get('/fastTrack', sessionSec, controller.fastTrack);
-
+router.post('/access/resolve', sessionSec, controller2.resolve);
 router.get('/qrCode', controller.qrCode);
 router.get('/qrCodeInstant', controller.qrCodeInstant);
 

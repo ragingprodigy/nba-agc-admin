@@ -312,12 +312,12 @@ exports.update = function(req, res) {
           updated.responseGotten = true;
           updated.paymentSuccessful = true;
           updated.statusConfirmed = true;
-      } else {
+      }
+      else {
           updated.responseGotten = true;
           updated.paymentSuccessful = false;
           updated.statusConfirmed = false;
       }
-
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
       return res.json(200, registration);
@@ -339,21 +339,20 @@ exports.destroy = function(req, res) {
 
 exports.check = function (req,res) {
   if(!req.query.code){
-    var n_sn = new RegExp('otayemi@gmail.com+', 'i');
-    Registration.findOne({email:{$regex:n_sn}}).select('_id email')
+    var n_sn = new RegExp(req.query.email, 'i');
+    Registration.findOne({email:{$regex:n_sn},paymentSuccessful:false, webpay:false}).sort('-lastModified').select('_id email')
       .exec(function (err,result) {
-        console.log(result);
         if(err){return handleError(res,err);}
         if(result){ return res.send(200,{status:true,_id:result._id})}
-        else {return res.send(304,{status:false});}
+        return res.send({status:false});
       });
   }
   if(req.query.code){
-    Registration.findOne({$or:[{email:req.query.email},{regCode:req.query.code}]}).select('_id email')
+    Registration.findOne({$or:[{email:{$regex:n_sn}, paymentSuccessful:false, webpay:false},{regCode:req.query.code, paymentSuccessful:false, webpay:false}]}).sort('-lastModified').select('_id email')
       .exec(function (err,result) {
         if(err){return handleError(res,err);}
         if(result){ return res.send(200,{status:true,_id:result._id})}
-        else {return res.send(304,{status:false});}
+        else {return res.send({status:false});}
       });
   }
 };

@@ -40,7 +40,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr ng-repeat="m in bankData track by $index">
+          <tr ng-class="{info:m.status == true,danger:m.status == false}" ng-repeat="m in bankData track by $index">
             <td>{{m.Prefix}} {{m.Call_FirstName}} {{m.Call_MiddleName}} <b>{{m.Call_Surname}}</b></td>
             <!--<td>{{m.regCode}}-{{m.conferenceFee}}</td>-->
             <!--<td>N {{formatMoney(m.conferenceFee)}}</td>-->
@@ -54,10 +54,8 @@
               <button ng-click="checkData(m,$index)" class="btn btn-info" style="margin-bottom:3px; font-size: 12px"><i
                 class="fa fa-database"></i>Check
                 Data</button>
-              <button ng-click="" class="btn btn-primary" style="margin-bottom:3px; font-size: 12px"><i
-                class="fa fa-search"></i>SCN
-                Check</button>
-              <button ng-click="" class="btn btn-success" style="margin-bottom:3px; font-size: 12px"><i class="fa fa-check-square-o"></i>Process</button>
+              <button ng-if="m.status == true" ng-click="processData(m,$index)" class="btn btn-success" style="margin-bottom:3px; font-size: 12px"><i class="fa fa-check-square-o"></i>Process</button>
+              <button ng-if="m.status == false" ng-click="processData(m,$index)" class="btn btn-success" style="margin-bottom:3px; font-size: 12px"><i class="fa fa-edit"></i>Create Registration</button>
             </td>
 
           </tr>

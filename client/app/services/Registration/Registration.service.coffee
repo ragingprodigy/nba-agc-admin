@@ -26,3 +26,6 @@ angular.module 'nbaAgcAdminApp'
     CheckData:
       method: 'GET'
       url: '/api/registrations/check'
+    Resolve:
+      method: 'POST'
+      url: '/api/registrations/access/resolve'
