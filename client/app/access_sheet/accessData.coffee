@@ -2,8 +2,13 @@
 
 angular.module 'nbaAgcAdminApp'
 .config ($stateProvider) ->
-  $stateProvider.state 'accessSheet',
-    url: '/accessSheet'
-    templateUrl: 'app/access_sheet/accessData.html'
+  $stateProvider.state 'accessSheetOnline',
+    url: '/accessSheetOnline'
+    templateUrl: 'app/access_sheet/accessDataOnline.html'
+    controller: 'AccessSheetCtrl'
+    requireLogin: true
+  .state 'accessSheetOffline',
+    url: '/accessSheetOffline'
+    templateUrl: 'app/access_sheet/accessDataOffline.html'
     controller: 'AccessSheetCtrl'
     requireLogin: true

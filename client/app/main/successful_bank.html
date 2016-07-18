@@ -25,11 +25,12 @@
                     <tr>
                         <th>Name</th>
                         <th>Contact</th>
-                        <th>Reg. Code</th>
+                        <th>Order Id</th>
                         <th>Amount Paid</th>
                         <th>Teller No.</th>
                         <th>Bank Branch</th>
                         <th>Payment Date</th>
+                      <th>Registration Code</th>
                         <th/>
                     </tr>
                     </thead>
@@ -44,6 +45,7 @@
                         <td>{{r.bankBranch}}</td>
                         <td>{{r.bankDatePaid | date}}
                             <br><span class="label label-info">{{ago(r.bankDatePaid)}}</span></td>
+                      <td>{{r.registrationCode}}</td>
                         <td><span class="label label-success"
                                   ng-show="r.successTextSent">SMS</span> <span class="label label-primary"
                                                                                ng-show="r.successMailSent">MAIL

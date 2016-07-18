@@ -3,15 +3,30 @@ var Access = require('./access.model');
 var _ = require('lodash');
 
 exports.index = function (req,res) {
-  Access.find({resolved:false,dataType:'offline'}, function (err, data) {
+  var condition = {
+    resolved:false
+  };
+  if(req.query.dataType == 'offline'){
+    condition.dataType = 'offline';
+  }
+  else if (req.query.dataType == 'online')
+  {
+    condition.dataType = 'online';
+  }
+
+  Access.find(condition, function (err, data) {
     if(err){ return handleError(res, err)}
     var len = 0;
     for (len;len<data.length;len++){
       var branch = data[len].Branch.split(' ');
       data[len].Branch = branch[0];
-      if(data[len].Prefix=='NIL')
+      if(data[len].Prefix=='NIL' || data[len].Prefix=='NA' || data[len].Prefix=='N/A')
       {
         data[len].Prefix = '';
+      }
+      if(data[len].Suffix=='NIL' || data[len].Suffix=='NA' || data[len].Suffix=='N/A')
+      {
+        data[len].Suffix = '';
       }
     }
     return res.json(data);

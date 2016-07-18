@@ -44,11 +44,20 @@
             </div>
         </div>
 
-      <div class="col-md-3" ng-click="dataSheet()">
+      <div ng-if="user.role == 'admin' && user.name != 'Kemi Beatrice'" class="col-md-3" ng-click="dataSheetOnline()">
+        <div class="panel panel-default">
+          <div class="panel-body text-center">
+            <h4>Pending Online Data </h4>
+            <h2>{{stats.accessDataOnline}}</h2>
+          </div>
+        </div>
+      </div>
+
+      <div ng-if="user.role == 'admin' && user.name == 'Kemi Beatrice'" class="col-md-3" ng-click="dataSheetOffline()">
         <div class="panel panel-default">
           <div class="panel-body text-center">
             <h4>Pending Access Bank Data </h4>
-            <h2>{{stats.accessData}}</h2>
+            <h2>{{stats.accessDataOffline}}</h2>
           </div>
         </div>
       </div>

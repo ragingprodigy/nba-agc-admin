@@ -182,9 +182,13 @@ exports.stats = function(req, res) {
                         User.count({ fastTrackTime: { $gt: new Date(year+','+(month+1)+','+day) }}, function(err, count){
                             ret.fastTrackedToday = count;
 
-                          Access.count({resolved:false}, function (err,count) {
-                            ret.accessData = count;
-                            return res.json(ret);
+                          Access.count({resolved:false,dataType:'online'}, function (err,count) {
+                            ret.accessDataOnline = count;
+
+                            Access.count({resolved:false,dataType:'offline'}, function (err,count) {
+                              ret.accessDataOffline = count;
+                              return res.json(ret);
+                            });
                           });
                         });
                     });
@@ -338,21 +342,27 @@ exports.destroy = function(req, res) {
 };
 
 exports.check = function (req,res) {
+
   if(!req.query.code){
+    if(req.query.email == undefined)
+    {return res.send({status:false});}
+    req.query.email.trim();
     var n_sn = new RegExp(req.query.email, 'i');
-    Registration.findOne({email:{$regex:n_sn},paymentSuccessful:false, webpay:false}).sort('-lastModified').select('_id email')
+    Registration.findOne({email:{$regex:n_sn},paymentSuccessful:false, webpay:false}).sort('-lastModified').select('_id email paymentSuccessful')
       .exec(function (err,result) {
         if(err){return handleError(res,err);}
-        if(result){ return res.send(200,{status:true,_id:result._id})}
-        return res.send({status:false});
+        if(result){ return res.send(200,{status:true,_id:result._id, paymentStatus:paymentSuccessful})}
+        return res.send({status:false,paymentStatus:false});
       });
   }
   if(req.query.code){
-    Registration.findOne({$or:[{email:{$regex:n_sn}, paymentSuccessful:false, webpay:false},{regCode:req.query.code, paymentSuccessful:false, webpay:false}]}).sort('-lastModified').select('_id email')
+    var code = new RegExp(req.query.code, 'i');
+    Registration.findOne({regCode:{$regex:code}, webpay:false}).sort('-lastModified').select('_id email' +
+      ' paymentSuccessful')
       .exec(function (err,result) {
         if(err){return handleError(res,err);}
-        if(result){ return res.send(200,{status:true,_id:result._id})}
-        else {return res.send({status:false});}
+        if(result){ return res.send(200,{status:true,_id:result._id,paymentStatus:result.paymentSuccessful})}
+        else {return res.send({status:false,paymentSuccessful:false});}
       });
   }
 };

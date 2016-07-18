@@ -5,6 +5,7 @@ server/config/local.env.js
 logs
 *.log
 *.env.js
+/dist
 
 # Runtime data
 pids
@@ -33,5 +34,5 @@ client/bower_components
 .idea
 .tmp
 
-# Dist Directory is versioned Separately
-dist
+## Dist Directory is versioned Separately
+#dist

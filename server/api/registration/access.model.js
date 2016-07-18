@@ -18,7 +18,10 @@ var AccessSchema = new Schema({
   Sex:String,
   AmountRemitted:String,
   resolved:{type:Boolean,default: false},
-  dataType:String
+  dataType:String,
+  OrderIdOrderId:String,
+  PaymentType:String,
+  Fullname:String
 });
 
 module.exports = mongoose.model('Access', AccessSchema, 'AccessData');
