@@ -7,7 +7,8 @@ var Invoice = require('./invoice.model');
 exports.index = function(req, res) {
   Invoice.find(req.query)
   .populate('_group')
-  .populate('registrations', '_id firstName middleName surname conferenceFee email mobile suffix prefix regCode branch yearCalled')
+  .populate('registrations', '_id firstName middleName surname conferenceFee email mobile suffix prefix regCode' +
+    ' branch registrationCode yearCalled')
   .sort('-lastModified').exec(function (err, invoices) {
     if(err) { return handleError(res, err); }
     return res.json(200, invoices);

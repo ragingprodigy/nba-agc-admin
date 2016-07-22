@@ -55,8 +55,9 @@
               <button ng-show="m.status == undefined" ng-click="checkData(m,$index)" class="btn btn-info" style="margin-bottom:3px; font-size: 12px"><i
                 class="fa fa-database"></i>Check
                 Data</button>
-              <button ng-hide="m.done" ng-if="m.status == true" ng-click="processData(m,$index)" class="btn btn-success" style="margin-bottom:3px; font-size: 12px"><i class="fa fa-check-square-o"></i>Process</button>
-              <button ng-hide="m.done" ng-click="editMember(m,$index)" class="btn btn-success" style="margin-bottom:3px; font-size: 12px"><i class="fa fa-edit"></i>Edit</button>
+              <button ng-hide="m.done || m.payment == true" ng-if="m.status == true" ng-click="processData(m,$index)" class="btn btn-success" style="margin-bottom:3px; font-size: 12px"><i class="fa fa-check-square-o"></i>Process</button>
+              <button ng-hide="m.done || m.payment == true" ng-click="editMember(m,$index)" class="btn btn-success" style="margin-bottom:3px; font-size: 12px"><i class="fa fa-edit"></i>Edit</button>
+              <button  ng-show="m.payment == true"  class="btn btn-danger" style="margin-bottom:3px; font-size: 12px"><i class="fa fa-check-circle"></i>Data Already Confirmed</button>
               <!--<button ng-if="false" ng-click="checkSCN(m,$index)" class="btn btn-primary" style="margin-bottom:3px; font-size: 12px"><i class="fa fa-search"></i>SCN Check</button>-->
               <button ng-hide="m.done" ng-if="m.status == false" ng-click="processData(m,$index)" class="btn btn-success" style="margin-bottom:3px; font-size: 12px"><i class="fa fa-edit"></i>Create Registration</button>
 

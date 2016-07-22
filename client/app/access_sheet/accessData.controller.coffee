@@ -15,10 +15,11 @@ angular.module 'nbaAgcAdminApp'
 
   $scope.checkData =(m,index) ->
     d = {}
+    d.PaymentRef = m.PaymentRef
     if m.OrderId isnt undefined
       code = m.OrderId.split('-');
       d.code = code[0]
-    if m.email isnt undefined and m.email.match('@') and m.email isnt ''
+    if m.email? and m.email.match('@') and m.email isnt ''
       d.email = m.email.toLowerCase()
     Registration.CheckData d
     .$promise.then (response) ->
@@ -77,7 +78,10 @@ angular.module 'nbaAgcAdminApp'
       d.yearCalled = m.YearCalled
       d.nbaId = m.EnrolmentNo
       branch = m.Branch.replace('-',' ')
-      d.branch = branch.toUpperCase()
+      branch = branch.toUpperCase()
+      if branch is 'ABUJA'
+        branch = 'ABUJA (UNITY BAR)'
+      d.branch = branch
       d.company = m.Organization
       d.address = m.Address
       d.mobile = m.MobileNumber.toString()

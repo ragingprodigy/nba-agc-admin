@@ -1,8 +1,8 @@
 /**
- * Created by oladapo on 6/27/15.
+ * Edited by Gbenga on 7/19/16.
  */
 /**
- * Created by oladapo on 6/12/15.
+ * Edited by Gbenga on 7/19/16.
  */
 'use strict';
 
@@ -18,7 +18,7 @@ var message = {
     "html": '',
     "subject": '',
     "from_email": 'registrations@nba-agc.org',
-    "from_name": 'NBA AGC 2015',
+    "from_name": 'NBA AGC 2016',
     "to": [{
         "email": '',
         "type": 'to'

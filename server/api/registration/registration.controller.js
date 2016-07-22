@@ -167,7 +167,7 @@ exports.stats = function(req, res) {
             ret.confirmedDelegates = count;
             ret.confirmedIndividuals = ret.confirmed - count;
 
-            Registration.count({ paymentSuccessful: true, statusConfirmed: true, responseGotten: true, isGroup:true }, function(err, count){
+            Registration.count({ paymentSuccessful: false, webpay:false, responseGotten:false}, function(err, count){
                 ret.pendingDirect = count;
 
                 User.count({fastTracked:true}, function(err, count){
@@ -348,16 +348,19 @@ exports.check = function (req,res) {
     {return res.send({status:false});}
     req.query.email.trim();
     var n_sn = new RegExp(req.query.email, 'i');
-    Registration.findOne({email:{$regex:n_sn},paymentSuccessful:false, webpay:false}).sort('-lastModified').select('_id email paymentSuccessful')
+    Registration.findOne({$or:[{email:{$regex:n_sn},paymentSuccessful:false},{PaymentRef:req.query.PaymentRef}]}).sort('-lastModified').select('_id' +
+      ' email paymentSuccessful')
       .exec(function (err,result) {
         if(err){return handleError(res,err);}
-        if(result){ return res.send(200,{status:true,_id:result._id, paymentStatus:paymentSuccessful})}
+        if(result){
+          return res.send(200,{status:true,_id:result._id, paymentStatus:result.paymentSuccessful})}
+
         return res.send({status:false,paymentStatus:false});
       });
   }
   if(req.query.code){
     var code = new RegExp(req.query.code, 'i');
-    Registration.findOne({regCode:{$regex:code}, webpay:false}).sort('-lastModified').select('_id email' +
+    Registration.findOne({regCode:{$regex:code}}).sort('-lastModified').select('_id email' +
       ' paymentSuccessful')
       .exec(function (err,result) {
         if(err){return handleError(res,err);}
