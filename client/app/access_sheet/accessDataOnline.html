@@ -1,0 +1,63 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h2>
+      Online Bank Registration (Access bank)
+
+    </h2>
+  </div>
+</div>
+
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Data Found - {{bankData.length}}
+    </div>
+    <div class="panel-body main-grid">
+      <div class="row">
+        <table class="table table-hover table-responsive table-striped" datatable="ng">
+          <thead class="bg-success">
+          <tr>
+            <th>Name</th>
+            <!--<th>Code</th>-->
+            <th>Amount Remitted</th>
+            <th>Category</th>
+            <th>Email</th>
+            <th>Deposit Slip</th>
+            <th>Payment Code</th>
+            <th>Branch</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-hide="m.resolved==true" ng-class="{info:m.status == true,danger:m.status == false}"
+              ng-repeat="m in bankData track by $index">
+            <td ng-if="m.Fullname">{{m.Fullname}}</td>
+            <td ng-if="!m.Fullname">{{m.Call_FirstName+' '+m.Call_MiddleName+' '+m.Call_Surname}}</td>
+            <!--<td>{{m.regCode}}-{{m.conferenceFee}}</td>-->
+            <!--<td>N {{formatMoney(m.conferenceFee)}}</td>-->
+            <td>N{{m.AmountRemitted}}</td>
+            <td>{{m.Category}}</td>
+            <td>{{m.email}}</td>
+            <td>{{m.DepositSlipNo}}</td>
+            <td>{{m.OrderId}}</td>
+            <td>{{m.Branch}}</td>
+            <td >
+              <button ng-show="m.status == undefined" ng-click="checkData(m,$index)" class="btn btn-info" style="margin-bottom:3px; font-size: 12px"><i
+                class="fa fa-database"></i>Check
+                Data</button>
+              <button ng-hide="m.done || m.payment == true" ng-if="m.status == true" ng-click="processOnline(m,$index)" class="btn btn-success" style="margin-bottom:3px; font-size: 12px"><i class="fa fa-check-square-o"></i>Process</button>
+              <!--<button ng-if="false" ng-click="checkSCN(m,$index)" class="btn btn-primary" style="margin-bottom:3px; font-size: 12px"><i class="fa fa-search"></i>SCN Check</button>-->
+              <!--<button ng-hide="m.done" ng-if="m.status == false" ng-click="processData(m,$index)" class="btn btn-success" style="margin-bottom:3px; font-size: 12px"><i class="fa fa-edit"></i>Create Registration</button>-->
+              <button  ng-show="m.payment == true"  class="btn btn-danger" style="margin-bottom:3px; font-size: 12px"><i class="fa fa-check-circle"></i>Data Already Confirmed</button>
+              <button ng-show="m.done" ng-if="m.status == false"  class="btn btn-info" style="margin-bottom:3px; font-size: 12px"><i class="fa fa-check-circle"></i>Data Processed</button>
+            </td>
+
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

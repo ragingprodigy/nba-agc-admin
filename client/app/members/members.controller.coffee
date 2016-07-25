@@ -16,7 +16,7 @@ angular.module 'nbaAgcAdminApp'
 
   $scope.member = Member.get id: $stateParams.id
 
-  $scope.years = [2014..1960]
+  $scope.years = [2015..1960]
 
   $scope.cancel = ->
     $state.go 'members'

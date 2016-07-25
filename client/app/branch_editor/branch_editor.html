@@ -24,13 +24,15 @@
                             <tr>
                                 <th style="width: 40px;">S/N.</th>
                                 <th>Branch Name</th>
+                              <th>Registration Count</th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr ng-repeat="lH in regBranches | filter: query" hover-row>
                                 <td>{{$index+1}}.</td>
-                                <td>{{lH._id}} <span class="label label-info">{{lH.count}}</span> </td>
+                                <td>{{lH._id}}</td>
+                              <td><span class="label label-info">{{lH.count}}</span></td>
                                 <td><button class="btn-block btn btn-xs btn-danger c-btn" ng-click="activateRow(lH._id, $index)"><i class="glyphicon glyphicon-check"></i></button></td>
                             </tr>
                             </tbody>
@@ -44,8 +46,7 @@
                 <div class="panel-heading">
                     Standard Branches
                     <div class="pull-right">
-                        <button class="btn btn-xs" ng-class="{'btn-success':!showingForm, 'btn-danger':showingForm}" ng-click="toggleForm()">{{showingForm?'Hide Branch
-                            Form':'Add New Branch'}}</button>
+                        <button class="btn btn-xs" ng-class="{'btn-success':!showingForm, 'btn-danger':showingForm}" ng-click="toggleForm()">{{showingForm?'Hide Branch Form':'Add New Branch'}}</button>
                         <input class="search" type="text" ng-model="squery" placeholder="Search...">
                     </div>
                 </div>

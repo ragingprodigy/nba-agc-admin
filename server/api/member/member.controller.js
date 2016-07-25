@@ -13,6 +13,16 @@ exports.index = function(req, res) {
     });
 };
 
+//Get List of members
+exports.bankFind = function(req, res) {
+  var first = new RegExp(req.body.firstName, 'i');
+  var last = new RegExp(req.body.surname, 'i');
+  Member.find().or([{'name': first}, {'name': last}]).exec(function(err, members) {
+    if (err) return handleError(res, err);
+    return res.status(200).json(members);
+  });
+};
+
 // Get a single member
 exports.show = function(req, res) {
   Member.findById(req.params.id, function (err, member) {

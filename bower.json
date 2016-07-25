@@ -34,5 +34,11 @@
   },
   "resolutions": {
     "angular": ">=1.2.*"
+  },
+  "overrides": {
+    "font-awesome": {
+      "note": "In font-awesome bower.json does not contains css value in its main list. The lack of this library oblige to overide it.",
+      "main": "css/font-awesome.css"
+    }
   }
 }

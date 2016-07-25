@@ -19,3 +19,13 @@ angular.module 'nbaAgcAdminApp'
       method: 'GET'
       isArray: true
       url: '/api/registrations/withTags'
+    AccessIndex:
+      method: 'GET'
+      url: '/api/registrations/access/index'
+      isArray:true
+    CheckData:
+      method: 'GET'
+      url: '/api/registrations/check'
+    Resolve:
+      method: 'POST'
+      url: '/api/registrations/access/resolve'

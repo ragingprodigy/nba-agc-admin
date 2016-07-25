@@ -9,7 +9,8 @@ var Registration = require('./registration.model'),
     mailer = require('../../components/tools/mailer'),
     request = require('request'),
     parseString = require('xml2js').parseString,
-    csv = require('express-csv');
+    csv = require('express-csv'),
+    Access = require('./access.model');
 
 var ObjectId = require('mongoose').Types.ObjectId;
 var qr = require('qr-image');
@@ -166,7 +167,7 @@ exports.stats = function(req, res) {
             ret.confirmedDelegates = count;
             ret.confirmedIndividuals = ret.confirmed - count;
 
-            Registration.count({ paymentSuccessful: true, statusConfirmed: true, responseGotten: true, isGroup:true }, function(err, count){
+            Registration.count({ paymentSuccessful: false, webpay:false, responseGotten:false}, function(err, count){
                 ret.pendingDirect = count;
 
                 User.count({fastTracked:true}, function(err, count){
@@ -180,7 +181,15 @@ exports.stats = function(req, res) {
 
                         User.count({ fastTrackTime: { $gt: new Date(year+','+(month+1)+','+day) }}, function(err, count){
                             ret.fastTrackedToday = count;
-                            return res.json(ret);
+
+                          Access.count({resolved:false,dataType:'online'}, function (err,count) {
+                            ret.accessDataOnline = count;
+
+                            Access.count({resolved:false,dataType:'offline'}, function (err,count) {
+                              ret.accessDataOffline = count;
+                              return res.json(ret);
+                            });
+                          });
                         });
                     });
                 });
@@ -196,7 +205,7 @@ exports.index = function(req, res) {
 
     Registration.find()
     .and([
-        { $or: [ { email: { $regex: n_sn }}, { mobile: { $regex: n_sn }}, { firstName: { $regex: n_sn }}, { surname: { $regex: n_sn }}, { middleName: { $regex: n_sn }}, { regCode: { $regex: n_sn }} ] },
+        { $or: [ { email: { $regex: n_sn }}, { mobile: { $regex: n_sn }}, { firstName: { $regex: n_sn }}, { surname: { $regex: n_sn }}, { middleName: { $regex: n_sn }}, { regCode: { $regex: n_sn }}, { registrationCode: { $regex: n_sn }}] },
         req.query
     ]).exec(function(err, registrations) {
         if (err) return handleError(res, err);
@@ -307,12 +316,12 @@ exports.update = function(req, res) {
           updated.responseGotten = true;
           updated.paymentSuccessful = true;
           updated.statusConfirmed = true;
-      } else {
+      }
+      else {
           updated.responseGotten = true;
           updated.paymentSuccessful = false;
           updated.statusConfirmed = false;
       }
-
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
       return res.json(200, registration);
@@ -331,6 +340,36 @@ exports.destroy = function(req, res) {
     });
   });
 };
+
+exports.check = function (req,res) {
+
+  if(!req.query.code){
+    if(req.query.email == undefined)
+    {return res.send({status:false});}
+    req.query.email.trim();
+    var n_sn = new RegExp(req.query.email, 'i');
+    Registration.findOne({$or:[{email:{$regex:n_sn},paymentSuccessful:false},{PaymentRef:req.query.PaymentRef}]}).sort('-lastModified').select('_id' +
+      ' email paymentSuccessful')
+      .exec(function (err,result) {
+        if(err){return handleError(res,err);}
+        if(result){
+          return res.send(200,{status:true,_id:result._id, paymentStatus:result.paymentSuccessful})}
+
+        return res.send({status:false,paymentStatus:false});
+      });
+  }
+  if(req.query.code){
+    var code = new RegExp(req.query.code, 'i');
+    Registration.findOne({regCode:{$regex:code}}).sort('-lastModified').select('_id email' +
+      ' paymentSuccessful')
+      .exec(function (err,result) {
+        if(err){return handleError(res,err);}
+        if(result){ return res.send(200,{status:true,_id:result._id,paymentStatus:result.paymentSuccessful})}
+        else {return res.send({status:false,paymentSuccessful:false});}
+      });
+  }
+};
+
 
 function handleError(res, err) {
     console.log(err);
