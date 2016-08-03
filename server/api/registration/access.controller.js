@@ -4,7 +4,8 @@ var _ = require('lodash');
 
 exports.index = function (req,res) {
   var condition = {
-    resolved:false
+    resolved:false,
+    deleted:{$exists:false}
   };
   if(req.query.dataType == 'offline'){
     condition.dataType = 'offline';

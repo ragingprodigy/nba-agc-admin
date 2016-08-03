@@ -182,10 +182,10 @@ exports.stats = function(req, res) {
                         User.count({ fastTrackTime: { $gt: new Date(year+','+(month+1)+','+day) }}, function(err, count){
                             ret.fastTrackedToday = count;
 
-                          Access.count({resolved:false,dataType:'online'}, function (err,count) {
+                          Access.count({resolved:false,dataType:'online',deleted: { $ne: true }}, function (err,count) {
                             ret.accessDataOnline = count;
 
-                            Access.count({resolved:false,dataType:'offline'}, function (err,count) {
+                            Access.count({resolved:false,dataType:'offline', deleted: { $ne: true }}, function (err,count) {
                               ret.accessDataOffline = count;
                               return res.json(ret);
                             });
@@ -344,8 +344,7 @@ exports.destroy = function(req, res) {
 exports.check = function (req,res) {
 
   if(!req.query.code){
-    if(req.query.email == undefined)
-    {return res.send({status:false});}
+    if(req.query.email == undefined) {return res.send({status:false});}
     req.query.email.trim();
     var n_sn = new RegExp(req.query.email, 'i');
     Registration.findOne({$or:[{email:{$regex:n_sn},paymentSuccessful:false},{PaymentRef:req.query.PaymentRef}]}).sort('-lastModified').select('_id' +

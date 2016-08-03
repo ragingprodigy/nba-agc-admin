@@ -21,7 +21,8 @@ var AccessSchema = new Schema({
   dataType:String,
   OrderIdOrderId:String,
   PaymentType:String,
-  Fullname:String
+  Fullname:String,
+  deleted:Boolean
 });
 
 module.exports = mongoose.model('Access', AccessSchema, 'AccessData');
