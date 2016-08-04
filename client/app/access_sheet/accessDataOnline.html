@@ -31,7 +31,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr ng-hide="m.resolved==true" ng-class="{info:m.status == true,danger:m.status == false}"
+          <tr ng-hide="m.resolved==true || m.deleted==true" ng-class="{info:m.status == true,danger:m.status == false}"
               ng-repeat="m in bankData track by $index">
             <td ng-if="m.Fullname">{{m.Fullname}}</td>
             <td ng-if="!m.Fullname">{{m.Call_FirstName+' '+m.Call_MiddleName+' '+m.Call_Surname}}</td>
@@ -51,6 +51,7 @@
               <!--<button ng-if="false" ng-click="checkSCN(m,$index)" class="btn btn-primary" style="margin-bottom:3px; font-size: 12px"><i class="fa fa-search"></i>SCN Check</button>-->
               <!--<button ng-hide="m.done" ng-if="m.status == false" ng-click="processData(m,$index)" class="btn btn-success" style="margin-bottom:3px; font-size: 12px"><i class="fa fa-edit"></i>Create Registration</button>-->
               <button  ng-show="m.payment == true"  class="btn btn-danger" style="margin-bottom:3px; font-size: 12px"><i class="fa fa-check-circle"></i>Data Already Confirmed</button>
+              <button  ng-show="m.payment == true" ng-click="deleted(m,$index)" class="btn btn-danger" style="margin-bottom:3px; font-size: 12px"><i class="fa fa-trash"></i>Delete</button>
               <button ng-show="m.done" ng-if="m.status == false"  class="btn btn-info" style="margin-bottom:3px; font-size: 12px"><i class="fa fa-check-circle"></i>Data Processed</button>
             </td>
 

@@ -1,7 +1,16 @@
 'use strict'
 
 angular.module 'nbaAgcAdminApp'
-.controller 'GroupCtrl', ($scope, Invoice) ->
+.controller 'GroupCtrl', ($scope,$modal,Invoice) ->
+  $scope.closeModal = ->
+    $scope.modal.dismiss()
+
+  $scope.groupForm = ->
+    alert 'i got here'
+    $scope.modal = $modal.open
+      templateUrl: "app/group/newGroup.html"
+      scope: $scope
+      backdrop: 'static'
 
   # Fetch Confirmed Registrations
   Invoice.query { statusConfirmed: true }

@@ -13,6 +13,14 @@ angular.module 'nbaAgcAdminApp'
 
   $scope.load()
 
+  $scope.deleted =(m,index) ->
+    if confirm "Are you sure you want to delete this data?"
+      m.deleted = true
+      Registration.Resolve m, (resp) ->
+        if resp.id
+          $scope.bankData[index].deleted = true
+          toastr.success "Access Bank Data Has Been Deleted"
+
   $scope.checkData =(m,index) ->
     d = {}
     d.PaymentRef = m.PaymentRef
@@ -77,8 +85,8 @@ angular.module 'nbaAgcAdminApp'
       d.material = 'onsite'
       d.yearCalled = m.YearCalled
       d.nbaId = m.EnrolmentNo
-      branch = m.Branch.replace('-',' ')
-      branch = branch.toUpperCase()
+      branch = m.Branch.trim().replace('-',' ');
+      branch = branch.toUpperCase().trim();
       if branch is 'ABUJA'
         branch = 'ABUJA (UNITY BAR)'
       d.branch = branch

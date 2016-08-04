@@ -1,9 +1,7 @@
 /**
  * Edited by Gbenga on 7/19/16.
  */
-/**
- * Edited by Gbenga on 7/19/16.
- */
+
 'use strict';
 
 var mandrill = require('mandrill-api');
