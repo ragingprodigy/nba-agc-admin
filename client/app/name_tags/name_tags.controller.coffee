@@ -2,7 +2,6 @@
 
 angular.module 'nbaAgcAdminApp'
 .controller 'NameTagsCtrl', ($scope, printed, RegisteredUser, $state) ->
-
   $scope.printed = printed
   $scope.selectedAll = false
 
@@ -37,6 +36,7 @@ angular.module 'nbaAgcAdminApp'
     #if $scope.selection.length
     $state.go 'print_tags', ids: $scope.selection
 
+
 .controller 'LNameTagsCtrl', ($scope, RegisteredUser, $state, printed) ->
   $scope.printed = printed
   $scope.term = ''
@@ -45,7 +45,6 @@ angular.module 'nbaAgcAdminApp'
   $scope.selectedAll = false
 
   $scope.checkAll = ->
-
     $scope.selection = []
     if $scope.selectedAll
       _.forEach $scope.users, (u) ->
@@ -99,8 +98,8 @@ angular.module 'nbaAgcAdminApp'
     if $scope.selection.length
       $state.go 'print_tags', ids: $scope.selection
 
-.controller 'NameTagPrintCtrl', ($stateParams, $scope, RegisteredUser) ->
 
+.controller 'NameTagPrintCtrl', ($stateParams, $scope, RegisteredUser) ->
   $scope.toPrint = $stateParams.ids
   RegisteredUser.getTags tags: $scope.toPrint, (tags) ->
     $scope.nameTags = tags
