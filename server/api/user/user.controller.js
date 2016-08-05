@@ -29,14 +29,14 @@ exports.getTags = function(req, res) {
                 var u = usersWithTags[0];
 
                 response.push((u.hasTag?{
-                    title: u.prefix,
+                    prefix: u.prefix,
                     suffix: u.suffix,
                     name: u.name,
                     company: u.firm,
                     id: u._id,
                     code: reg?(reg.registrationCode):''
                 }:reg?{
-                    title: reg.prefix,
+                    prefix: reg.prefix,
                     suffix: reg.suffix,
                     name: reg.firstName+' '+ (!reg.middleName.length?'':(reg.middleName.substring(0,1)+'. '))+ reg.surname,
                     company: reg.registrationType!='judge'&&reg.registrationType!='magistrate'?reg.company:(reg.court+' '+reg.state+' '+reg.division),
@@ -58,17 +58,25 @@ exports.getTags = function(req, res) {
                     //var theReg = _.find(regs, function(r) { console.log('%s == %s', r.user, u._id); return r.user== u._id; });
 
                     response.push((u.hasTag?{
-                        title: u.prefix,
+                        prefix: u.prefix,
                         suffix: u.suffix,
-                        name: u.name,
-                        company: u.firm,
+                        surname: theReg.surname,
+                        firstName: theReg.firstName,
+                        middleName: theReg.middleName,
+                        branch: theReg.branch,
+                        // name: u.name,
+                        // company: u.firm,
                         id: u._id,
                         code: theReg?(theReg.registrationCode):''
                     }:theReg?{
-                        title: theReg.prefix,
+                        prefix: theReg.prefix,
                         suffix: theReg.suffix,
-                        name: theReg.firstName+' '+ (!theReg.middleName.length?'':(theReg.middleName.substring(0,1)+'. '))+ theReg.surname,
-                        company: theReg.registrationType!='judge'&&theReg.registrationType!='magistrate'?theReg.company:(theReg.court+' '+theReg.state+' '+theReg.division),
+                        surname: theReg.surname,
+                        firstName: theReg.firstName,
+                        middleName: theReg.middleName,
+                        branch: theReg.branch,
+                        // name: theReg.firstName+' '+ (!theReg.middleName.length?'':(theReg.middleName.substring(0,1)+'. '))+ theReg.surname,
+                        // company: theReg.registrationType!='judge'&&theReg.registrationType!='magistrate'?theReg.company:(theReg.court+' '+theReg.state+' '+theReg.division),
                         id: u._id,
                         code: theReg.registrationCode
                     }:{}));
@@ -96,20 +104,47 @@ exports.index = function(req, res) {
     } else {
         if (req.query.name) {
             var term = new RegExp(req.query.name, 'i');
-            User.find({$and: [
-                { $or: [{ email: {$regex:term} }, { name: {$regex:term} }, { bag: {$regex:term} }, { firm: {$regex:term} }, { phone: {$regex:term} }] },
-                { tagPrinted: req.query.tagPrinted, accountType: 'single' }
-            ]}, '_id email', function (err, users) {
-                if(err) { return handleError(res, err); }
+            User.find({
+                $and: [
+                    {$or: [{email: {$regex: term}}, {name: {$regex: term}}, {bag: {$regex: term}}, {firm: {$regex: term}}, {phone: {$regex: term}}]},
+                    {tagPrinted: req.query.tagPrinted, accountType: 'single'}
+                ]
+            }, '_id email', function (err, users) {
+                if (err) {
+                    return handleError(res, err);
+                }
                 // Return Only Users with Confirmed Registration Data
                 var userIds = _.pluck(users, '_id');
 
-                Registration.find({user:{$in: userIds}, paymentSuccessful:true, statusConfirmed:true}).select('_id, user')
-                .populate('user').exec(function(err, registrations){
+                Registration.find({user: {$in: userIds}, paymentSuccessful: true, statusConfirmed: true}).select('_id, user')
+                    .populate('user').exec(function (err, registrations) {
                     var _toReturn = _.pluck(registrations, 'user');
                     return res.json(_toReturn);
                 });
             });
+        } else if (req.query.page || req.query.perPage) {
+            var page = (req.query.page || 1) - 1,
+                perPage = req.query.perPage || 25;
+            User.find({}).exec( function (err, users) {
+                if(err) { return handleError(res, err); }
+
+                if(err) { return handleError(res, err); }
+                // Return Only Users with Confirmed Registration Data
+                var userIds = _.pluck(users, '_id');
+
+                Registration.count({user:{$in: userIds}, paymentSuccessful:true, statusConfirmed:true}, function (e, total) {
+                    Registration.find({user:{$in: userIds}, paymentSuccessful:true, statusConfirmed:true}).select('_id, surname, middleName, firstName, user')
+                        .populate('user')
+                        .skip(page * perPage)
+                        .limit(perPage)
+                        .exec(function(err, registrations){
+                            var _toReturn = _.pluck(registrations, 'user');
+                            res.header('total_found', total);
+                            return res.json(_toReturn);
+                        });
+                });
+            });
+
         } else {
             User.find(req.query, function (err, users) {
                 if(err) { return handleError(res, err); }
@@ -118,7 +153,7 @@ exports.index = function(req, res) {
                 // Return Only Users with Confirmed Registration Data
                 var userIds = _.pluck(users, '_id');
 
-                Registration.find({user:{$in: userIds}, paymentSuccessful:true, statusConfirmed:true}).select('_id, user')
+                Registration.find({user:{$in: userIds}, paymentSuccessful:true, statusConfirmed:true}).select('_id, surname, middleName, firstName, user')
                     .populate('user').exec(function(err, registrations){
                         var _toReturn = _.pluck(registrations, 'user');
                         return res.json(_toReturn);

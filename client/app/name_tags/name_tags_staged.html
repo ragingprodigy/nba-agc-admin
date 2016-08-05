@@ -1,15 +1,31 @@
 <div class="container">
     <div class="panel panel-default text-center">
         <div class="panel-body">
-            <form class="form-inline" name="mForm" ng-submit="mForm.$valid && doLookup()">
-                <div class="form-group">
-                    <input type="text" class="form-control" ng-model="term" autofocus required
-                           placeholder="Member's Name">
-                </div>
-                <button class="btn btn-success" ng-disabled="mForm.$invalid"><i class="glyphicon glyphicon-search"></i>
-                    Search</button>
-            </form>
+            <!--            <form class="form-inline" name="mForm" ng-submit="mForm.$valid && doLookup()">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="term" autofocus required
+                                       placeholder="Member's Name">
+                            </div>
+                            <button class="btn btn-success" ng-disabled="mForm.$invalid"><i class="glyphicon glyphicon-search"></i>
+                                Search</button>
+                        </form>-->
 
+            <div class="form-group pull-right">
+                <div class="input-group">
+                    <select class="form-control" ng-model="perPage" ng-options="item for item in pageSizes"
+                            ng-change="pageChanged()"></select>
+                </div>
+            </div>
+            <div class="text-center">
+                <pagination first-text="First" last-text="Last" next-text="Next"
+                            previous-text="Previous"
+                            boundary-links="true"
+                            items-per-page="perPage"
+                            class="centered-pager"
+                            ng-change="pageChanged()" total-items="total" ng-model="currentPage" max-size="10"
+                            class="pagination-sm" num-pages="pages">
+                </pagination>
+            </div>
             <div class="pull-left">
                 <input type="checkbox" ng-click="checkAll()" ng-model="selectedAll"> Select ALL
             </div>
@@ -23,24 +39,24 @@
                     <button class="btn btn-primary"
                             ng-click="printSelected()"><i class="fa fa-print"></i> PRINT SELECTED</button>
                 </div>
-                <table class="table table-hover table-striped" datatable="ng">
+                <table class="table table-hover">
                     <thead class="bg-primary">
                     <tr>
-                        <th class="col-sm-1">S/N</th>
+                        <th class="col-sm-1"></th>
                         <th>Email Address</th>
                         <th>Name</th>
-                        <th>Bag</th>
+                        <th>Print Status</th>
                         <th class="col-sm-1" ng-show="printed"></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr ng-repeat="r in users">
-                        <td>{{$index+1}}. <input ng-hide="printed" class="pull-right" type="checkbox" value="{{r._id}}"
+                        <td>{{(currentPage-1)*perPage+$index+1}}. <input ng-hide="printed" class="pull-right" type="checkbox" value="{{r._id}}"
                                                  ng-click="toggleSelection(r._id)" ng-checked="selection.indexOf(r._id) > -1">
                         </td>
                         <td>{{r.email}}</td>
                         <td>{{r.prefix}} {{r.name}} {{r.suffix}}</td>
-                        <td>{{r.bag}}</td>
+                        <td ng-class="{'alert-success': r.tagPrinted==true ,'alert-danger': r.tagPrinted==false}">{{r.tagPrinted}} </td>
                         <td ng-show="printed">
                             <button class="btn btn-xs btn-block btn-primary">PRINT TAG
                             </button>
