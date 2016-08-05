@@ -5,6 +5,9 @@ angular.module 'nbaAgcAdminApp'
   # AngularJS will instantiate a singleton by calling 'new' on this function
   $resource '/api/registrations/:id', null,
     update: method: 'PUT'
+    saveDelegate:
+      method: 'POST'
+      url: '/api/registrations/'
     stats:
       method: 'GET'
       url: '/api/registrations/stats'

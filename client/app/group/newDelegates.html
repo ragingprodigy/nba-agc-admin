@@ -1,0 +1,184 @@
+<div class="modal-header">
+  <h4><i class="fa fa-edit"></i> New Group
+    <button class="btn btn-xs btn-danger pull-right" ng-click="closeModal()"><i class="fa fa-times"></i></button>
+  </h4>
+
+</div>
+
+<div class="modal-body">
+  <div class="row">
+      <div class=" form form-horizontal form-group col-md-6">
+        <label for="category" class="control-label">Select Delegate Category</label>
+        <div>
+          <select name="category" id="category" ng-model="newDelegate.registrationType" required
+                  class="form-control">
+            <option value="">Please select Category</option>
+            <option  ng-repeat=" c in category"
+                    value="{{c.value}}">{{c.name}}
+            </option>
+          </select>
+        </div>
+    </div>
+  </div>
+
+  <form ng-if="newDelegate.registrationType" name="newDelegateForm" ng-submit="newDelegateForm.$valid" >
+    <div class="row">
+      <div class="form-group col-md-4">
+        <label class=" control-label">Prefix</label>
+        <div>
+          <input type="text" class="form-control" placeholder="Mr, Mrs. Hon.justice"  ng-model="newDelegate.prefix">
+        </div>
+      </div>
+      <div class="form-group col-md-4">
+        <label class=" control-label">Surname <span class="required">*</span></label>
+        <div>
+          <input type="text" class="form-control" placeholder="Surname" ng-model="newDelegate.surname" required>
+        </div>
+      </div>
+      <div class="form-group col-md-4">
+        <label class=" control-label">Middle Name </label>
+        <div>
+          <input type="text" class="form-control" placeholder="Middle name" ng-model="newDelegate.middleName">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label class=" control-label">First Name <span class="required">*</span></label>
+        <div>
+          <input type="text" class="form-control" placeholder="First Name" ng-model="newDelegate.firstName"
+                 required>
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <label class=" control-label">Suffix</label>
+        <div>
+          <input type="text" class="form-control" placeholder="ESQ, SAN" ng-model="newDelegate.suffix">
+        </div>
+      </div>
+    </div>
+    <div ng-if="newDelegate.registrationType == 'magistrate' || newDelegate.registrationType == 'legalPractitioner' || newDelegate.registrationType == 'sanAndBench' || newDelegate.registrationType == 'judge'"
+      class="row">
+      <div class="form-group col-md-6">
+        <label class="control-label">Enrollment No </label>
+        <div>
+          <input type="text" class="form-control" placeholder="Supreme Court Number" ng-model="newDelegate.nbaId">
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <label class="control-label">Year Called <span class="required">*</span></label>
+        <div>
+          <select required class="form-control"  ng-model="newDelegate.yearCalled">
+            <option value="">Please select Year Called</option>
+            <option ng-repeat=" y in years"
+                    value="{{y}}">{{y}}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div ng-if="newDelegate.registrationType == 'law_students'" class="row">
+      <div class="form-group col-md-6">
+        <label class="control-label">Law School</label>
+        <div>
+          <input type="text" class="form-control" placeholder="Law School" ng-model="newDelegate.company">
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <label class="control-label">Designation</label>
+        <div>
+          <input type="text" class="form-control" placeholder="Student" ng-model="newDelegate.designation">
+        </div>
+      </div>
+    </div>
+    <div ng-if="newDelegate.registrationType == 'magistrate'" class="row">
+      <div class="form-group col-md-4">
+        <label class="control-label">Court</label>
+        <div>
+          <input type="text" class="form-control" placeholder="Court" ng-model="newDelegate.court">
+        </div>
+      </div>
+      <div class="form-group col-md-4">
+        <label class="control-label">state</label>
+        <div>
+          <input type="text" class="form-control" placeholder="state" ng-model="newDelegate.state">
+        </div>
+      </div>
+      <div class="form-group col-md-4">
+        <label class="control-label">state</label>
+        <div>
+          <input type="text" class="form-control" placeholder="Division" ng-model="newDelegate.division">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div ng-if="newDelegate.registrationType == 'magistrate' || newDelegate.registrationType == 'legalPractitioner' || newDelegate.registrationType == 'sanAndBench' || newDelegate.registrationType == 'judge'" class="form-group col-md-6">
+        <label class="control-label">Nba Branch<span class="required">*</span></label>
+        <div>
+          <select  class="form-control"  ng-model="newDelegate.branch" id="branch"
+                   required>
+            <option value="">Please select Branch</option>
+            <option  ng-repeat=" branch in branchData | orderBy:'-name':'reverse'"
+                     value="{{branch.name}}">{{branch.name}}
+            </option>
+
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-6">
+      <label class="control-label">Mobile Number <span class="required">*</span></label>
+      <div>
+        <input class="form-control" type="tel" name="mobile" id="mobile"
+               placeholder="Mobile Phone Number"
+               ng-model="newDelegate.mobile"
+               required>
+      </div>
+    </div>
+      <div class="form-group col-md-6">
+        <label class="control-label">Email <span class="required">*</span></label>
+        <div>
+          <input class="form-control" type="email" name="email" id="email"
+                 ng-model="newDelegate.email"
+                 placeholder="Email Address"
+                 required>
+        </div>
+      </div>
+    </div>
+    <!--<div class="row">
+      <div ng-if="newDelegate.registrationType != 'law_students'" class="form-group col-md-6">
+        <label class="control-label">Firm/Organization </label>
+        <div>
+          <input class="form-control" type="text" name="company" id="company"
+                 placeholder="Firm or Organization"  ng-model="newDelegate.company">
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <label class="control-label">Address <span class="required">*</span></label>
+        <div>
+          <input class="form-control" type="text" name="company" id="address"
+                 ng-model="newDelegate.address"
+                 placeholder="Address Of Conferee">
+        </div>
+      </div>
+    </div>-->
+    <div class="row">
+      <div class="form-group col-md-6 col-md-offset-3">
+        <label class="control-label">Conference Fee<span class="required">*</span></label>
+        <div>
+          <input class="form-control" type="number"
+                 ng-model="newDelegate.conferenceFee"
+                 placeholder="Individual Conference Fee"
+                 required>
+        </div>
+      </div>
+    </div>
+    <!--<pre>{{selectedMember|json}}</pre>-->
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-disabled="newDelegateForm.$invalid" ng-click="createDelegate()" type="submit">
+    <i class="fa fa-plus m-r-10"></i>Add Delegate</button>
+  <button class="btn btn-danger pull-left" ng-click="closeModal()"><i class="fa fa-times"></i> Cancel</button>
+</div>

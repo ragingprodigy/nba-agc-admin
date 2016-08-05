@@ -43,3 +43,9 @@ angular.module 'nbaAgcAdminApp'
     requireLogin: true
     templateUrl: 'app/group/failed_web.html'
     controller: 'WebInvoiceFailedCtrl'
+
+  .state 'group.Direct_bank',
+    url: '/direct/bank'
+    requireLogin: true
+    templateUrl: 'app/group/groupDirectBank.html'
+    controller: 'BankGroupCtrl'
