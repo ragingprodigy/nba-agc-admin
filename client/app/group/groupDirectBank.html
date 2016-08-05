@@ -1,0 +1,45 @@
+<div class="container">
+
+  <group-members invoice="selectedInvoice" ng-show="selectedInvoice"></group-members>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Direct Bank Registrations ({{invoices.length}})
+      <div class="pull-right">
+        <button class="btn btn-sm btn-success pull-right" ng-click="groupForm()"
+        ><i class="fa fa-plus"> New Group</i></button>
+      </div>
+    </div>
+    <div class="panel-body main-grid">
+      <div class="row">
+        <table class="table table-hover table-striped" datatable="ng">
+          <thead class="bg-success">
+          <tr>
+            <th>Group Name</th>
+            <th>Contact Details</th>
+            <th>Order ID</th>
+            <th>Amount Paid</th>
+            <th>Payment Date</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="g in groups">
+            <td><span
+              title="{{g._group.phone}}">({{g.registrations.length}})<strong>{{g._group.groupName}}</strong></span></td>
+            <td>{{g._group.email}}<br>{{g._group.phone}}</td>
+            <td>{{g.code+'-'+g.invoiceAmount}}</td>
+            <td>{{g.bankDeposit}}</td>
+            <td>{{g.bankDatePaid}}</td>
+            <td>
+              <button ng-hide="g.paymentSuccessful == true" class="btn btn-xs btn-success" type="button" ng-click="addDelegates(g)">Add Delegates
+              </button>
+              <button ng-hide="g.paymentSuccessful == true" class="btn btn-xs btn-info" type="button" ng-click="payment(g)">Finalize Payment </button>
+                            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

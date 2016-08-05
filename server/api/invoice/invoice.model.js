@@ -8,6 +8,7 @@ var pRef = require('../../components/tools/pRef');
 var InvoiceSchema = new Schema({
     code    : {
         type: String,
+        unique:true,
         default: pRef()
     },
     invoiceAmount : { type: Number, default: 0 },

@@ -3,6 +3,7 @@
 var _ = require('lodash');
 var User = require('./user.model');
 var Registration = require('../registration/registration.model');
+var Invoice = require('../invoice/invoice.model');
 
 var ObjectId = require('mongoose').Types.ObjectId;
 
@@ -148,6 +149,41 @@ exports.show = function(req, res) {
     if(!user) { return res.send(404); }
     return res.json(user);
   });
+};
+
+//get manually created Groups
+exports.getGroups = function(req, res) {
+  User.find(req.query, function (err, user) {
+    if(err) { return handleError(res, err); }
+    if(!user) { return res.send(404); }
+    return res.json(user);
+  });
+};
+
+// Creates a new user in the DB.
+exports.create = function(req, res) {
+  var email = new RegExp(req.body.email,'i');
+  User.findOne({email:email}, function (err,foundUser) {
+    if (foundUser){
+      return res.json(200,{message:'Email is already Taken Please Try Another Email.'})
+    }
+    var user = new User();
+
+    user.email = req.body.email;
+    user.groupName = req.body.groupName;
+    user.password = user.generateHash(req.body.password);
+    user.phone = req.body.phone;
+    user.accountType = 'group';
+    user.isDirect = true;
+
+    user.save(function(err, user) {
+      delete user.password;
+      return res.json(200,user);
+
+    });
+
+  });
+
 };
 
 function handleError(res, err) {

@@ -23,6 +23,7 @@ var RegistrationSchema = new Schema({
     email:  { type:String, default: "", lowercase: true },
     phone:  { type:String, default: "" },
     mobile:  { type:String, default: "" },
+    gender:  { type:String, default: "" },
     address:  { type:String, default: "" },
     company:  { type:String, default: "" },
     designation:  { type:String, default: "" },

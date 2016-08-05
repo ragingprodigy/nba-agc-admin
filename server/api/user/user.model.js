@@ -9,6 +9,7 @@ var pRef = require('../../components/tools/pRef');
 // define the schema for our user model
 var userSchema = new Schema({
 
+    isDirect:Boolean,
     _staff_ : { type: Schema.Types.ObjectId, ref: 'Auth' },
     _doneBy_ : { type: Schema.Types.ObjectId, ref: 'Auth' },
     email : {
