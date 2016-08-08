@@ -43,76 +43,78 @@ angular.module 'nbaAgcAdminApp'
     d.bankDeposit = m.AmountRemitted.replace(',','')
     d.bankTeller = m.DepositSlipNo
     date = m.PaymentRef.split('|')
-    d.bankDatePaid =date[1]
+    d.bankDatePaid =moment(date[1],"DD-MMM-YYYY")._d;
     d.PaymentRef = m.PaymentRef
     d.completed = true
     d.formFilled = true
     d.webpay = false
 
-    if m.registrationId? and m.registrationId isnt '' and confirm "Are you sure want to update this Registration?"
-      d.isDirect = false
-      Registration.update {id: m.registrationId}, d,(data) ->
-        if data.statusConfirmed = true and data.paymentSuccessful = true
-          m.resolved = true
-          Registration.Resolve m, (resp) ->
-            if resp.id
-              toastr.success "Registration Was Updated Successfully"
-        else toastr.error "Registration Could Not Be Updated"
-    if (m.registrationId is undefined or m.registrationId is '') and confirm "Are you sure you want to create new
- registration
- data"
-      d.isDirect = true
-      category = m.Category.toLowerCase()
-      if category.indexOf('legal') != -1
-          d.registrationType = 'legalPractitioner'
-      if category.indexOf('magistrate') != -1
-          d.registrationType = 'magistrate'
-      if category.indexOf('sans') != -1
-          d.registrationType = 'sanAndBench'
-      if category.indexOf('student') != -1
-          d.registrationType = 'law_students'
-      if category.indexOf('international') != -1
-          d.registrationType = 'international'
-      if category.indexOf('judge') != -1
-          d.registrationType = 'judge'
-      if category.indexOf('non') != -1
-          d.registrationType = 'non_lawyer'
-      if category.indexOf('politic') != -1
-          d.registrationType = 'others'
-      d.conferenceFee = m.AmountRemitted.replace(',','')
-      d.accountCreated = false
-      d.isGroup = false
-      d.material = 'onsite'
-      d.yearCalled = m.YearCalled
-      d.nbaId = m.EnrolmentNo
-      branch = m.Branch.trim().replace('-',' ');
-      branch = branch.toUpperCase().trim();
-      if branch is 'ABUJA'
-        branch = 'ABUJA (UNITY BAR)'
-      d.branch = branch
-      d.company = m.Organization
-      d.address = m.Address
-      d.mobile = m.MobileNumber.toString()
-      d.email = m.email
-      d.prefix = m.Prefix
-      d.suffix = m.Suffix
-      d.middleName = m.Call_MiddleName
-      d.surname = m.Call_Surname
-      d.firstName = m.Call_FirstName
+    console.log d
 
-      registration = new Registration d
-      registration.$save (data)->
-        if data._id
-          m.done = true
-          m.resolved = true
-          toastr.success "Registration Successfully Created"
-          Registration.Resolve m, (resp) ->
-
-        else toastr.error "Sorry We Could Not create This Registration"
-      , (err) ->
-        toastr.error "A Server Error Has Occurred Please Contact The System Administrator"
-        console.log err
-    uiBlock.clear
+#    if m.registrationId? and m.registrationId isnt '' and confirm "Are you sure want to update this Registration?"
+#      d.isDirect = false
+#      Registration.update {id: m.registrationId}, d,(data) ->
+#        if data.statusConfirmed = true and data.paymentSuccessful = true
+#          m.resolved = true
+#          Registration.Resolve m, (resp) ->
+#            if resp.id
+#              toastr.success "Registration Was Updated Successfully"
+#        else toastr.error "Registration Could Not Be Updated"
+#    if (m.registrationId is undefined or m.registrationId is '') and confirm "Are you sure you want to create new
+# registration
+# data"
+#      d.isDirect = true
+#      category = m.Category.toLowerCase()
+#      if category.indexOf('legal') != -1
+#          d.registrationType = 'legalPractitioner'
+#      if category.indexOf('magistrate') != -1
+#          d.registrationType = 'magistrate'
+#      if category.indexOf('sans') != -1
+#          d.registrationType = 'sanAndBench'
+#      if category.indexOf('student') != -1
+#          d.registrationType = 'law_students'
+#      if category.indexOf('international') != -1
+#          d.registrationType = 'international'
+#      if category.indexOf('judge') != -1
+#          d.registrationType = 'judge'
+#      if category.indexOf('non') != -1
+#          d.registrationType = 'non_lawyer'
+#      if category.indexOf('politic') != -1
+#          d.registrationType = 'others'
+#      d.conferenceFee = m.AmountRemitted.replace(',','')
+#      d.accountCreated = false
+#      d.isGroup = false
+#      d.material = 'onsite'
+#      d.yearCalled = m.YearCalled
+#      d.nbaId = m.EnrolmentNo
+#      branch = m.Branch.trim().replace('-',' ');
+#      branch = branch.toUpperCase().trim();
+#      if branch is 'ABUJA'
+#        branch = 'ABUJA (UNITY BAR)'
+#      d.branch = branch
+#      d.company = m.Organization
+#      d.address = m.Address
+#      d.mobile = m.MobileNumber.toString()
+#      d.email = m.email
+#      d.prefix = m.Prefix
+#      d.suffix = m.Suffix
+#      d.middleName = m.Call_MiddleName
+#      d.surname = m.Call_Surname
+#      d.firstName = m.Call_FirstName
+#
+#      registration = new Registration d
+#      registration.$save (data)->
+#        if data._id
+#          m.done = true
+#          m.resolved = true
+#          toastr.success "Registration Successfully Created"
+#          Registration.Resolve m, (resp) ->
+#
+#        else toastr.error "Sorry We Could Not create This Registration"
+#      , (err) ->
+#        toastr.error "A Server Error Has Occurred Please Contact The System Administrator"
+#        console.log err
+#    uiBlock.clear
 
 
   $scope.processOnline = (m,index) ->

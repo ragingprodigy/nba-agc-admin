@@ -200,8 +200,7 @@ exports.stats = function(req, res) {
 
 // Get list of registrations
 exports.index = function(req, res) {
-    if(req.query.term)
-    {
+
       var n_sn = new RegExp(req.query.term, 'i');
       delete req.query.term;
 
@@ -214,12 +213,7 @@ exports.index = function(req, res) {
 
         return res.json(registrations);
       });
-    }
-  Registration.find(req.query).select('surname firstName middleName email mobile registrationCode material').exec(function (err, registration) {
-    if(err) { return handleError(res, err); }
-    if(!registration) { return res.send(404); }
-    return res.json(registration);
-  });
+    
 
 };
 
@@ -321,19 +315,17 @@ exports.update = function(req, res) {
     if (err) { return handleError(res, err); }
     if(!registration) { return res.send(404); }
     var updated = _.merge(registration, req.body);
-    if(registration.paymentSuccessful == false){
+    if(registration.paymentSuccessful == false)
       if (updated.conferenceFee<=Number(updated.bankDeposit)) {
-        updated.responseGotten = true;
-        updated.paymentSuccessful = true;
-        updated.statusConfirmed = true;
+          updated.responseGotten = true;
+          updated.paymentSuccessful = true;
+          updated.statusConfirmed = true;
       }
       else {
-        updated.responseGotten = true;
-        updated.paymentSuccessful = false;
-        updated.statusConfirmed = false;
+          updated.responseGotten = true;
+          updated.paymentSuccessful = false;
+          updated.statusConfirmed = false;
       }
-    }
-      
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
       return res.json(200, registration);
