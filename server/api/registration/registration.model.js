@@ -32,6 +32,7 @@ var RegistrationSchema = new Schema({
     division:  { type:String, default: "" },
     branch:  { type:String, default: "" },
     nbaId:  { type:String, default: "" },
+    material:  { type:String, default: "onsite" },
     yearCalled: {
         type: String,
         default: 1960

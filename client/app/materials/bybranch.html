@@ -1,0 +1,51 @@
+<div class="container">
+
+  <div class="panel panel-default">
+    <div class="pull-right">
+      <select name="branch" ng-change="getConfirmed(selectedBranch)" id="branch" ng-model="selectedBranch"
+              class="form-control">
+        <option value="">Please select a Branch</option>
+        <option  ng-repeat=" branch in branchData | orderBy:'-name':'reverse'"
+                 value="{{branch.name}}">{{branch.name}}
+        </option>
+      </select>
+    </div>
+    <div class="panel-heading">
+      Pick Up Material By Branch
+
+    </div>
+    <div class="panel-body main-grid">
+      <div class="row">
+        <table class="table table-hover table-striped" datatable="ng">
+          <thead class="bg-success">
+          <tr>
+            <th>Name</th>
+            <th>Contact Details</th>
+            <th>Registration Code</th>
+            <th>Preferred Pickup </th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="r in registrations">
+            <td class="text-capitalize">{{r.surname+' '+r.middleName+' '+r.firstName}}</td>
+            <td>{{r.email}}<br>{{r.mobile}}</td>
+            <td>{{r.registrationCode}}</td>
+            <td><label class="btn btn-sm" ng-class="{'btn-primary':r.material=='onsite','btn-success':r.material=='branch'}">{{r.material}}</label></td>
+            <td>
+              <button  ng-if="r.material=='branch'" class="btn btn-xs btn-success" type="button" ng-click="changePickup(r)"> <i
+                class="fa fa-exchange"></i> Change to
+                On-site
+              </button>
+              <button ng-if="r.material=='onsite'" class="btn btn-xs btn-success" type="button" ng-click="changePickup(r)"> <i
+                class="fa fa-exchange"></i> Change to
+                Branch
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
