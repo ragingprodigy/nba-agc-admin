@@ -55,7 +55,7 @@ angular.module 'nbaAgcAdminApp'
     $scope.selection = []
     if $scope.selectedAll
       _.forEach $scope.users, (u) ->
-        $scope.toggleSelection u._id
+        $scope.toggleSelection u.user._id
 
   $scope.load = (page) ->
     RegisteredUser.query
@@ -65,7 +65,6 @@ angular.module 'nbaAgcAdminApp'
       $scope.users = result
       $scope.total = parseInt headers "total_found"
       $scope.pages = Math.ceil($scope.total / $scope.perPage)
-      console.log $scope.total
 
   $scope.load 1
 
