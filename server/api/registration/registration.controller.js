@@ -182,10 +182,10 @@ exports.stats = function(req, res) {
                         User.count({ fastTrackTime: { $gt: new Date(year+','+(month+1)+','+day) }}, function(err, count){
                             ret.fastTrackedToday = count;
 
-                          Access.count({resolved:false,dataType:'online', }, function (err,count) {
+                          Access.count({resolved:false,dataType:'online',deleted:{$ne:true}}, function (err,count) {
                             ret.accessDataOnline = count;
 
-                            Access.count({resolved:false,dataType:'offline'}, function (err,count) {
+                            Access.count({resolved:false,dataType:'offline',deleted:{$ne:true}}, function (err,count) {
                               ret.accessDataOffline = count;
                               return res.json(ret);
                             });
@@ -200,18 +200,21 @@ exports.stats = function(req, res) {
 
 // Get list of registrations
 exports.index = function(req, res) {
-    var n_sn = new RegExp(req.query.term, 'i');
-    delete req.query.term;
 
-    Registration.find()
-    .and([
-        { $or: [ { email: { $regex: n_sn }}, { mobile: { $regex: n_sn }}, { firstName: { $regex: n_sn }}, { surname: { $regex: n_sn }}, { middleName: { $regex: n_sn }}, { regCode: { $regex: n_sn }}, { registrationCode: { $regex: n_sn }}] },
-        req.query
-    ]).exec(function(err, registrations) {
+      var n_sn = new RegExp(req.query.term, 'i');
+      delete req.query.term;
+
+      Registration.find()
+        .and([
+          { $or: [ { email: { $regex: n_sn }}, { mobile: { $regex: n_sn }}, { firstName: { $regex: n_sn }}, { surname: { $regex: n_sn }}, { middleName: { $regex: n_sn }}, { regCode: { $regex: n_sn }}, { registrationCode: { $regex: n_sn }}] },
+          req.query
+        ]).exec(function(err, registrations) {
         if (err) return handleError(res, err);
 
         return res.json(registrations);
-    });
+      });
+    
+
 };
 
 // Get a single registration
@@ -312,6 +315,7 @@ exports.update = function(req, res) {
     if (err) { return handleError(res, err); }
     if(!registration) { return res.send(404); }
     var updated = _.merge(registration, req.body);
+    if(registration.paymentSuccessful == false)
       if (updated.conferenceFee<=Number(updated.bankDeposit)) {
           updated.responseGotten = true;
           updated.paymentSuccessful = true;

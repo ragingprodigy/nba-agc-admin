@@ -188,7 +188,7 @@ angular.module 'nbaAgcAdminApp'
       console.log(err)
 
   $scope.submitPayment = ->
-    $scope.paymentDetails.conferenceFee = $scope.paymentDetails.bankDeposit
+    $scope.paymentDetails.invoiceAmount = $scope.paymentDetails.bankDeposit
 #    console.log $scope.paymentDetails
     Invoice.update id:$scope.selectedGroup._id, $scope.paymentDetails, ->
       toastr.success 'Group payment Has been Updated And Confirmed'
