@@ -57,18 +57,20 @@ exports.getTags = function(req, res) {
                 _.each(usersWithTags, function(u) {
                     var theReg = _.find(regs, { 'user':u._id });
                     //var theReg = _.find(regs, function(r) { console.log('%s == %s', r.user, u._id); return r.user== u._id; });
-
+                    if (u.name) {
+                        var name_split = u.name.split(' ');
+                    }
                     response.push((u.hasTag?{
                         prefix: u.prefix,
                         suffix: u.suffix,
-                        surname: theReg.surname,
-                        firstName: theReg.firstName,
-                        middleName: theReg.middleName,
+                        surname: name_split[0],
+                        firstName: name_split.length>2?name_split[name_split.length-1]:name_split[1],
+                        middleName: name_split.length>2?name_split[1]:'',
                         branch: theReg.branch,
                         // name: u.name,
                         // company: u.firm,
                         id: u._id,
-                        code: theReg?(theReg.registrationCode):''
+                        code: u?(u.registrationCode):''
                     }:theReg?{
                         prefix: theReg.prefix,
                         suffix: theReg.suffix,
@@ -134,14 +136,15 @@ exports.index = function(req, res) {
                 var userIds = _.pluck(users, '_id');
 
                 Registration.count({user:{$in: userIds}, paymentSuccessful:true, statusConfirmed:true}, function (e, total) {
-                    Registration.find({user:{$in: userIds}, paymentSuccessful:true, statusConfirmed:true}).select('_id, surname, middleName, firstName, user')
+                    Registration.find({user:{$in: userIds}, paymentSuccessful:true, statusConfirmed:true}).select('_id prefix suffix surname middleName branch firstName registrationCode user')
                         .populate('user')
+                        .sort('branch')
                         .skip(page * perPage)
                         .limit(perPage)
                         .exec(function(err, registrations){
                             var _toReturn = _.pluck(registrations, 'user');
                             res.header('total_found', total);
-                            return res.json(_toReturn);
+                            return res.json(registrations);
                         });
                 });
             });

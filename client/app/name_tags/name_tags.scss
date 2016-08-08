@@ -9,9 +9,9 @@
 
   .my-col {
     @extend .col-md-6;
-    width: 4.49in;
+    width: 4.64in;
     margin-right: 2px;
-    margin-top: -.7in;
+    margin-top: -.9in;
     //margin-bottom: 10px;
   }
 
@@ -43,23 +43,30 @@
   }
 
   .card {
-    height: 4.19in;
+    //border-style: solid !important;
+    //border-color: black !important;
+    height: 4.24in;
     padding: 2px;
     background: #FFF;
 
     .name-layer {
-      height: 2.1in;
+      height: 1.83in;
     }
 
     .delegate {
-      height: .1in;
+      height: .6in;
     }
 
     .name-row {
-      height: 1.5in;
+      height: 1.27in;
       //padding-top: 0.25in;
       color: #FFF;
       text-align: center;
+
+      .prefix {
+        height: .27in;
+      }
+
     }
 
     .reverse {
@@ -84,6 +91,7 @@
 
     .qr-code {
       bottom: 0;
+      height: .54in;
       //position: absolute;
       left: 2px;
 
