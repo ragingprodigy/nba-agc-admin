@@ -9,7 +9,15 @@ angular.module 'nbaAgcAdminApp'
       method: 'GET'
       isArray: true
       url: '/api/users/getTags'
+    getRegistrationTags:
+      method: 'GET'
+      isArray: true
+      url: '/api/users/getRegistrationTags'
     resetPassword:
       method: 'POST'
       url: '/api/users/:id/reset'
       params: 'id':'@_id'
+    allUsersForNameTags:
+      method: 'GET'
+      url: '/api/users/allUsersForNameTags'
+      isArray: true

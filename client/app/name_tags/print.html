@@ -7,24 +7,27 @@
                 <div style="background-color: #1f981b;" class="name-layer"></div>
 
                 <div style="background-color: #002a80;" class="name-row" contenteditable>
-                    <h3 class="prefix text-ellipsis"><span
+                    <h3 class="text-uppercase prefix text-ellipsis"><span
                             ng-show="tag.prefix.toLowerCase().indexOf('dr')>-1 || tag.prefix.toLowerCase().indexOf('prof')>-1 || tag.prefix.toLowerCase().indexOf('hon')>-1 || tag.prefix.toLowerCase().indexOf('chief')>-1 || tag.prefix.toLowerCase().indexOf('sir')>-1 || tag.prefix.toLowerCase().indexOf('capt')>-1 || tag.prefix.toLowerCase().indexOf('alhaji')>-1 || tag.prefix.toLowerCase().indexOf('major')>-1 || tag.prefix.toLowerCase().indexOf('prince')>-1 || tag.prefix.toLowerCase().indexOf('elder')>-1 || tag.prefix.toLowerCase().indexOf('lady')>-1 || tag.prefix.toLowerCase().indexOf('hon. justice')>-1 || tag.prefix.toLowerCase().indexOf('hrh')>-1 || tag.prefix.toLowerCase().indexOf('rev')>-1">{{tag.prefix}}</span>
                     </h3>
                     <h2 style="font-weight: 900;" class="text-uppercase">{{tag.firstName}}
 
                     </h2>
                     <h1 style="font-weight: 900;" class="text-uppercase">{{tag.surname}}
-                        <small ng-show="tag.suffix.toLowerCase().indexOf('jp')>-1 || tag.suffix.toLowerCase().indexOf('san')>-1 ||tag.suffix.toLowerCase().indexOf('ofr')>-1 || tag.suffix.toLowerCase().indexOf('oon')>-1 ||tag.suffix.toLowerCase().indexOf('mon')>-1 || tag.suffix.toLowerCase().indexOf('gcon')>-1 || tag.suffix.toLowerCase().indexOf('cfr')>-1">{{
+                        <small ng-show="tag.suffix.toLowerCase().indexOf('jp')>-1 || tag.suffix.toLowerCase().indexOf('san')>-1 ||tag.suffix.toLowerCase().indexOf('ofr')>-1 || tag.suffix.toLowerCase().indexOf('oon')>-1 ||tag.suffix.toLowerCase().indexOf('mon')>-1 || tag.suffix.toLowerCase().indexOf('gcon')>-1 || tag.suffix.toLowerCase().indexOf('cfr')>-1">
+                            {{
                             tag.suffix }}
                         </small>
                     </h1>
 
-                    <h5 class="text-uppercase branch print" style="color: #aba7ac !important;">{{tag.branch}} BRANCH</h5>
+                    <h5 ng-if="tag.branch" class="text-uppercase branch print" style="color: #aba7ac !important;">{{tag.branch}} BRANCH</h5>
                 </div>
-                <div style="background-color: #ffd66a;" class="delegate"></div>
+                <div style="background-color: #ffd66a;" class="delegate">
+                    <img ng-src="/api/registrations/qrCode?me={{tag._id}}">
+                </div>
 
                 <div class="qr-code">
-                    <h4 class="text-uppercase text-ellipsis pull-left"> {{tag.code}}</h4>
+                    <h4 class="text-uppercase text-ellipsis pull-left"> {{tag.registrationCode}}</h4>
                 </div>
             </div>
 
@@ -33,25 +36,28 @@
                 <div style="background-color: #1f981b;" class="name-layer"></div>
 
                 <div style="background-color: #002a80;" class="name-row" contenteditable>
-                    <h3 class="prefix text-ellipsis"><span
+                    <h3 class="text-uppercase prefix text-ellipsis"><span
                             ng-show="tag.prefix.toLowerCase().indexOf('dr')>-1 || tag.prefix.toLowerCase().indexOf('prof')>-1 || tag.prefix.toLowerCase().indexOf('hon')>-1 || tag.prefix.toLowerCase().indexOf('chief')>-1 || tag.prefix.toLowerCase().indexOf('sir')>-1 || tag.prefix.toLowerCase().indexOf('capt')>-1 || tag.prefix.toLowerCase().indexOf('alhaji')>-1 || tag.prefix.toLowerCase().indexOf('major')>-1 || tag.prefix.toLowerCase().indexOf('prince')>-1 || tag.prefix.toLowerCase().indexOf('elder')>-1 || tag.prefix.toLowerCase().indexOf('lady')>-1 || tag.prefix.toLowerCase().indexOf('hon. justice')>-1 || tag.prefix.toLowerCase().indexOf('hrh')>-1 || tag.prefix.toLowerCase().indexOf('rev')>-1">{{tag.prefix}}</span>
                     </h3>
                     <h2 style="font-weight: 900;" class="text-uppercase">{{tag.firstName}}
 
                     </h2>
                     <h1 style="font-weight: 900;" class="text-uppercase">{{tag.surname}}
-                        <small ng-show="tag.suffix.toLowerCase().indexOf('jp')>-1 || tag.suffix.toLowerCase().indexOf('san')>-1 ||tag.suffix.toLowerCase().indexOf('ofr')>-1 || tag.suffix.toLowerCase().indexOf('oon')>-1 ||tag.suffix.toLowerCase().indexOf('mon')>-1 || tag.suffix.toLowerCase().indexOf('gcon')>-1 || tag.suffix.toLowerCase().indexOf('cfr')>-1">{{
+                        <small ng-show="tag.suffix.toLowerCase().indexOf('jp')>-1 || tag.suffix.toLowerCase().indexOf('san')>-1 ||tag.suffix.toLowerCase().indexOf('ofr')>-1 || tag.suffix.toLowerCase().indexOf('oon')>-1 ||tag.suffix.toLowerCase().indexOf('mon')>-1 || tag.suffix.toLowerCase().indexOf('gcon')>-1 || tag.suffix.toLowerCase().indexOf('cfr')>-1">
+                            {{
                             tag.suffix }}
                         </small>
                     </h1>
 
-                    <h5 class="text-uppercase branch print" style="color: #aba7ac !important;">{{tag.branch}} BRANCH</h5>
+                    <h5 ng-if="tag.branch" class="text-uppercase branch print" style="color: #aba7ac !important;">{{tag.branch}} BRANCH</h5>
                 </div>
-                <div style="background-color: #ffd66a;" class="delegate"></div>
+                <div style="background-color: #ffd66a;" class="delegate">
+                    <img ng-src="/api/registrations/qrCode?me={{tag._id}}">
+                </div>
 
 
                 <div class="qr-code">
-                    <h4 class="text-uppercase text-ellipsis pull-left"> {{tag.code}}</h4>
+                    <h4 class="text-uppercase text-ellipsis pull-left"> {{tag.registrationCode}}</h4>
                 </div>
             </div>
         </div>

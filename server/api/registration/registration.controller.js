@@ -79,15 +79,15 @@ exports.withTags = function(req, res) {
 };
 
 exports.qrCode = function(req, res) {
-    var params = { user: new ObjectId(req.query.me), paymentSuccessful: true, statusConfirmed: true };
+    var params = { _id: new ObjectId(req.query.me), paymentSuccessful: true, statusConfirmed: true };
     //var params = { user: new ObjectId(req.query.me), paymentSuccessful: true, statusConfirmed: true };
     Registration.findOne(params, function (err, reg) {
         if(err) { return handleError(res, err); }
         if (!reg) { return res.send(404); }
 
-        var company = reg.registrationType!='judge'&&reg.registrationType!='magistrate'?reg.company:(reg.court+' '+reg.state+' '+reg.division);
+        // var company = reg.registrationType!='judge'&&reg.registrationType!='magistrate'?reg.company:(reg.court+' '+reg.state+' '+reg.division);
 
-        var theData = 'BEGIN:VCARD\nVERSION:3.0\nN:'+reg.surname+';'+reg.firstName+';'+reg.middleName+';;\nFN:'+(reg.firstName+' '+reg.surname+' '+reg.suffix)+'\nORG:'+company+'\nTITLE:'+reg.suffix+'\nEMAIL;type=INTERNET;type=WORK;type=pref:'+reg.email+'\nTEL;type=MOBILE;type=pref:'+reg.mobile+'\nEND:VCARD',
+        var theData = 'BEGIN:VCARD\nVERSION:3.0\nN:'+reg.surname+';'+reg.firstName+';'+reg.middleName+';;\nFN:'+(reg.firstName+' '+reg.surname+' '+reg.suffix)+'\nORG:'+reg.branch+' BRANCH\nTITLE:'+reg.suffix+'\nEMAIL;type=INTERNET;type=WORK;type=pref:'+reg.email+'\nTEL;type=MOBILE;type=pref:'+reg.mobile+'\nEND:VCARD',
             code = qr.image(theData, { type: 'svg' });
         res.type('svg');
         code.pipe(res);
@@ -95,9 +95,9 @@ exports.qrCode = function(req, res) {
 };
 
 exports.qrCodeInstant = function(req, res) {
-    var company = req.query.company;
+    var branch = req.query.branch;
 
-    var theData = 'BEGIN:VCARD\nVERSION:3.0\nN:'+req.query.name+';;\nFN:'+(req.query.name)+'\nORG:'+company+'\nTITLE:\nEMAIL;type=INTERNET;type=WORK;type=pref:'+req.query.email+'\nTEL;type=MOBILE;type=pref:'+req.query.phone+'\nEND:VCARD',
+    var theData = 'BEGIN:VCARD\nVERSION:3.0\nN:'+req.query.name+';;\nFN:'+(req.query.name)+'\nORG:'+branch+' BRANCH\nTITLE:\nEMAIL;type=INTERNET;type=WORK;type=pref:'+req.query.email+'\nTEL;type=MOBILE;type=pref:'+req.query.phone+'\nEND:VCARD',
         code = qr.image(theData, { type: 'svg' });
     res.type('svg');
     code.pipe(res);

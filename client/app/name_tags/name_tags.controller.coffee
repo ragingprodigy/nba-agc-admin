@@ -55,10 +55,10 @@ angular.module 'nbaAgcAdminApp'
     $scope.selection = []
     if $scope.selectedAll
       _.forEach $scope.users, (u) ->
-        $scope.toggleSelection u.user._id
+        $scope.toggleSelection u._id
 
   $scope.load = (page) ->
-    RegisteredUser.query
+    RegisteredUser.allUsersForNameTags
       page: page
       perPage: $scope.perPage
     , (result, headers) ->
@@ -106,7 +106,6 @@ angular.module 'nbaAgcAdminApp'
     Registration.withTags name: $scope.term
     .$promise.then (users) ->
       $scope.users = users
-#      console.log users
 
   # toggle selection for a given user
   $scope.toggleSelection = (_id) ->
@@ -122,5 +121,5 @@ angular.module 'nbaAgcAdminApp'
 
 .controller 'NameTagPrintCtrl', ($stateParams, $scope, RegisteredUser) ->
   $scope.toPrint = $stateParams.ids
-  RegisteredUser.getTags tags: $scope.toPrint, (tags) ->
+  RegisteredUser.getRegistrationTags tags: $scope.toPrint, (tags) ->
     $scope.nameTags = tags
