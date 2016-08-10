@@ -52,13 +52,13 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="r in users">
-                        <td>{{(currentPage-1)*perPage+$index+1}}. <input ng-hide="printed" class="pull-right" type="checkbox" value="{{r.user._id}}"
-                                                 ng-click="toggleSelection(r.user._id)" ng-checked="selection.indexOf(r.user._id) > -1">
+                        <td>{{(currentPage-1)*perPage+$index+1}}. <input ng-hide="printed" class="pull-right" type="checkbox" value="{{r._id}}"
+                                                 ng-click="toggleSelection(r._id)" ng-checked="selection.indexOf(r._id) > -1">
                         </td>
                         <td>{{r.prefix}} {{r.firstName}} {{r.surname}} {{r.suffix}}</td>
                         <td>{{r.branch}}</td>
                         <td>{{r.registrationCode}}</td>
-                        <td ng-class="{'alert-success': r.user.tagPrinted==true ,'alert-danger': r.user.tagPrinted==false}">{{r.user.tagPrinted}} </td>
+                        <td ng-class="{'alert-success': r.tagPrinted==true ,'alert-danger': r.tagPrinted==false}">{{r.tagPrinted}} </td>
                         <td ng-show="printed">
                             <button class="btn btn-xs btn-block btn-primary">PRINT TAG
                             </button>

@@ -33,6 +33,10 @@ var RegistrationSchema = new Schema({
     branch:  { type:String, default: "" },
     nbaId:  { type:String, default: "" },
     material:  { type:String, default: "onsite" },
+    tagPrinted: {
+        type: Boolean,
+        default: false
+    },
     yearCalled: {
         type: String,
         default: 1960
