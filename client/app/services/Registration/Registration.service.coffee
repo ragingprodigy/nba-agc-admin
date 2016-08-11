@@ -32,3 +32,6 @@ angular.module 'nbaAgcAdminApp'
     Resolve:
       method: 'POST'
       url: '/api/registrations/access/resolve'
+    createOfflineReg:
+      method: 'POST'
+      url: '/api/registrations/createOfflineReg'

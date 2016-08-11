@@ -304,7 +304,7 @@ exports.getRegistrationTags = function (req, res) {
     }
 
     // Get Registrations
-    Registration.find({_id: {$in: req.query.tags}}, 'prefix suffix surname firstName middleNmae branch registrationCode', function (err, regs) {
+    Registration.find({_id: {$in: req.query.tags}}, 'prefix suffix surname firstName middleName branch registrationCode', function (err, regs) {
 
         Registration.update({_id: {$in: req.query.tags}}, {'$set': {tagPrinted: true}}, {multi: true}, function () {
             return;

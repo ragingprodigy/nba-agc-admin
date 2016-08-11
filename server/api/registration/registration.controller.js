@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var Registration = require('./registration.model'),
+    OfflineReg = require('./offlineReg.model'),
     User = require('../user/user.model'),
     Invoice = require('../invoice/invoice.model'),
     Bag = require('../bag/bag.model'),
@@ -97,7 +98,7 @@ exports.qrCode = function(req, res) {
 exports.qrCodeInstant = function(req, res) {
     var branch = req.query.branch;
 
-    var theData = 'BEGIN:VCARD\nVERSION:3.0\nN:'+req.query.name+';;\nFN:'+(req.query.name)+'\nORG:'+branch+' BRANCH\nTITLE:\nEMAIL;type=INTERNET;type=WORK;type=pref:'+req.query.email+'\nTEL;type=MOBILE;type=pref:'+req.query.phone+'\nEND:VCARD',
+    var theData = 'BEGIN:VCARD\nVERSION:3.0\nN:'+req.query.surname+';'+req.query.firstName+';;\nFN:'+(req.query.firstName+' '+req.query.surname+' '+req.query.suffix)+'\nORG:'+branch+' BRANCH\nTITLE:\nEMAIL;type=INTERNET;type=WORK;type=pref:'+req.query.email+'\nTEL;type=MOBILE;type=pref:'+req.query.phone+'\nEND:VCARD',
         code = qr.image(theData, { type: 'svg' });
     res.type('svg');
     code.pipe(res);
@@ -374,8 +375,14 @@ exports.check = function (req,res) {
   }
 };
 
+exports.createOfflineReg = function (req, res) {
+    OfflineReg.create(req.body, function (err, offlineReg) {
+        if (err) { return handleError(res, err); }
+        return res.status(201).json(offlineReg);
+    });
+};
 
 function handleError(res, err) {
-    console.log(err);
+    console.error(err);
   return res.send(500, err);
 }
