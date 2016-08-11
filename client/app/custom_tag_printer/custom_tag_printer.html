@@ -2,15 +2,15 @@
 
 <div class="jumbotron" ng-hide="doingPrint">
     <div class="container">
-        <h2>Custom Name Tag Printer
+        <h2>Onsite Registration || Custom Name Tag Printing
         </h2>
     </div>
 </div>
 
-<div class="container" ng-hide="doingPrint">
+<div class="container" ng-if="!doingPrint">
     <form name="tagForm" ng-submit="tagForm.$valid && printTags(tagForm)">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 col-md-offset-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="panel-title">Tag 1</div>
@@ -18,31 +18,44 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <label for="leftTitle">Title</label>
-                            <input class="form-control" ng-model="nameTags[0].title" id="leftTitle">
+                            <input class="form-control" ng-model="tag.title" id="leftTitle">
                         </div>
                         <div class="form-group">
-                            <label for="leftName">Name <span class="required">*</span> </label>
-                            <input class="form-control" ng-model="nameTags[0].name" id="leftName" required>
+                            <label for="leftFirstName">First Name <span class="required">*</span> </label>
+                            <input class="form-control" ng-model="tag.firstName" id="leftFirstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="leftSurname">Surname <span class="required">*</span> </label>
+                            <input class="form-control" ng-model="tag.surname" id="leftSurname" required>
                         </div>
                         <div class="form-group">
                             <label for="leftSuf">Suffix</label>
-                            <input class="form-control" ng-model="nameTags[0].suffix" id="leftSuf">
+                            <input class="form-control" ng-model="tag.suffix" id="leftSuf">
                         </div>
                         <div class="form-group">
-                            <label for="leftFirm">Firm / Court <span class="required">*</span> </label>
-                            <input class="form-control" ng-model="nameTags[0].company" id="leftFirm" required>
+                            <label for="leftBranch">Branch </label>
+                            <input class="form-control" ng-model="tag.branch" id="leftBranch">
                         </div>
                         <div class="form-group">
                             <label for="leftCode">Registration Code </label>
-                            <input class="form-control" ng-model="nameTags[0].code" id="leftCode" required>
+                            <input class="form-control" ng-model="tag.registrationCode" id="leftCode">
                         </div>
                         <div class="form-group">
                             <label for="leftPhone">Phone </label>
-                            <input class="form-control" ng-model="nameTags[0].phone" id="leftPhone">
+                            <input type="tel" class="form-control" ng-model="tag.phone" id="leftPhone">
+                        </div>
+                        <div class="form-group">
+                            <label for="leftEmail">Email </label>
+                            <input class="form-control" ng-model="tag.email" id="leftEmail">
                         </div>
                     </div>
                 </div>
+                <button class="btn-lg btn-success btn" type="submit" ng-disabled="tagForm.$invalid"> <i
+                        class="glyphicon glyphicon-print"></i> PRINT TAG</button>
+                <button class="btn-lg btn-primary btn" ng-click="registerAndPrint(tagForm)" ng-disabled="tagForm.$invalid"> <i
+                        class="glyphicon glyphicon-book"></i>REGISTER & PRINT TAG</button>
             </div>
+<!--
             <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -50,20 +63,24 @@
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <label for="rightTitle">Title </label>
+                            <label for="rightTitle">Title</label>
                             <input class="form-control" ng-model="nameTags[1].title" id="rightTitle">
                         </div>
                         <div class="form-group">
-                            <label for="rightName">Name <span class="required">*</span> </label>
-                            <input class="form-control" ng-model="nameTags[1].name" id="rightName" required>
+                            <label for="rightFirstName">First Name <span class="required">*</span> </label>
+                            <input class="form-control" ng-model="nameTags[1].firstName" id="rightFirstName" required>
                         </div>
                         <div class="form-group">
-                            <label for="rightSuf">Suffix </label>
+                            <label for="rightSurname">Surname <span class="required">*</span> </label>
+                            <input class="form-control" ng-model="nameTags[1].surname" id="rightSurname" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="rightSuf">Suffix</label>
                             <input class="form-control" ng-model="nameTags[1].suffix" id="rightSuf">
                         </div>
                         <div class="form-group">
-                            <label for="rightFirm">Firm / Court <span class="required">*</span> </label>
-                            <input class="form-control" ng-model="nameTags[1].company" id="rightFirm" required>
+                            <label for="rightBranch">Branch </label>
+                            <input class="form-control" ng-model="nameTags[1].branch" id="rightBranch" >
                         </div>
                         <div class="form-group">
                             <label for="rightCode">Registration Code </label>
@@ -71,23 +88,26 @@
                         </div>
                         <div class="form-group">
                             <label for="rightPhone">Phone </label>
-                            <input class="form-control" ng-model="nameTags[1].phone" id="rightPhone">
+                            <input type="tel" class="form-control" ng-model="nameTags[1].phone" id="rightPhone">
+                        </div>
+                        <div class="form-group">
+                            <label for="rightEmail">Email </label>
+                            <input class="form-control" ng-model="nameTags[1].email" id="rightEmail">
                         </div>
                     </div>
                 </div>
             </div>
+-->
         </div>
 
-        <button class="btn-lg btn-block btn-success btn" type="submit" ng-disabled="tagForm.$invalid"> <i
-            class="glyphicon glyphicon-print"></i> PRINT TAGS</button>
+
     </form>
 </div>
 
-<div class="container tag-printer" ng-show="doingPrint">
-    <div class="hidden-print text-center">
-        <button class="btn-danger btn" ng-click="cancelPrint()"> CANCEL</button>
-    </div>
+<div class="container tag-printer" ng-if="doingPrint">
+
     <div class="row">
+<!--
         <div class="my-col text-center" ng-repeat="tag in nameTags" ng-class="{'right':($index%2)}">
             <div class="card" style="-webkit-transform: rotate(180deg);">
                 <div class="name-layer"></div>
@@ -115,5 +135,72 @@
                 </div>
             </div>
         </div>
+-->
+
+        <div class="my-col page text-center" > <!--ng-repeat="tag in nameTags"--> <!-- ng-class="{'right':($index%2)}" -->
+
+            <div class="card" style="-webkit-transform: rotate(180deg);">
+
+                <div style="background-color: #1f981b;" class="name-layer"></div>
+
+                <div style="background-color: #002a80;" class="name-row" contenteditable>
+                    <h3 class="text-uppercase prefix text-ellipsis"><span
+                            ng-show="tag.prefix.toLowerCase().indexOf('dr')>-1 || tag.prefix.toLowerCase().indexOf('prof')>-1 || tag.prefix.toLowerCase().indexOf('hon')>-1 || tag.prefix.toLowerCase().indexOf('chief')>-1 || tag.prefix.toLowerCase().indexOf('sir')>-1 || tag.prefix.toLowerCase().indexOf('capt')>-1 || tag.prefix.toLowerCase().indexOf('alhaji')>-1 || tag.prefix.toLowerCase().indexOf('major')>-1 || tag.prefix.toLowerCase().indexOf('prince')>-1 || tag.prefix.toLowerCase().indexOf('elder')>-1 || tag.prefix.toLowerCase().indexOf('lady')>-1 || tag.prefix.toLowerCase().indexOf('hon. justice')>-1 || tag.prefix.toLowerCase().indexOf('hrh')>-1 || tag.prefix.toLowerCase().indexOf('rev')>-1">{{tag.prefix}}</span>
+                    </h3>
+                    <h2 style="font-weight: 900;" class="text-uppercase">{{tag.firstName}}
+
+                    </h2>
+                    <h1 style="font-weight: 900;" class="text-uppercase">{{tag.surname}}
+                        <small ng-show="tag.suffix.toLowerCase().indexOf('jp')>-1 || tag.suffix.toLowerCase().indexOf('san')>-1 ||tag.suffix.toLowerCase().indexOf('ofr')>-1 || tag.suffix.toLowerCase().indexOf('oon')>-1 ||tag.suffix.toLowerCase().indexOf('mon')>-1 || tag.suffix.toLowerCase().indexOf('gcon')>-1 || tag.suffix.toLowerCase().indexOf('cfr')>-1">
+                            {{
+                            tag.suffix }}
+                        </small>
+                    </h1>
+
+                    <h5 ng-if="tag.branch" class="text-uppercase branch print" style="color: #aba7ac !important;">{{tag.branch}} BRANCH</h5>
+                </div>
+                <div style="background-color: #ffd66a;" class="delegate">
+                    <img ng-src="/api/registrations/qrCodeInstant?firstName={{tag.firstName}}&surname={{tag.surname}}&branch={{tag.branch}}&phone={{tag.phone}}&email={{tag.email}}&suffix={{tag.suffix}}">
+                </div>
+
+                <div class="qr-code">
+                    <h4 class="text-uppercase text-ellipsis pull-left"> {{tag.registrationCode}}</h4>
+                </div>
+            </div>
+
+            <div class="card regular">
+
+                <div style="background-color: #1f981b;" class="name-layer"></div>
+
+                <div style="background-color: #002a80;" class="name-row" contenteditable>
+                    <h3 class="text-uppercase prefix text-ellipsis"><span
+                            ng-show="tag.prefix.toLowerCase().indexOf('dr')>-1 || tag.prefix.toLowerCase().indexOf('prof')>-1 || tag.prefix.toLowerCase().indexOf('hon')>-1 || tag.prefix.toLowerCase().indexOf('chief')>-1 || tag.prefix.toLowerCase().indexOf('sir')>-1 || tag.prefix.toLowerCase().indexOf('capt')>-1 || tag.prefix.toLowerCase().indexOf('alhaji')>-1 || tag.prefix.toLowerCase().indexOf('major')>-1 || tag.prefix.toLowerCase().indexOf('prince')>-1 || tag.prefix.toLowerCase().indexOf('elder')>-1 || tag.prefix.toLowerCase().indexOf('lady')>-1 || tag.prefix.toLowerCase().indexOf('hon. justice')>-1 || tag.prefix.toLowerCase().indexOf('hrh')>-1 || tag.prefix.toLowerCase().indexOf('rev')>-1">{{tag.prefix}}</span>
+                    </h3>
+                    <h2 style="font-weight: 900;" class="text-uppercase">{{tag.firstName}}
+
+                    </h2>
+                    <h1 style="font-weight: 900;" class="text-uppercase">{{tag.surname}}
+                        <small ng-show="tag.suffix.toLowerCase().indexOf('jp')>-1 || tag.suffix.toLowerCase().indexOf('san')>-1 ||tag.suffix.toLowerCase().indexOf('ofr')>-1 || tag.suffix.toLowerCase().indexOf('oon')>-1 ||tag.suffix.toLowerCase().indexOf('mon')>-1 || tag.suffix.toLowerCase().indexOf('gcon')>-1 || tag.suffix.toLowerCase().indexOf('cfr')>-1">
+                            {{
+                            tag.suffix }}
+                        </small>
+                    </h1>
+
+                    <h5 ng-if="tag.branch" class="text-uppercase branch print" style="color: #aba7ac !important;">{{tag.branch}} BRANCH</h5>
+                </div>
+                <div style="background-color: #ffd66a;" class="delegate">
+                    <img ng-src="/api/registrations/qrCodeInstant?firstName={{tag.firstName}}&surname={{tag.surname}}&branch={{tag.branch}}&phone={{tag.phone}}&email={{tag.email}}&suffix={{tag.suffix}}">
+                </div>
+
+
+                <div class="qr-code">
+                    <h4 class="text-uppercase text-ellipsis pull-left"> {{tag.registrationCode}}</h4>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="hidden-print text-center">
+        <button class="btn-danger btn" ng-click="cancelPrint()"> CANCEL</button>
     </div>
 </div>

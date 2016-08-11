@@ -1,11 +1,8 @@
 'use strict'
 
 angular.module 'nbaAgcAdminApp'
-.controller 'CustomTagPrinterCtrl', ($scope) ->
-  $scope.nameTags = [
-    {}
-    {}
-  ]
+.controller 'CustomTagPrinterCtrl', ($scope, Registration, toastr) ->
+  $scope.tag = {}
 
   $scope.doingPrint = false
 
@@ -15,7 +12,14 @@ angular.module 'nbaAgcAdminApp'
 
   $scope.cancelPrint = ->
     $scope.doingPrint = false
-    $scope.nameTags = [
-      {}
-      {}
-    ]
+    $scope.tag = {}
+
+  $scope.registerAndPrint = (form) ->
+    if form.$valid
+      Registration.createOfflineReg $scope.tag, (response) ->
+        $scope.printTags form
+        toastr.info response.surname+' was created Onsite!'
+      , (e) ->
+        $scope.doingPrint = false
+        toastr.error 'Data was not saved..please try again!'
+        console.error e.data.err
