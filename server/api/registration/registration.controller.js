@@ -213,7 +213,7 @@ exports.index = function(req, res) {
 
         return res.json(registrations);
       });
-    
+
 
 };
 
@@ -327,7 +327,7 @@ exports.update = function(req, res) {
         updated.statusConfirmed = false;
       }
     }
-      
+
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
       return res.json(200, registration);
@@ -354,7 +354,7 @@ exports.check = function (req,res) {
     {return res.send({status:false});}
     req.query.email.trim();
     var n_sn = new RegExp(req.query.email, 'i');
-    Registration.findOne({$or:[{email:{$regex:n_sn},paymentSuccessful:false},{PaymentRef:req.query.PaymentRef}]}).sort('-lastModified').select('_id' +
+    Registration.findOne({$or:[{email:{$regex:n_sn}},{PaymentRef:req.query.PaymentRef}]}).sort('-lastModified').select('_id' +
       ' email paymentSuccessful')
       .exec(function (err,result) {
         if(err){return handleError(res,err);}
