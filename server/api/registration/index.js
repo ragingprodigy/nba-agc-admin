@@ -20,6 +20,7 @@ router.get('/qrCodeInstant', controller.qrCodeInstant);
 router.get('/groupReport', controller.groupReport);
 router.get('/branchReport', controller.namesByBranch);
 
+router.post('/createOfflineReg', sessionSec, controller.createOfflineReg);
 router.get('/:id', sessionSec, controller.show);
 router.post('/', sessionSec, controller.create);
 router.post('/:id', sessionSec, controller.finalizeDelegate);
