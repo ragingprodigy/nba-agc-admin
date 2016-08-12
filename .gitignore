@@ -36,3 +36,4 @@ client/bower_components
 
 ## Dist Directory is versioned Separately
 #dist
+/server/config/environment/development.js
