@@ -406,7 +406,7 @@ exports.check = function (req, res) {
         }
         req.query.email.trim();
         var n_sn = new RegExp(req.query.email, 'i');
-        Registration.findOne({$or: [{email: {$regex: n_sn}, paymentSuccessful: false}, {PaymentRef: req.query.PaymentRef}]}).sort('-lastModified').select('_id' +
+        Registration.findOne({$or: [{email: {$regex: n_sn}}, {PaymentRef: req.query.PaymentRef}]}).sort('-lastModified').select('_id' +
             ' email paymentSuccessful')
             .exec(function (err, result) {
                 if (err) {

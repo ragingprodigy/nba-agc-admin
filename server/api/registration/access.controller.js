@@ -19,8 +19,23 @@ exports.index = function (req,res) {
     if(err){ return handleError(res, err)}
     var len = 0;
     for (len;len<data.length;len++){
-      var branch = data[len].Branch.split(' ');
-      data[len].Branch = branch[0];
+      var branch = data[len].Branch.split(' ').trim();
+      if (branch[0] == 'ABUJA')
+      {
+        data[len].Branch = 'ABUJA (UNITY BAR)';
+      }
+      else if(branch[0] == 'IKOTEKPENE')
+      {
+        data[len].Branch = 'IKOT EKPENE';
+      }
+      else if(branch[0] == 'MAKUDI')
+      {
+        data[len].Branch = 'MAKURDI';
+      }
+      else {
+        data[len].Branch = branch[0];
+      }
+
       if(data[len].Prefix=='NIL' || data[len].Prefix=='NA' || data[len].Prefix=='N/A')
       {
         data[len].Prefix = '';
