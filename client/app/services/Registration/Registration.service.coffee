@@ -38,4 +38,4 @@ angular.module 'nbaAgcAdminApp'
     Fast:
       method: 'GET'
       isArray: true
-      url: '/api/registrations/fasttrack'
+      url: '/api/registrations/fast'

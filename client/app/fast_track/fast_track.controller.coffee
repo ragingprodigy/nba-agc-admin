@@ -30,24 +30,31 @@ angular.module 'nbaAgcAdminApp'
       $scope.registrations = registrations
 
   $scope.processUser = (reg) ->
-    if reg.user?
-      if not reg.user.bag?.length
-        c = $modal.open
-          animation: true
-          controller: 'BagChooser'
-          backdrop: 'static'
-          templateUrl: 'app/fast_track/choose_bag.html'
-          resolve:
-            bags: ->
-              $scope.bags
+    if confirm 'Are you sure you want to fastTrack this Delegates?'
+      if !reg.fastTracked
+        reg.fastTracked = true
+        reg.fastTrackTime = new Date()
+        Registration.update id:reg._id, reg, ->
+          toastr.success 'Delegate Successfully FastTracked'
 
-        c.result.then (selectedItem) ->
-          if not reg.user then reg.user = {}
-          reg.user.bag = selectedItem
-          $scope.updateUser reg
-        , ->
-          toastr.info "Bag not selected"
-      else $scope.updateUser reg
+#    if reg.user?
+#      if not reg.user.bag?.length
+#        c = $modal.open
+#          animation: true
+#          controller: 'BagChooser'
+#          backdrop: 'static'
+#          templateUrl: 'app/fast_track/choose_bag.html'
+#          resolve:
+#            bags: ->
+#              $scope.bags
+#
+#        c.result.then (selectedItem) ->
+#          if not reg.user then reg.user = {}
+#          reg.user.bag = selectedItem
+#          $scope.updateUser reg
+#        , ->
+#          toastr.info "Bag not selected"
+#      else $scope.updateUser reg
 
   $scope.updateUser = (reg) ->
     # Update the Delegate Status and Bag Count
@@ -76,6 +83,14 @@ angular.module 'nbaAgcAdminApp'
     $scope.selectedInvoice = r
 
 .controller 'FastTrackVipCtrl', ($scope,Registration) ->
+  $scope.processUser = (reg) ->
+    if confirm 'Are you sure you want to fastTrack this Delegates?'
+      if !reg.fastTracked
+        reg.fastTracked = true
+        reg.fastTrackTime = new Date()
+        Registration.update id:reg._id, reg, ->
+          toastr.success 'Delegate Successfully FastTracked'
+
   $scope.condition = {}
   $scope.byVip = ->
     $scope.condition.paymentSuccessful=true;

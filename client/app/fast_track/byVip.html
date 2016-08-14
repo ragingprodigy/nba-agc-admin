@@ -35,13 +35,13 @@
             <td>{{m.email}} -<br> {{m.user.email}}</td>
 
             <td class="text-center">
-              <span ng-show="m.user.fastTracked" class="label label-success">YES</span>
-              <span ng-hide="m.user.fastTracked" class="label label-danger">NOT YET</span>
+              <span ng-show="m.fastTracked" class="label label-success">YES</span>
+              <span ng-hide="m.fastTracked" class="label label-danger">NOT YET</span>
             </td>
             <td>
-                            <span ng-show="m.user.fastTracked" class="label label-info">{{ago(m.user.fastTrackTime)
+                            <span ng-show="m.fastTracked" class="label label-info">{{ago(m.fastTrackTime)
                                 }}</span>
-              <button ng-hide="m.user.fastTracked || !m.user" ng-click="processUser(m)"
+              <button ng-hide="m.fastTracked" ng-click="processUser(m)"
                       class="btn btn-sm btn-block btn-primary">
                 <i class="glyphicon glyphicon-edit"></i> Mark Collected</button></td>
           </tr>
