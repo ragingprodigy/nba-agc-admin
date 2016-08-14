@@ -133,7 +133,7 @@ exports.fastTrack = function (req, res) {
 
     Registration.find()
         .and([
-            {$or: [{email: {$regex: n_sn}}, {mobile: {$regex: n_sn}}, {firstName: {$regex: n_sn}}, {surname: {$regex: n_sn}}, {middleName: {$regex: n_sn}}, {regCode: {$regex: n_sn}}]},
+            {$or: [{email: {$regex: n_sn}}, {mobile: {$regex: n_sn}}, {firstName: {$regex: n_sn}}, {surname: {$regex: n_sn}}, {middleName: {$regex: n_sn}}, {regCode: {$regex: n_sn}},{registrationCode: {$regex: n_sn}}]},
             {paymentSuccessful: true, statusConfirmed: true, responseGotten: true}
         ])
         .populate('user').populate('user._doneBy_').exec(function (err, registrations) {
@@ -198,7 +198,7 @@ exports.stats = function (req, res) {
                 User.count({fastTracked: true}, function (err, count) {
                     ret.fastTracked = count;
 
-                    User.count({tagPrinted: true}, function (err, count) {
+                    Registration.count({tagPrinted: true}, function (err, count) {
                         ret.tagPrinted = count;
 
                         // Fast Tracked Today
@@ -225,19 +225,36 @@ exports.stats = function (req, res) {
 
 // Get list of registrations
 exports.index = function (req, res) {
-
+  console.log(req.query);
     var n_sn = new RegExp(req.query.term, 'i');
     delete req.query.term;
-
     Registration.find()
         .and([
             {$or: [{email: {$regex: n_sn}}, {mobile: {$regex: n_sn}}, {firstName: {$regex: n_sn}}, {surname: {$regex: n_sn}}, {middleName: {$regex: n_sn}}, {regCode: {$regex: n_sn}}, {registrationCode: {$regex: n_sn}}]},
             req.query
         ]).exec(function (err, registrations) {
         if (err) return handleError(res, err);
-
         return res.json(registrations);
     });
+
+
+};
+
+exports.fast = function (req, res) {
+  var regex = new RegExp('.*vip*.','i');
+  if (req.query.vip =='false'){
+    req.query.registrationCode = {$not:regex};
+    delete req.query.vip;
+  }
+  if (req.query.vip =='true'){
+    req.query.registrationCode = regex;
+    delete req.query.vip;
+  }
+  console.log(req.query);
+  Registration.find(req.query).exec(function (err, registrations) {
+    if (err) return handleError(res, err);
+    return res.json(registrations);
+  });
 
 
 };
