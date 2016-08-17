@@ -133,7 +133,7 @@ exports.fastTrack = function (req, res) {
 
     Registration.find()
         .and([
-            {$or: [{email: {$regex: n_sn}}, {mobile: {$regex: n_sn}}, {firstName: {$regex: n_sn}}, {surname: {$regex: n_sn}}, {middleName: {$regex: n_sn}}, {regCode: {$regex: n_sn}}]},
+            {$or: [{email: {$regex: n_sn}}, {mobile: {$regex: n_sn}}, {firstName: {$regex: n_sn}}, {surname: {$regex: n_sn}}, {middleName: {$regex: n_sn}}, {regCode: {$regex: n_sn}},{registrationCode: {$regex: n_sn}}]},
             {paymentSuccessful: true, statusConfirmed: true, responseGotten: true}
         ])
         .populate('user').populate('user._doneBy_').exec(function (err, registrations) {
@@ -142,6 +142,8 @@ exports.fastTrack = function (req, res) {
     });
 };
 
+
+//finalize delegates by dapo
 exports.finalizeDelegate = function (req, res) {
 
     function decreaseBag(res, bag, registration) {
@@ -183,6 +185,7 @@ exports.finalizeDelegate = function (req, res) {
     });
 };
 
+
 exports.stats = function (req, res) {
     var ret = {};
     Registration.count({paymentSuccessful: true, statusConfirmed: true, responseGotten: true}, function (err, count) {
@@ -195,16 +198,16 @@ exports.stats = function (req, res) {
             Registration.count({paymentSuccessful: false, webpay: false, responseGotten: false}, function (err, count) {
                 ret.pendingDirect = count;
 
-                User.count({fastTracked: true}, function (err, count) {
+                Registration.count({fastTracked: true}, function (err, count) {
                     ret.fastTracked = count;
 
-                    User.count({tagPrinted: true}, function (err, count) {
+                    Registration.count({tagPrinted: true}, function (err, count) {
                         ret.tagPrinted = count;
 
                         // Fast Tracked Today
                         var d = new Date(), month = d.getMonth(), year = d.getFullYear(), day = d.getDate();
 
-                        User.count({fastTrackTime: {$gt: new Date(year + ',' + (month + 1) + ',' + day)}}, function (err, count) {
+                        Registration.count({fastTrackTime: {$gt: new Date(year + ',' + (month + 1) + ',' + day)}}, function (err, count) {
                             ret.fastTrackedToday = count;
 
                             Access.count({resolved: false, dataType: 'online', deleted: {$ne: true}}, function (err, count) {
@@ -225,19 +228,36 @@ exports.stats = function (req, res) {
 
 // Get list of registrations
 exports.index = function (req, res) {
-
+  console.log(req.query);
     var n_sn = new RegExp(req.query.term, 'i');
     delete req.query.term;
-
     Registration.find()
         .and([
             {$or: [{email: {$regex: n_sn}}, {mobile: {$regex: n_sn}}, {firstName: {$regex: n_sn}}, {surname: {$regex: n_sn}}, {middleName: {$regex: n_sn}}, {regCode: {$regex: n_sn}}, {registrationCode: {$regex: n_sn}}]},
             req.query
         ]).exec(function (err, registrations) {
         if (err) return handleError(res, err);
-
         return res.json(registrations);
     });
+
+
+};
+
+exports.fast = function (req, res) {
+  var regex = new RegExp('.*vip*.','i');
+  if (req.query.vip =='false'){
+    req.query.registrationCode = {$not:regex};
+    delete req.query.vip;
+  }
+  if (req.query.vip =='true'){
+    req.query.registrationCode = regex;
+    delete req.query.vip;
+  }
+  console.log(req.query);
+  Registration.find(req.query).exec(function (err, registrations) {
+    if (err) return handleError(res, err);
+    return res.json(registrations);
+  });
 
 
 };
@@ -360,17 +380,19 @@ exports.update = function (req, res) {
             return res.send(404);
         }
         var updated = _.merge(registration, req.body);
-        if (registration.paymentSuccessful == false)
-            if (updated.conferenceFee <= Number(updated.bankDeposit)) {
-                updated.responseGotten = true;
-                updated.paymentSuccessful = true;
-                updated.statusConfirmed = true;
-            }
-            else {
-                updated.responseGotten = true;
-                updated.paymentSuccessful = false;
-                updated.statusConfirmed = false;
-            }
+        if (registration.paymentSuccessful == false){
+          if (updated.conferenceFee <= Number(updated.bankDeposit)) {
+            updated.responseGotten = true;
+            updated.paymentSuccessful = true;
+            updated.statusConfirmed = true;
+          }
+          else {
+            updated.responseGotten = true;
+            updated.paymentSuccessful = false;
+            updated.statusConfirmed = false;
+          }
+        }
+
         updated.save(function (err) {
             if (err) {
                 return handleError(res, err);
@@ -406,7 +428,7 @@ exports.check = function (req, res) {
         }
         req.query.email.trim();
         var n_sn = new RegExp(req.query.email, 'i');
-        Registration.findOne({$or: [{email: {$regex: n_sn}, paymentSuccessful: false}, {PaymentRef: req.query.PaymentRef}]}).sort('-lastModified').select('_id' +
+        Registration.findOne({$or: [{email: {$regex: n_sn}}, {PaymentRef: req.query.PaymentRef}]}).sort('-lastModified').select('_id' +
             ' email paymentSuccessful')
             .exec(function (err, result) {
                 if (err) {

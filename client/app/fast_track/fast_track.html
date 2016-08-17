@@ -1,67 +1,35 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="jumbotron">
-    <div class="container">
-        <h2>
-            FAST TRACK (Tag and Bag PICKUP)
-            <div class="pull-right">
-                <form class="form-inline" name="mForm" ng-submit="mForm.$valid && doLookup()">
-                    <div class="form-group">
-                        <input type="text" class="form-control" ng-model="term" autofocus required
-                               placeholder="REGISTRATION CODE, NAME, PHONE, EMAIL">
-                    </div>
-                    <button class="btn btn-success" ng-disabled="mForm.$invalid"><i class="glyphicon glyphicon-search"></i>
-                        Search</button>
-                </form>
-            </div>
-        </h2>
-    </div>
+  <div class="container">
+    <h2>
+      FAST TRACK (Tag and Bag PICKUP)
+      <div class="pull-right">
+        <form class="form-inline" name="mForm" ng-submit="mForm.$valid && doLookup()">
+          <div class="form-group">
+            <input type="text" class="form-control" ng-model="term" autofocus required
+                   placeholder="REG CODE, NAME, PHONE, EMAIL">
+          </div>
+          <button class="btn btn-success" ng-disabled="mForm.$invalid"><i class="glyphicon glyphicon-search"></i>
+            Search</button>
+        </form>
+      </div>
+    </h2>
+  </div>
 </div>
-
-<div ui-view></div>
 
 <div class="container">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            DELEGATES FOUND - {{registrations.length}}
-        </div>
-        <div class="panel-body main-grid">
-            <div class="row">
-                <table class="table table-hover table-striped" datatable="ng">
-                    <thead class="bg-success">
-                    <tr>
-                        <th>Name</th>
-                        <th>Code</th>
-                        <th>FEE</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th>Bag</th>
-                        <th>PROCESSED</th>
-                        <th/>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="m in registrations">
-                        <td>{{m.prefix}} {{m.firstName}} {{m.middleName}} <b>{{m.surname}}</b></td>
-                        <td>{{m.regCode}}-{{m.conferenceFee}}</td>
-                        <td>N {{formatMoney(m.conferenceFee)}}</td>
-                        <td>{{m.mobile}}</td>
-                        <td>{{m.email}} -<br> {{m.user.email}}</td>
-                        <td>{{m.user.bag}}</td>
-                        <td class="text-center">
-                            <span ng-show="m.user.fastTracked" class="label label-success">YES</span>
-                            <span ng-hide="m.user.fastTracked" class="label label-danger">NOT YET</span>
-                        </td>
-                        <td>
-                            <span ng-show="m.user.fastTracked" class="label label-info">{{ago(m.user.fastTrackTime)
-                                }}</span>
-                            <button ng-hide="m.user.fastTracked || !m.user" ng-click="processUser(m)"
-                                    class="btn btn-sm btn-block btn-primary">
-                            <i class="glyphicon glyphicon-edit"></i> Mark Collected</button></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+  <div class="panel panel-default" style="border-radius: 5px; border: #007a21 solid">
+    <div class="panel-body">
+      <div class="text-center">
+        <a class="btn btn-primary" ui-sref=".bybranch"><i class="fa fa-home"></i> BY BRANCH</a>
+        <a class="btn btn-info"><i class="fa fa-group"></i> BY GROUPS</a>
+        <a class="btn btn-success" ui-sref=".byVip"><i class="fa fa-user-secret"></i> BY VIP'S</a>
+        <a class="btn btn-info" ui-sref=".byIndividual"><i class="fa fa-user"></i> BY INDIVIDUAL</a>
+      </div>
     </div>
+  </div>
 </div>
+<div ui-view></div>
+
+
