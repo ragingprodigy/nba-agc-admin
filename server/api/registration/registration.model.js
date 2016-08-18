@@ -123,7 +123,12 @@ var RegistrationSchema = new Schema({
     responseGotten: { type: Boolean, default: false },
     certPrinted: { type: Boolean, default: false },
     _uploaded: { type: Boolean, default: false },
-    _uploadTime: Date
+    _uploadTime: Date,
+  fastTracked: {
+    type: Boolean,
+    default: false
+  },
+  fastTrackTime: Date,
 });
 
 RegistrationSchema.statics.pRef = pRef;

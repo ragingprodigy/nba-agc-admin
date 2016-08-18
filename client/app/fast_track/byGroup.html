@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="panel panel-default">
+    <div class="pull-right">
+      <select name="branch" ng-change="byBranch(selectedBranch)" id="branch" ng-model="selectedBranch"
+              class="form-control">
+        <option value="">Please select a Branch</option>
+        <option  ng-repeat=" branch in branchData | orderBy:'-name':'reverse'"
+                 value="{{branch.name}}">{{branch.name}}
+        </option>
+      </select>
+    </div>
+    <div class="panel-heading">
+      DELEGATES FOUND - {{registrations.length}}
+    </div>
+    <div class="panel-body main-grid">
+      <div class="row">
+        <table class="table table-hover table-striped" datatable="ng">
+          <thead class="bg-success">
+          <tr>
+            <th>Name</th>
+            <th>Code</th>
+            <th>FEE</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>PROCESSED</th>
+            <th/>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="m in registrations">
+            <td> {{m.firstName}} {{m.middleName}} <b>{{m.surname}} {{m.suffix}}</b></td>
+            <td>{{m.registrationCode}}</td>
+            <td>N {{formatMoney(m.conferenceFee)}}</td>
+            <td>{{m.mobile}}</td>
+            <td>{{m.email}} -<br> {{m.user.email}}</td>
+
+            <td class="text-center">
+              <span ng-show="m.fastTracked" class="label label-success">YES</span>
+              <span ng-hide="m.fastTracked" class="label label-danger">NOT YET</span>
+            </td>
+            <td>
+                            <span ng-show="m.fastTracked" class="label label-info">{{ago(m.fastTrackTime)
+                                }}</span>
+              <button ng-hide="m.fastTracked" ng-click="processUser(m)"
+                      class="btn btn-sm btn-block btn-primary">
+                <i class="glyphicon glyphicon-edit"></i> Mark Collected</button></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

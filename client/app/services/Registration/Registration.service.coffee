@@ -35,6 +35,10 @@ angular.module 'nbaAgcAdminApp'
     createOfflineReg:
       method: 'POST'
       url: '/api/registrations/createOfflineReg'
+    Fast:
+      method: 'GET'
+      isArray: true
+      url: '/api/registrations/fast'
     addGroup:
       method: 'POST'
       url: '/api/registrations/addGroup'
