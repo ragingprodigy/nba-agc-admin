@@ -13,12 +13,15 @@
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <div class="panel-title">Tag 1</div>
+                        <div class="panel-title">Tag 1
+                            <i ng-click="makeGroup()" class="btn btn-xs btn-outline-success pull-right">GROUP</i>
+                        </div>
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
                             <label for="leftTitle">Title</label>
-                            <input class="form-control" ng-model="tag.title" id="leftTitle">
+                            <select class="form-control" ng-model="tag.title" ng-options="item for item in titles"
+                                    id="leftTitle"></select>
                         </div>
                         <div class="form-group">
                             <label for="leftFirstName">First Name <span class="required">*</span> </label>
@@ -30,11 +33,13 @@
                         </div>
                         <div class="form-group">
                             <label for="leftSuf">Suffix</label>
-                            <input class="form-control" ng-model="tag.suffix" id="leftSuf">
+                            <select class="form-control" ng-model="tag.suffix" ng-options="item for item in suffixes"
+                                    id="leftSuf"></select>
                         </div>
                         <div class="form-group">
-                            <label for="leftBranch">Branch </label>
-                            <input class="form-control" ng-model="tag.branch" id="leftBranch">
+                            <label for="leftBranch">Select Branch </label>
+                            <select class="form-control" ng-model="tag.branch" ng-options="item as item._id for item in branches track by item._id"
+                                    id="leftBranch"></select>
                         </div>
                         <div class="form-group">
                             <label for="leftCode">Registration Code </label>
@@ -48,96 +53,80 @@
                             <label for="leftEmail">Email </label>
                             <input class="form-control" ng-model="tag.email" id="leftEmail">
                         </div>
+                        <div class="form-group">
+                            <label for="leftYearCalled">Year Of Call </label>
+                            <input pattern="" maxlength="4" class="form-control" ng-model="tag.yearCalled" id="leftYearCalled">
+                        </div>
+                        <div ng-if="isGroup" class="form-group">
+                            <label for="leftGroup">Group </label>
+                            <select class="form-control" ng-model="tag.group" ng-options="item as item.groupName for item in groups track by item._id" id="leftGroup" ></select>
+                        </div>
                     </div>
                 </div>
-                <button class="btn-lg btn-success btn" type="submit" ng-disabled="tagForm.$invalid"> <i
-                        class="glyphicon glyphicon-print"></i> PRINT TAG</button>
-                <button class="btn-lg btn-primary btn" ng-click="registerAndPrint(tagForm)" ng-disabled="tagForm.$invalid"> <i
-                        class="glyphicon glyphicon-book"></i>REGISTER & PRINT TAG</button>
+                <button class="btn-lg btn-success btn" type="submit" ng-disabled="tagForm.$invalid"><i
+                        class="glyphicon glyphicon-print"></i> PRINT TAG
+                </button>
+                <button class="btn-lg btn-primary btn pull-right" ng-click="registerAndPrint(tagForm)" ng-disabled="tagForm.$invalid"><i
+                        class="glyphicon glyphicon-book"></i>REGISTER & PRINT TAG
+                </button>
             </div>
-<!--
-            <div class="col-md-6">
+
+            <!--Secion to Add new Group-->
+            <div class="col-md-3" ng-if="isGroup">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <div class="panel-title">Tag 2</div>
+                        <div class="panel-title">Add New Group
+                        </div>
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <label for="rightTitle">Title</label>
-                            <input class="form-control" ng-model="nameTags[1].title" id="rightTitle">
-                        </div>
-                        <div class="form-group">
-                            <label for="rightFirstName">First Name <span class="required">*</span> </label>
-                            <input class="form-control" ng-model="nameTags[1].firstName" id="rightFirstName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="rightSurname">Surname <span class="required">*</span> </label>
-                            <input class="form-control" ng-model="nameTags[1].surname" id="rightSurname" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="rightSuf">Suffix</label>
-                            <input class="form-control" ng-model="nameTags[1].suffix" id="rightSuf">
-                        </div>
-                        <div class="form-group">
-                            <label for="rightBranch">Branch </label>
-                            <input class="form-control" ng-model="nameTags[1].branch" id="rightBranch" >
-                        </div>
-                        <div class="form-group">
-                            <label for="rightCode">Registration Code </label>
-                            <input class="form-control" ng-model="nameTags[1].code" id="rightCode">
-                        </div>
-                        <div class="form-group">
-                            <label for="rightPhone">Phone </label>
-                            <input type="tel" class="form-control" ng-model="nameTags[1].phone" id="rightPhone">
-                        </div>
-                        <div class="form-group">
-                            <label for="rightEmail">Email </label>
-                            <input class="form-control" ng-model="nameTags[1].email" id="rightEmail">
+                            <label for="leftTitle">Group</label>
+                            <input type="text" class="form-control" ng-model="group.groupName" />
                         </div>
                     </div>
                 </div>
+                <button class="btn-xs btn-primary btn" ng-click="addGroup(group)" >
+                    <i class="fa fa-user"></i> ADD GROUP
+                </button>
             </div>
--->
         </div>
-
-
     </form>
 </div>
 
 <div class="container tag-printer" ng-if="doingPrint">
 
     <div class="row">
-<!--
-        <div class="my-col text-center" ng-repeat="tag in nameTags" ng-class="{'right':($index%2)}">
-            <div class="card" style="-webkit-transform: rotate(180deg);">
-                <div class="name-layer"></div>
-                <div class="name-row reverse" contenteditable>
-                    <h3 class="prefix text-ellipsis"><span ng-hide="tag.title.toLowerCase().indexOf('mr')>-1||tag.title.toLowerCase().indexOf('mis')>-1">{{tag.title}}</span></h3>
-                    <h1 class="text-uppercase">{{tag.name}} <small>{{tag.suffix}}</small></h1>
-                    <h4 class="text-uppercase company text-ellipsis">{{tag.company}}</h4>
+        <!--
+                <div class="my-col text-center" ng-repeat="tag in nameTags" ng-class="{'right':($index%2)}">
+                    <div class="card" style="-webkit-transform: rotate(180deg);">
+                        <div class="name-layer"></div>
+                        <div class="name-row reverse" contenteditable>
+                            <h3 class="prefix text-ellipsis"><span ng-hide="tag.title.toLowerCase().indexOf('mr')>-1||tag.title.toLowerCase().indexOf('mis')>-1">{{tag.title}}</span></h3>
+                            <h1 class="text-uppercase">{{tag.name}} <small>{{tag.suffix}}</small></h1>
+                            <h4 class="text-uppercase company text-ellipsis">{{tag.company}}</h4>
+                        </div>
+                        <div class="qr-code">
+                            <h6>{{tag.code}}</h6>
+                            <img
+                                    ng-src="/api/registrations/qrCodeInstant?name={{tag.name}}&company={{tag.company}}&phone={{tag.phone}}">
+                        </div>
+                    </div>
+                    <div class="card regular">
+                        <div class="name-layer"></div>
+                        <div class="name-row" contenteditable>
+                            <h3 class="prefix text-ellipsis"><span ng-hide="tag.title.toLowerCase().indexOf('mr')>-1||tag.title.toLowerCase().indexOf('mis')>-1">{{tag.title}}</span></h3>
+                            <h1 class="text-uppercase">{{tag.name}} <small>{{tag.suffix}}</small></h1>
+                            <h4 class="text-uppercase company text-ellipsis">{{tag.company}}</h4>
+                        </div>
+                        <div class="qr-code">
+                            <img
+                                    ng-src="/api/registrations/qrCodeInstant?name={{tag.name}}&company={{tag.company}}&phone={{tag.phone}}">
+                        </div>
+                    </div>
                 </div>
-                <div class="qr-code">
-                    <h6>{{tag.code}}</h6>
-                    <img
-                            ng-src="/api/registrations/qrCodeInstant?name={{tag.name}}&company={{tag.company}}&phone={{tag.phone}}">
-                </div>
-            </div>
-            <div class="card regular">
-                <div class="name-layer"></div>
-                <div class="name-row" contenteditable>
-                    <h3 class="prefix text-ellipsis"><span ng-hide="tag.title.toLowerCase().indexOf('mr')>-1||tag.title.toLowerCase().indexOf('mis')>-1">{{tag.title}}</span></h3>
-                    <h1 class="text-uppercase">{{tag.name}} <small>{{tag.suffix}}</small></h1>
-                    <h4 class="text-uppercase company text-ellipsis">{{tag.company}}</h4>
-                </div>
-                <div class="qr-code">
-                    <img
-                            ng-src="/api/registrations/qrCodeInstant?name={{tag.name}}&company={{tag.company}}&phone={{tag.phone}}">
-                </div>
-            </div>
-        </div>
--->
+        -->
 
-        <div class="my-col page text-center" > <!--ng-repeat="tag in nameTags"--> <!-- ng-class="{'right':($index%2)}" -->
+        <div class="my-col page text-center"> <!--ng-repeat="tag in nameTags"--> <!-- ng-class="{'right':($index%2)}" -->
 
             <div class="card" style="-webkit-transform: rotate(180deg);">
 

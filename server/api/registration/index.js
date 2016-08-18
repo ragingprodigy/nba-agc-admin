@@ -17,8 +17,12 @@ router.post('/access/resolve', sessionSec, controller2.resolve);
 router.get('/qrCode', controller.qrCode);
 router.get('/qrCodeInstant', controller.qrCodeInstant);
 
+router.get('/allGroups', sessionSec, controller.allGroups);
+
 router.get('/groupReport', controller.groupReport);
 router.get('/branchReport', controller.namesByBranch);
+
+router.post('/addGroup', sessionSec, controller.addGroup);
 
 router.post('/createOfflineReg', sessionSec, controller.createOfflineReg);
 router.get('/:id', sessionSec, controller.show);
