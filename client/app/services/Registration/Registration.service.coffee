@@ -39,3 +39,11 @@ angular.module 'nbaAgcAdminApp'
       method: 'GET'
       isArray: true
       url: '/api/registrations/fast'
+    addGroup:
+      method: 'POST'
+      url: '/api/registrations/addGroup'
+      isArray: true
+    allGroups:
+      method: 'GET'
+      url: '/api/registrations/allGroups'
+      isArray: true

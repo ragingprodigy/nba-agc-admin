@@ -3,7 +3,9 @@
 var _ = require('lodash');
 var Registration = require('./registration.model'),
     OfflineReg = require('./offlineReg.model'),
+    OfflineGroup = require('../user/offlineGroup.model'),
     User = require('../user/user.model'),
+    OfflineUser = require('../user/offlineUser.model'),
     Invoice = require('../invoice/invoice.model'),
     Bag = require('../bag/bag.model'),
     Sponsor = require('../sponsor/sponsor.model'),
@@ -459,12 +461,55 @@ exports.check = function (req, res) {
     }
 };
 
+// Create an offline registration
 exports.createOfflineReg = function (req, res) {
-    OfflineReg.create(req.body, function (err, offlineReg) {
+
+    // Declare User to store on User's collection
+    var user = {
+        accountType: req.body.group ? 'group' : 'single',
+        email: req.body.email,
+        phone: req.body.phone,
+        groupName : req.body.group ? 'group' : req.body.group,
+        fastTracked: true,
+        _doneBy_: req.user,
+        _staff_: req.user,
+        fastTrackTime: Date.now()
+    };
+
+    OfflineUser.create(user, function (err, newUser) {
         if (err) {
             return handleError(res, err);
         }
-        return res.status(201).json(offlineReg);
+
+        req.body.user = newUser._id;
+        OfflineReg.create(req.body, function (err, offlineReg) {
+            if (err) {
+                return handleError(res, err);
+            }
+            return res.status(201).json(offlineReg);
+        });
+    });
+};
+
+// Add a new offline group used for offline registrations
+exports.addGroup = function (req, res) {
+    if (typeof req.body.groupName === 'undefined' || req.body.groupName === '') {
+        return res.status(406).json({message : 'Group cannot be empty!'});
+    }
+    OfflineGroup.create(req.body, function (err, group) {
+        if (err) { return handleError(res, err); }
+        OfflineGroup.find({}, function (err, allGroups) {
+            if (err) { return handleError(res, err); }
+            res.send(allGroups);
+        });
+    });
+};
+
+// Get all groups to populate group select box
+exports.allGroups = function (req, res) {
+    OfflineGroup.find({}, function (err, allGroups) {
+        if (err) { return handleError(res, err); }
+        res.send(allGroups);
     });
 };
 
