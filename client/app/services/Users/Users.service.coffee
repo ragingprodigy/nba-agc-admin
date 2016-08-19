@@ -12,3 +12,7 @@ angular.module 'nbaAgcAdminApp'
       method:'GET'
       url: '/api/users/getGroups'
       isArray:true
+    getDistinctGroups:
+      method: 'GET'
+      url: '/api/users/getDistinctGroups'
+      isArray: true
