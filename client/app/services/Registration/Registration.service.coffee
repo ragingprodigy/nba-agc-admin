@@ -35,6 +35,12 @@ angular.module 'nbaAgcAdminApp'
     createOfflineReg:
       method: 'POST'
       url: '/api/registrations/createOfflineReg'
+    createGroupAdminOfflineReg:
+      method: 'POST'
+      url: '/api/registrations/createGroupAdminOfflineReg'
+    createGroupMemberOfflineReg:
+      method: 'POST'
+      url: '/api/registrations/createGroupMemberOfflineReg'
     Fast:
       method: 'GET'
       isArray: true
@@ -45,3 +51,11 @@ angular.module 'nbaAgcAdminApp'
     IndividualFastTracked:
       method: 'POST'
       url: '/api/registrations/individualFastTracked'
+    addGroup:
+      method: 'POST'
+      url: '/api/registrations/addGroup'
+      isArray: true
+    allGroups:
+      method: 'GET'
+      url: '/api/registrations/allGroups'
+      isArray: true
