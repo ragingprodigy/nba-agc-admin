@@ -39,3 +39,9 @@ angular.module 'nbaAgcAdminApp'
       method: 'GET'
       isArray: true
       url: '/api/registrations/fast'
+    BranchFastTracked:
+      method: 'POST'
+      url: '/api/registrations/branchFastTracked'
+    IndividualFastTracked:
+      method: 'POST'
+      url: '/api/registrations/individualFastTracked'

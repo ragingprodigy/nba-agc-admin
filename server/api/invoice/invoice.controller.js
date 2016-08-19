@@ -3,6 +3,9 @@
 var _ = require('lodash');
 var Invoice = require('./invoice.model');
 var mongoose = require('mongoose');
+var Async = require('async');
+var mailer = require('../../components/tools/mailer');
+
 
 // Get list of invoices
 exports.index = function(req, res) {
@@ -84,6 +87,29 @@ exports.destroy = function(req, res) {
       if(err) { return handleError(res, err); }
       return res.send(204);
     });
+  });
+};
+
+//send collection of material to individual
+exports.groupFastTracked = function (req,res) {
+  req.query.Time = new Date;
+  console.log(req.query);
+  console.log(req.body);
+  Async.series([function (callback) {
+    _.each(req.body,function (reg) {
+      //TODO: add sending collection of material to phone number
+       mailer.sendGroupCollected(req.query,reg);
+    });
+    callback();
+  }],function (err) {
+    if (err)
+    {
+      return next(err);
+    }
+    Invoice.update({_id: req.query.id}, { $set: { fastTrackTime: req.query.Time,fastTracked:true} }, function(){
+      return res.status(200).json({message:'Collection Message has been sent to Group members Successfully',fastTrackTime: req.query.Time});
+    });
+
   });
 };
 

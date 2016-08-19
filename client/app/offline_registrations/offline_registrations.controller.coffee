@@ -7,7 +7,10 @@ angular.module 'nbaAgcAdminApp'
   .$promise.then (registrations) ->
     $scope.registrations = registrations
 
-.controller 'LegalPractitionerCtrl', ($scope, $state, Member, Registration, $stateParams) ->
+.controller 'LegalPractitionerCtrl', ($scope, $state, Member, Registration, $stateParams,Branch) ->
+  Branch.query {}
+  .$promise.then (branches) ->
+    $scope.branchData = branches
 
   if $stateParams.id?
     Registration.get id: $stateParams.id
@@ -63,7 +66,10 @@ angular.module 'nbaAgcAdminApp'
         , (err) ->
           console.log "Save Error: ", err
 
-.controller 'SanAndBenchCtrl', ($scope, $state, Registration, $stateParams) ->
+.controller 'SanAndBenchCtrl', ($scope, $state, Registration, $stateParams,Branch) ->
+  Branch.query {}
+  .$promise.then (branches) ->
+    $scope.branchData = branches
 
   $scope.years = [2014..1960]
 
@@ -96,8 +102,10 @@ angular.module 'nbaAgcAdminApp'
         , (err) ->
           console.log "Save Error: ", err
 
-.controller 'MagistratesCtrl', ($scope, $state, Registration, $stateParams) ->
-
+.controller 'MagistratesCtrl', ($scope, $state, Registration, $stateParams,Branch) ->
+  Branch.query {}
+  .$promise.then (branches) ->
+    $scope.branchData = branches
   $scope.years = [2014..1960]
 
   if $stateParams.id?
@@ -129,8 +137,10 @@ angular.module 'nbaAgcAdminApp'
         , (err) ->
           console.log "Save Error: ", err
 
-.controller 'JudgesCtrl', ($scope, $state, Registration, $stateParams) ->
-
+.controller 'JudgesCtrl', ($scope, $state, Registration, $stateParams, Branch) ->
+  Branch.query {}
+  .$promise.then (branches) ->
+    $scope.branchData = branches
   $scope.years = [2014..1960]
 
   if $stateParams.id?
@@ -163,7 +173,7 @@ angular.module 'nbaAgcAdminApp'
           console.log "Save Error: ", err
 
 .controller 'OthersCtrl', ($scope, $state, Registration, $stateParams) ->
-
+  
   $scope.years = [2014..1960]
 
   if $stateParams.id?
