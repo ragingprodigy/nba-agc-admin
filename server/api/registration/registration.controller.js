@@ -13,7 +13,10 @@ var Registration = require('./registration.model'),
     request = require('request'),
     parseString = require('xml2js').parseString,
     csv = require('express-csv'),
-    Access = require('./access.model');
+    Access = require('./access.model'),
+    moment = require('moment'),
+    Async = require('async'),
+    Branch = require('../branch/branch.model');
 
 var ObjectId = require('mongoose').Types.ObjectId;
 var qr = require('qr-image');
@@ -141,6 +144,7 @@ exports.fastTrack = function (req, res) {
         .populate('user').populate('user._doneBy_').exec(function (err, registrations) {
         if (err) return handleError(res, err);
         return res.json(registrations);
+
     });
 };
 
@@ -255,13 +259,18 @@ exports.fast = function (req, res) {
     req.query.registrationCode = regex;
     delete req.query.vip;
   }
-  console.log(req.query);
-  Registration.find(req.query).exec(function (err, registrations) {
-    if (err) return handleError(res, err);
-    return res.json(registrations);
-  });
 
-
+  if (req.query.isGroup == 'true'){
+    Registration.find(req.query).populate('owner', 'groupName email phone').select('prefix suffix email conferenceFee mobile registrationCode firstName surname owner branch fastTracked fastTrackTime').exec(function (err, registrations) {
+      if (err) return handleError(res, err);
+      return res.json(registrations);
+    });
+  }else{
+    Registration.find(req.query).exec(function (err, registrations) {
+      if (err) return handleError(res, err);
+      return res.json(registrations);
+    });
+  }
 };
 
 // Get a single registration
@@ -575,6 +584,48 @@ exports.allGroups = function (req, res) {
         res.send(allGroups);
     });
 };
+
+//send collection of materials to branch
+exports.branchFastTracked = function (req,res) {
+  req.query.Time = moment().format('lll');
+  Async.series([function (callback) {
+    _.each(req.body,function (reg) {
+      //TODO: add sending collection of material to phone number
+      mailer.sendBranchCollected(req.query,reg);
+    });
+    callback();
+  }],function (err) {
+    if (err)
+    {
+      return next(err);
+    }
+    Branch.update({_id: req.query.id}, { $set: { fastTrackTime: req.query.Time,fastTracked:true} }, function(){
+      return res.status(200).json({message:'Collection Message has been sent to Branch members Successfully'});
+    });
+
+  });
+
+};
+
+//send collection of material to individual
+exports.individualFastTracked = function (req,res) {
+  req.body.fastTrackTime = new Date;
+  Async.series([function (callback) {
+     mailer.sendIndividualCollected(req.body);
+    callback();
+  }],function (err) {
+    if (err)
+    {
+      return next(err);
+    }
+    Registration.update({_id: req.query.id},{ $set: { fastTrackTime: req.body.fastTrackTime,fastTracked:true}
+  },function () {
+      return res.status(200).json({message:'FastTrack Message has been sent to Delegate Successfully',fasTtrackTime:req.body.fastTrackTime});
+    });
+  });
+
+};
+
 
 function handleError(res, err) {
     console.error(err);

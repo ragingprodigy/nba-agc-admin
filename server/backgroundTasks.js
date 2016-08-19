@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 var Agenda = require('agenda');
@@ -610,3 +611,4 @@ agenda.every('.02 hours', [ 'Send Bank Payment Success SMS for Groups', 'Send Ba
 agenda.now('Create Accounts for Direct Bank Registrations');
 
 exports.start = function() { agenda.start(); };
+*/

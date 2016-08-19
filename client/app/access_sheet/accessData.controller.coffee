@@ -165,8 +165,8 @@ angular.module 'nbaAgcAdminApp'
       d.material = 'branch'
       d.yearCalled = m.YearCalled
       d.nbaId = m.EnrolmentNo
-      branch = m.Branch.trim().replace('-',' ');
-      branch = branch.toUpperCase().trim();
+      branch = m.Branch.trim().replace('-',' ')
+      branch = branch.toUpperCase()
       if branch is 'ABUJA'
         branch = 'ABUJA (UNITY BAR)'
       d.branch = branch
