@@ -40,16 +40,26 @@ angular.module 'nbaAgcAdminApp'
 .controller 'LNameTagsCtrl', ($scope, RegisteredUser, $state, printed, $localStorage) ->
   $scope.perPage = $localStorage.usersPerPage or 50
   $scope.currentPage = 1
+  $scope.currentPageUnprinted = 1
   $scope.pageSizes = [25, 50, 100]
   $scope.printed = printed
   $scope.term = ''
+  $scope.checkUnprinted = false
 
   $scope.selection = []
   $scope.selectedAll = false
 
+  $scope.toggleCheckUnprinted = ->
+#    $scope.checkUnprinted = !$scope.checkUnprinted
+    $scope.pageChanged()
+
   $scope.pageChanged = ->
-    $localStorage.usersPerPage = $scope.perPage
-    $scope.load $scope.currentPage
+    if $scope.checkUnprinted is true
+      $localStorage.usersPerPage = $scope.perPage
+      $scope.loadUnprinted $scope.currentPage
+    else
+      $localStorage.usersPerPage = $scope.perPage
+      $scope.load $scope.currentPage
 
   $scope.checkAll = ->
     $scope.selection = []
@@ -75,7 +85,10 @@ angular.module 'nbaAgcAdminApp'
       $scope.total = parseInt headers "total_found"
       $scope.pages = Math.ceil($scope.total / $scope.perPage)
 
-  $scope.load 1
+  if $scope.checkUnprinted is true
+    $scope.loadUnprinted 1
+  else
+    $scope.load 1
 
   $scope.doLookup = ->
     RegisteredUser.query name: $scope.term

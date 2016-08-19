@@ -14,7 +14,7 @@
                 <div class="input-group button-group">
                     <select class="form-control" ng-model="perPage" ng-options="item for item in pageSizes"
                             ng-change="pageChanged()"></select>
-                    <input class="btn btn-primary" type="radio" ng-click="loadUnprinted(1)"> ONLY UNPRINTED
+                    <input class="btn btn-primary" type="checkbox" ng-click="toggleCheckUnprinted()" ng-model="checkUnprinted"> ONLY UNPRINTED
                 </div>
             </div>
             <div class="text-center">
