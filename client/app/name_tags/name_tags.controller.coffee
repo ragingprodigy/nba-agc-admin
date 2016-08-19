@@ -66,6 +66,15 @@ angular.module 'nbaAgcAdminApp'
       $scope.total = parseInt headers "total_found"
       $scope.pages = Math.ceil($scope.total / $scope.perPage)
 
+  $scope.loadUnprinted = (page) ->
+    RegisteredUser.allUnprintedUsersForNameTags
+      page: page
+      perPage: $scope.perPage
+    , (result, headers) ->
+      $scope.users = result
+      $scope.total = parseInt headers "total_found"
+      $scope.pages = Math.ceil($scope.total / $scope.perPage)
+
   $scope.load 1
 
   $scope.doLookup = ->

@@ -11,9 +11,10 @@
                         </form>-->
 
             <div class="form-group pull-right">
-                <div class="input-group">
+                <div class="input-group button-group">
                     <select class="form-control" ng-model="perPage" ng-options="item for item in pageSizes"
                             ng-change="pageChanged()"></select>
+                    <input class="btn btn-primary" type="radio" ng-click="loadUnprinted(1)"> ONLY UNPRINTED
                 </div>
             </div>
             <div class="text-center">
@@ -37,7 +38,8 @@
             <div class="row">
                 <div class="text-center" ng-show="selection.length" style="margin: 10px auto;">
                     <button class="btn btn-primary"
-                            ng-click="printSelected()"><i class="fa fa-print"></i> PRINT SELECTED</button>
+                            ng-click="printSelected()"><i class="fa fa-print"></i> PRINT SELECTED
+                    </button>
                 </div>
                 <table class="table table-hover">
                     <thead class="bg-primary">
@@ -53,12 +55,12 @@
                     <tbody>
                     <tr ng-repeat="r in users">
                         <td>{{(currentPage-1)*perPage+$index+1}}. <input ng-hide="printed" class="pull-right" type="checkbox" value="{{r._id}}"
-                                                 ng-click="toggleSelection(r._id)" ng-checked="selection.indexOf(r._id) > -1">
+                                                                         ng-click="toggleSelection(r._id)" ng-checked="selection.indexOf(r._id) > -1">
                         </td>
                         <td>{{r.prefix}} {{r.firstName}} {{r.surname}} {{r.suffix}}</td>
                         <td>{{r.branch}}</td>
                         <td>{{r.registrationCode}}</td>
-                        <td ng-class="{'alert-success': r.tagPrinted==true ,'alert-danger': r.tagPrinted==false}">{{r.tagPrinted}} </td>
+                        <td ng-class="{'alert-success': r.tagPrinted==true ,'alert-danger': r.tagPrinted==false}">{{r.tagPrinted}}</td>
                         <td ng-show="printed">
                             <button class="btn btn-xs btn-block btn-primary">PRINT TAG
                             </button>

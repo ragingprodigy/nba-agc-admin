@@ -4,6 +4,7 @@ var _ = require('lodash');
 var User = require('./user.model');
 var Registration = require('../registration/registration.model');
 var Invoice = require('../invoice/invoice.model');
+var OfflineUser = require('../user/offlineUser.model');
 
 var ObjectId = require('mongoose').Types.ObjectId;
 
@@ -288,7 +289,36 @@ exports.allUsersForNameTags = function (req, res) {
         });
 
     } else {
+        return res.status(406).json({message : 'Not enough parameters'})
+    }
+};
 
+// Get list of users whose name tags are yet to be printed for NAMETAG printing
+exports.allUnprintedUsersForNameTags = function (req, res) {
+    if (req.query.page || req.query.perPage) {
+        var page = (req.query.page || 1) - 1,
+            perPage = req.query.perPage || 25;
+
+        Registration.count({tagPrinted : {$ne : true}, paymentSuccessful: true, statusConfirmed: true}, function (e, total) {
+            Registration.find({
+                // user: {$in: userIds},
+                tagPrinted : {$ne : true},
+                paymentSuccessful: true,
+                statusConfirmed: true
+            }).select('_id prefix suffix surname middleName branch firstName registrationCode tagPrinted user')
+                .populate('user')
+                .sort('registrationCode')
+                .skip(page * perPage)
+                .limit(perPage)
+                .exec(function (err, registrations) {
+                    var _toReturn = _.pluck(registrations, 'user');
+                    res.header('total_found', total);
+                    return res.json(registrations);
+                });
+        });
+
+    } else {
+        return res.status(406).json({message : 'Not enough parameters'})
     }
 };
 
@@ -311,6 +341,16 @@ exports.getRegistrationTags = function (req, res) {
         });
 
         return sendData(regs);
+    });
+};
+
+// Get distinct groups from the users table
+exports.getDistinctGroups = function (req, res) {
+    OfflineUser.find({ "groupName": { $exists: true } }, function (err, groups) {
+        if (err) { return handleError(res, err); }
+        if (!groups) { return res.send(404); }
+        return res.send(groups);
+
     });
 };
 

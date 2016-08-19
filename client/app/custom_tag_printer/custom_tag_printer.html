@@ -14,13 +14,13 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="panel-title">Tag 1
-                            <i ng-click="makeGroup()" class="btn btn-xs btn-outline-success pull-right">GROUP</i>
+                            <a href="" ng-click="makeGroup()" class="btn btn-xs btn-outline-danger pull-right">GROUP</a>
                         </div>
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
                             <label for="leftTitle">Title</label>
-                            <select class="form-control" ng-model="tag.title" ng-options="item for item in titles"
+                            <select class="form-control" ng-model="tag.prefix" ng-options="item for item in titles"
                                     id="leftTitle"></select>
                         </div>
                         <div class="form-group">
@@ -38,8 +38,7 @@
                         </div>
                         <div class="form-group">
                             <label for="leftBranch">Select Branch </label>
-                            <select class="form-control" ng-model="tag.branch" ng-options="item as item._id for item in branches track by item._id"
-                                    id="leftBranch"></select>
+                            <select class="form-control" ng-model="tag.branch" ng-options="item.name as item.name for item in branches track by item._id" id="leftBranch"></select>
                         </div>
                         <div class="form-group">
                             <label for="leftCode">Registration Code </label>
@@ -58,17 +57,33 @@
                             <input pattern="" maxlength="4" class="form-control" ng-model="tag.yearCalled" id="leftYearCalled">
                         </div>
                         <div ng-if="isGroup" class="form-group">
-                            <label for="leftGroup">Group </label>
-                            <select class="form-control" ng-model="tag.group" ng-options="item as item.groupName for item in groups track by item._id" id="leftGroup" ></select>
+                            <label for="leftGroup">Group  <span class="required">*</span></label>
+                            <select ng-required="isGroup" class="form-control" ng-model="tag.group" ng-options="item.groupName as item.groupName for item in groups track by item._id" id="leftGroup" ></select>
+                        </div>
+                        <div ng-if="isGroup" class="form-group">
+                            <label for="leftDistinctGroup">Group Admin  <span class="required">*</span> </label>
+                            <select ng-required="isGroup" class="form-control" ng-model="tag.owner" ng-options="item._id as item.groupName for item in distinctGroups track by item._id" id="leftDistinctGroup" ></select>
                         </div>
                     </div>
                 </div>
-                <button class="btn-lg btn-success btn" type="submit" ng-disabled="tagForm.$invalid"><i
-                        class="glyphicon glyphicon-print"></i> PRINT TAG
-                </button>
-                <button class="btn-lg btn-primary btn pull-right" ng-click="registerAndPrint(tagForm)" ng-disabled="tagForm.$invalid"><i
-                        class="glyphicon glyphicon-book"></i>REGISTER & PRINT TAG
-                </button>
+                <div class="btn-group"  ng-if="!isGroup">
+                    <button class=" btn-success btn" type="submit" ng-disabled="tagForm.$invalid"><i
+                            class="glyphicon glyphicon-print"></i> PRINT
+                    </button>
+                    <button class=" btn-primary btn " ng-click="registerAndPrint(tagForm)" ng-disabled="tagForm.$invalid"><i
+                            class="glyphicon glyphicon-book"></i>REGISTER & PRINT
+                    </button>
+                </div>
+
+                <div class="btn-group pull-right"  ng-if="isGroup">
+                    <button class=" btn-primary btn " ng-click="registerAndPrintGroupMember(tagForm)" ng-disabled="tagForm.$invalid"><i
+                            class="glyphicon glyphicon-book"></i>REGISTER GROUP MEMBER & PRINT
+                    </button>
+                    <button class="btn  btn-success" ng-click="registerAndPrintGroupAdmin(tagForm)" ng-disabled="tagForm.$invalid">
+                        REGISTER GROUP ADMIN & PRINT
+                    </button>
+                </div>
+
             </div>
 
             <!--Secion to Add new Group-->
@@ -146,7 +161,7 @@
                         </small>
                     </h1>
 
-                    <h5 ng-if="tag.branch" class="text-uppercase branch print" style="color: #aba7ac !important;">{{tag.branch}} BRANCH</h5>
+                    <h5 ng-if="tag.branch" class="text-uppercase branch print" style="color: #aba7ac !important;">{{tag.branch}} BRANCHby </h5>
                 </div>
                 <div style="background-color: #ffd66a;" class="delegate">
                     <img ng-src="/api/registrations/qrCodeInstant?firstName={{tag.firstName}}&surname={{tag.surname}}&branch={{tag.branch}}&phone={{tag.phone}}&email={{tag.email}}&suffix={{tag.suffix}}">

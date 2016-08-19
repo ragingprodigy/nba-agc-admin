@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'nbaAgcAdminApp'
-.controller 'CustomTagPrinterCtrl', ($scope, Registration, toastr, Branch) ->
+.controller 'CustomTagPrinterCtrl', ($scope, Registration, toastr, Branch, Users) ->
   $scope.tag = {}
   $scope.isGroup = false
 
@@ -14,11 +14,17 @@ angular.module 'nbaAgcAdminApp'
   $scope.addGroup = (group) ->
     Registration.addGroup group, (response) ->
       $scope.groups = response
-      toastr.info 'Grop created successfully'
+      toastr.info 'Group created successfully'
     , (e) ->
-      toastr.error typeof e.data.message != 'undefined' ? e.data.message: 'Group not added'
+      if e.data.message?
+        toastr.error e.data.message
+      else
+        toastr.error 'Group not added'
 
-  Branch.list (branches) ->
+  Users.getDistinctGroups (distinctGroups) ->
+    $scope.distinctGroups = distinctGroups
+
+  Branch.query (branches) ->
     $scope.branches = branches
 
   $scope.makeGroup = ->
@@ -39,6 +45,26 @@ angular.module 'nbaAgcAdminApp'
       Registration.createOfflineReg $scope.tag, (response) ->
         $scope.printTags form
         toastr.info response.surname + ' was created Onsite!'
+      , (e) ->
+        $scope.doingPrint = false
+        toastr.error 'Data was not saved..please try again!'
+        console.error e.data.err
+
+  $scope.registerAndPrintGroupMember = (form) ->
+    if form.$valid
+      Registration.createGroupMemberOfflineReg $scope.tag, (response) ->
+        $scope.printTags form
+        toastr.info response.surname + ' was created on site as a group member!'
+      , (e) ->
+        $scope.doingPrint = false
+        toastr.error 'Data was not saved..please try again!'
+        console.error e.data.err
+
+  $scope.registerAndPrintGroupAdmin = (form) ->
+    if form.$valid
+      Registration.createGroupAdminOfflineReg $scope.tag, (response) ->
+        $scope.printTags form
+        toastr.info response.surname + ' was created on site as a group admin!'
       , (e) ->
         $scope.doingPrint = false
         toastr.error 'Data was not saved..please try again!'

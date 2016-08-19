@@ -26,6 +26,9 @@ router.get('/branchReport', controller.namesByBranch);
 router.post('/addGroup', sessionSec, controller.addGroup);
 
 router.post('/createOfflineReg', sessionSec, controller.createOfflineReg);
+router.post('/createGroupAdminOfflineReg', sessionSec, controller.createGroupAdminOfflineReg);
+router.post('/createGroupMemberOfflineReg', sessionSec, controller.createGroupMemberOfflineReg);
+
 router.get('/:id', sessionSec, controller.show);
 router.post('/', sessionSec, controller.create);
 router.post('/:id', sessionSec, controller.finalizeDelegate);

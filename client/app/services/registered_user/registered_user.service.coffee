@@ -21,3 +21,7 @@ angular.module 'nbaAgcAdminApp'
       method: 'GET'
       url: '/api/users/allUsersForNameTags'
       isArray: true
+    allUnprintedUsersForNameTags:
+      method: 'GET'
+      url: '/api/users/allUnprintedUsersForNameTags'
+      isArray: true

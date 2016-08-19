@@ -466,10 +466,9 @@ exports.createOfflineReg = function (req, res) {
 
     // Declare User to store on User's collection
     var user = {
-        accountType: req.body.group ? 'group' : 'single',
+        accountType: 'single',
         email: req.body.email,
         phone: req.body.phone,
-        groupName : req.body.group ? 'group' : req.body.group,
         fastTracked: true,
         _doneBy_: req.user,
         _staff_: req.user,
@@ -481,7 +480,71 @@ exports.createOfflineReg = function (req, res) {
             return handleError(res, err);
         }
 
+        delete req.body.groupName;
         req.body.user = newUser._id;
+        OfflineReg.create(req.body, function (err, offlineReg) {
+            if (err) {
+                return handleError(res, err);
+            }
+            return res.status(201).json(offlineReg);
+        });
+    });
+};
+
+// Create an offline registration for Group Admin
+exports.createGroupAdminOfflineReg = function (req, res) {
+
+    // Declare User to store on User's collection
+    var user = {
+        accountType: 'group',
+        email: req.body.email,
+        phone: req.body.phone,
+        groupName : req.body.group,
+        fastTracked: true,
+        _doneBy_: req.user,
+        fastTrackTime: Date.now()
+    };
+
+    OfflineUser.create(user, function (err, newUser) {
+        if (err) {
+            return handleError(res, err);
+        }
+
+        delete req.body.owner;
+        req.body.user = newUser._id;
+        req.body.fastTracked = true;
+        req.body.isGroup = true;
+        OfflineReg.create(req.body, function (err, offlineReg) {
+            if (err) {
+                return handleError(res, err);
+            }
+            return res.status(201).json(offlineReg);
+        });
+    });
+};
+
+// Create an offline registration for a group member
+exports.createGroupMemberOfflineReg = function (req, res) {
+
+    // Declare User to store on User's collection
+    var user = {
+        accountType: 'single',
+        email: req.body.email,
+        phone: req.body.phone,
+        fastTracked: true,
+        _doneBy_: req.user,
+        fastTrackTime: Date.now()
+    };
+
+    OfflineUser.create(user, function (err, newUser) {
+        if (err) {
+            return handleError(res, err);
+        }
+
+        delete req.body.groupName;
+        req.body.user = newUser._id;
+        req.body.isGroup = true;
+        req.body.fastTracked = true;
         OfflineReg.create(req.body, function (err, offlineReg) {
             if (err) {
                 return handleError(res, err);
