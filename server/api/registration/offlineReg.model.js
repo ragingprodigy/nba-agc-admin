@@ -46,8 +46,8 @@ var OfflineRegSchema = new Schema({
     },
     regCode: {
         type: String,
-        unique: true,
-        default: pRef()
+        // unique: true,
+        // default: pRef()
     },
     registrationType: {
         type: String,

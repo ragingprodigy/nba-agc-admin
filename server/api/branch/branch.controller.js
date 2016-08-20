@@ -6,7 +6,7 @@ var Branch = require('./branch.model'),
 
 // Get list of branches
 exports.index = function(req, res) {
-  Branch.find(function (err, branchs) {
+  Branch.find({}).sort('name').exec(function (err, branchs) {
     if(err) { return handleError(res, err); }
     return res.json(200, branchs);
   });
