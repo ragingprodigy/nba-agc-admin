@@ -9,10 +9,30 @@ angular.module 'nbaAgcAdminApp'
     .$promise.then (branches) ->
       if branches?
         $scope.branchData = branches
+
   $scope.load()
+
+  $scope.branchCollected =(registrations,branchRep) ->
+    branchUser = []
+    _.each(registrations,(reg)->
+      registrant = _.pick reg, ['email', 'mobile', 'firstName', 'branch','registrationCode']
+      branchUser.push registrant
+    )
+    .$promise.then () ->
+      Registration.BranchFastTracked branchRep, branchUser, ()->
+        toastr.success 'Branch Successfully FastTracked'
+
   $scope.byBranch = (branch)->
+    $scope.BranchRep = {
+      id: branch._id
+      repEmail:branch.repEmail,
+      repPhone:branch.repPhone,
+      repName:branch.repName
+    }
+    if branch.fastTracked is true
+      $scope.BranchRep.fastTracked = branch.fastTracked
     if branch?
-      Registration.Fast {paymentSuccessful:true,branch:branch, material:'branch',isGroup:false, vip:false }
+      Registration.Fast {paymentSuccessful:true,branch:branch.name, material:'branch',isGroup:false, vip:false }
       .$promise.then (registrations) ->
         $scope.registrations =  registrations
 
@@ -25,17 +45,21 @@ angular.module 'nbaAgcAdminApp'
   $scope.bags = Bags.query()
 
   $scope.doLookup = ->
+    $state.go 'fast_track.bySearch'
     Registration.fastTrack q: $scope.term
     .$promise.then (registrations) ->
       $scope.registrations = registrations
 
   $scope.processUser = (reg) ->
-    if confirm 'Are you sure you want to fastTrack this Delegates?'
+    if confirm 'Are you sure you want to fastTrack this Delegate?'
       if !reg.fastTracked
-        reg.fastTracked = true
-        reg.fastTrackTime = new Date()
-        Registration.update id:reg._id, reg, ->
-          toastr.success 'Delegate Successfully FastTracked'
+        registrant = _.pick reg, ['_id','email','surname', 'mobile', 'firstName', 'branch','registrationCode']
+        registrant.fastTracked = true
+
+        Registration.IndividualFastTracked id:registrant._id, registrant,(response) ->
+          toastr.success response.message
+          reg.fastTracked = true
+          reg.fastTrackTime = response.fastTrackTime
 
 #    if reg.user?
 #      if not reg.user.bag?.length
@@ -74,22 +98,46 @@ angular.module 'nbaAgcAdminApp'
     $modalInstance.close $scope.selected
 
 
-.controller 'FastByGroupCtrl', ($scope,$modal,Invoice) ->
-  Invoice.query { statusConfirmed: true }
+.controller 'FastTrackGroupCtrl', ($scope,$modal,Invoice,Registration,toastr) ->
+  Invoice.query { paymentSuccessful: true }
   .$promise.then (invoices) ->
     $scope.invoices = invoices
 
   $scope.showMembers = (r) ->
     $scope.selectedInvoice = r
 
-.controller 'FastTrackVipCtrl', ($scope,Registration) ->
+  $scope.toggle = false
+
+  $scope.individualView = ->
+    Registration.Fast {paymentSuccessful:true,isGroup:true}
+    .$promise.then (registrations) ->
+      $scope.registrations =  registrations
+  $scope.individualView()
+
+
+
+  $scope.groupCollected =(r) ->
+    groupUser = []
+    _.each(r.registrations,(reg)->
+      registrant = _.pick reg, ['email', 'mobile', 'firstName', 'branch','registrationCode']
+      groupUser.push registrant
+    )
+    Invoice.GroupFastTracked {id:r._id,repEmail:r._group.email,repPhone:r._group.email}, groupUser, (response)->
+        toastr.success response.message
+        r.fastTracked = true
+        r.fastTrackTime = response.fastTrackTime
+
+.controller 'FastTrackVipCtrl', ($scope,Registration,toastr) ->
   $scope.processUser = (reg) ->
-    if confirm 'Are you sure you want to fastTrack this Delegates?'
+    if confirm 'Are you sure you want to fastTrack this Delegate?'
       if !reg.fastTracked
-        reg.fastTracked = true
-        reg.fastTrackTime = new Date()
-        Registration.update id:reg._id, reg, ->
-          toastr.success 'Delegate Successfully FastTracked'
+        registrant = _.pick reg, ['_id','email','surname', 'mobile', 'firstName', 'branch','registrationCode']
+        registrant.fastTracked = true
+
+        Registration.IndividualFastTracked id:registrant._id, registrant,(response) ->
+          toastr.success response.message
+          reg.fastTracked = true
+          reg.fastTrackTime = response.fastTrackTime
 
   $scope.condition = {}
   $scope.byVip = ->

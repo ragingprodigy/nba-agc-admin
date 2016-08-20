@@ -19,7 +19,7 @@ exports.index = function (req,res) {
     if(err){ return handleError(res, err)}
     var len = 0;
     for (len;len<data.length;len++){
-      var branch = data[len].Branch.split(' ').trim();
+      var branch = data[len].Branch.trim().split(' ');
       if (branch[0] == 'ABUJA')
       {
         data[len].Branch = 'ABUJA (UNITY BAR)';

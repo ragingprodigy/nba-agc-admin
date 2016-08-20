@@ -45,8 +45,13 @@ var InvoiceSchema = new Schema({
     bankTeller:  { type:String, default: "" },
     statusConfirmed: { type: Boolean, default: false },
     _group : { type: Schema.Types.ObjectId, ref: 'User' },
-    registrations : [{ type: Schema.Types.ObjectId, ref: 'Registration' }]
-});
+    registrations : [{ type: Schema.Types.ObjectId, ref: 'Registration' }],
+    fastTracked: {
+      type: Boolean,
+      default: false
+    },
+    fastTrackTime: Date
+  });
 
 InvoiceSchema.statics.pRef = pRef;
 

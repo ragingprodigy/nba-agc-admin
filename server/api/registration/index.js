@@ -14,6 +14,8 @@ router.get('/fast', sessionSec, controller.fast);
 router.get('/stats', sessionSec, controller.stats);
 router.get('/withTags', sessionSec, controller.withTags);
 router.get('/fastTrack', sessionSec, controller.fastTrack);
+router.post('/branchFastTracked', controller.branchFastTracked);
+router.post('/individualFastTracked', controller.individualFastTracked);
 router.post('/access/resolve', sessionSec, controller2.resolve);
 router.get('/qrCode', controller.qrCode);
 router.get('/qrCodeInstant', controller.qrCodeInstant);
