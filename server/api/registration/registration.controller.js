@@ -577,20 +577,30 @@ exports.addGroup = function (req, res) {
     if (typeof req.body.groupName === 'undefined' || req.body.groupName === '') {
         return res.status(406).json({message : 'Group cannot be empty!'});
     }
-    var groupName = new RegExp(req.body.groupName, 'i');
-    OfflineGroup.find({groupName : groupName}, function (err, found) {
+
+    OfflineGroup.create(req.body, function (err, group) {
         if (err) { return handleError(res, err); }
-        if (!found) {
+        OfflineGroup.find({}, function (err, allGroups) {
+            if (err) { return handleError(res, err); }
+            return res.status(200).json(allGroups);
+        });
+    });
+
+/*    var groupName = new RegExp(req.body.groupName, 'i');
+    OfflineGroup.find({groupName : groupName}, function (err, found) {
+        // console.log(found);
+        if (err) { return handleError(res, err); }
+        if (found.length == 0) {
             OfflineGroup.create(req.body, function (err, group) {
                 if (err) { return handleError(res, err); }
                 OfflineGroup.find({}, function (err, allGroups) {
                     if (err) { return handleError(res, err); }
-                    res.send(allGroups);
+                    return res.status(200).json(allGroups);
                 });
             });
         }
-        return res.status(409).json({message : 'Group exists already'})
-    })
+        return res.status(409).json({message : 'Group exists already'});
+    });*/
 };
 
 // Get all groups to populate group select box

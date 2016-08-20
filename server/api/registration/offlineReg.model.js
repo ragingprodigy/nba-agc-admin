@@ -44,11 +44,11 @@ var OfflineRegSchema = new Schema({
         type: String,
         default: 1960
     },
-    regCode: {
-        type: String,
-        // unique: true,
-        // default: pRef()
-    },
+    // regCode: {
+    //     type: String
+    //     // unique: true,
+    //     // default: pRef()
+    // },
     registrationType: {
         type: String,
         default: "legalPractitioner"
