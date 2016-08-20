@@ -502,34 +502,43 @@ exports.createOfflineReg = function (req, res) {
 
 // Create an offline registration for Group Admin
 exports.createGroupAdminOfflineReg = function (req, res) {
+    OfflineUser.find({accoutType: 'group', groupName: req.body.group}, function (err, found) {
+        if (err) { return handleError(res, err); }
 
-    // Declare User to store on User's collection
-    var user = {
-        accountType: 'group',
-        email: req.body.email,
-        phone: req.body.phone,
-        groupName : req.body.group,
-        fastTracked: true,
-        _doneBy_: req.user,
-        fastTrackTime: Date.now()
-    };
+        //  Only save if no duplicate Admin
+        if (!found) {
 
-    OfflineUser.create(user, function (err, newUser) {
-        if (err) {
-            return handleError(res, err);
+            // Declare User to store on User's collection
+            var user = {
+                accountType: 'group',
+                email: req.body.email,
+                phone: req.body.phone,
+                groupName : req.body.group,
+                fastTracked: true,
+                _doneBy_: req.user,
+                fastTrackTime: Date.now()
+            };
+
+            OfflineUser.create(user, function (err, newUser) {
+                if (err) {
+                    return handleError(res, err);
+                }
+
+                delete req.body.owner;
+                req.body.user = newUser._id;
+                req.body.fastTracked = true;
+                req.body.isGroup = true;
+                OfflineReg.create(req.body, function (err, offlineReg) {
+                    if (err) {
+                        return handleError(res, err);
+                    }
+                    return res.status(201).json(offlineReg);
+                });
+            });
         }
+        return res.status(409).json({message : 'Group Admin already exists for this Group'});
+    })
 
-        delete req.body.owner;
-        req.body.user = newUser._id;
-        req.body.fastTracked = true;
-        req.body.isGroup = true;
-        OfflineReg.create(req.body, function (err, offlineReg) {
-            if (err) {
-                return handleError(res, err);
-            }
-            return res.status(201).json(offlineReg);
-        });
-    });
 };
 
 // Create an offline registration for a group member
@@ -568,13 +577,20 @@ exports.addGroup = function (req, res) {
     if (typeof req.body.groupName === 'undefined' || req.body.groupName === '') {
         return res.status(406).json({message : 'Group cannot be empty!'});
     }
-    OfflineGroup.create(req.body, function (err, group) {
+    var groupName = new RegExp(req.body.groupName, 'i');
+    OfflineGroup.find({groupName : groupName}, function (err, found) {
         if (err) { return handleError(res, err); }
-        OfflineGroup.find({}, function (err, allGroups) {
-            if (err) { return handleError(res, err); }
-            res.send(allGroups);
-        });
-    });
+        if (!found) {
+            OfflineGroup.create(req.body, function (err, group) {
+                if (err) { return handleError(res, err); }
+                OfflineGroup.find({}, function (err, allGroups) {
+                    if (err) { return handleError(res, err); }
+                    res.send(allGroups);
+                });
+            });
+        }
+        return res.status(409).json({message : 'Group exists already'})
+    })
 };
 
 // Get all groups to populate group select box

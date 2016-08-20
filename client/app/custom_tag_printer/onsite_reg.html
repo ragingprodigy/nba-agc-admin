@@ -2,7 +2,7 @@
 
 <div class="jumbotron" ng-hide="doingPrint">
     <div class="container">
-        <h2>Custom Name Tag Printing
+        <h2>Onsite Registration
         </h2>
     </div>
 </div>
@@ -10,13 +10,11 @@
 <div class="container" ng-if="!doingPrint">
     <form name="tagForm" ng-submit="tagForm.$valid && printTags(tagForm)">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2 ">
+            <div class="col-md-9 ">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <div class="panel-title">New Tag
-<!--
-                            <a href="" ng-click="makeGroup()" class="btn btn-xs btn-outline-danger pull-right">GROUP</a>
--->
+                        <div class="panel-title">ADD NEW DELEGATE
+                            <a href="" ng-click="makeGroup()" class="label label-primary pull-right">GROUP</a>
                         </div>
                     </div>
                     <div class="panel-body">
@@ -42,15 +40,14 @@
                             <label class="col-xs-2" for="leftBranch">Select Branch </label>
                             <select class="col-xs-9" ng-model="tag.branch" ng-options="item.name as item.name for item in branches track by item._id" id="leftBranch"></select>
                         </div>
-                        <!--<div class="form-group row">
-                            <label for="leftCode">Registration Code </label>
-                            <input class="form-control" ng-model="tag.registrationCode" id="leftCode">
-                        </div>-->
+                        <div class="form-group row">
+                            <label class="col-xs-2" for="leftCompany">Organisation </label>
+                            <input type="text" class="col-xs-9" ng-model="tag.company" id="leftCompany">
+                        </div>
                         <div class="form-group row">
                             <label class="col-xs-2" for="leftPhone">Phone <span class="required">*</span> </label>
                             <input required type="tel" class="col-xs-9" ng-model="tag.phone" id="leftPhone">
                         </div>
-
                         <div class="form-group row">
                             <label class="col-xs-2" for="leftEmail">Email <span class="required">*</span> </label>
                             <input required class="col-xs-9" ng-model="tag.email" id="leftEmail">
@@ -59,23 +56,34 @@
                             <label class="col-xs-2" for="leftYearCalled">Year Of Call </label>
                             <input pattern="" maxlength="4" class="col-xs-9" ng-model="tag.yearCalled" id="leftYearCalled">
                         </div>
-                        <div ng-if="isGroup" class="form-group row" title="THIS MUST BE SELECTED FOR ANY GROUP ADMIN REGISTRATION">
+                        <div ng-if="isGroup" class="form-group row">
                             <label class="col-xs-2" for="leftGroup">Group <span class="required">*</span></label>
-                            <select  class="col-xs-9" ng-model="tag.group" ng-options="item.groupName as item.groupName for item in groups track by item._id"
+                            <select class="col-xs-9" ng-model="tag.group" ng-options="item.groupName as item.groupName for item in groups track by item._id"
                                     id="leftGroup"></select>
                         </div>
-                        <div ng-if="isGroup" class="form-group row" title="THIS MUST BE SELECTED FOR GROUP MEMBER REGISTRATION" >
-                            <label class="col-xs-2" for="leftDistinctGroup">Group Rep. <span class="required">*</span> </label>
+                        <div ng-if="isGroup" class="form-group row">
+                            <label class="col-xs-2" for="leftDistinctGroup">Group Admin <span class="required">*</span> </label>
                             <select class="col-xs-9" ng-model="tag.owner" ng-options="item._id as item.groupName for item in distinctGroups track by item._id"
                                     id="leftDistinctGroup"></select>
                         </div>
                     </div>
                 </div>
                 <div class="btn-group" ng-if="!isGroup">
-                    <button class=" btn-success btn" type="submit" ng-disabled="tagForm.$invalid"><i
-                            class="glyphicon glyphicon-print"></i> PRINT
+                    <button class=" btn-success btn " ng-click="registerAndPrint(tagForm)" ng-disabled="tagForm.$invalid"><i
+                            class="glyphicon glyphicon-book"></i> REGISTER & PRINT
                     </button>
                 </div>
+
+                <div class="btn-group pull-right" ng-if="isGroup">
+                    <button class=" btn-primary btn " ng-click="registerAndPrintGroupMember(tagForm)" ng-disabled="tagForm.$invalid"><i
+                            class="glyphicon glyphicon-book"></i> REGISTER GROUP MEMBER & PRINT
+                    </button>
+                    <button class="btn  btn-success" ng-click="registerAndPrintGroupAdmin(tagForm)" ng-disabled="tagForm.$invalid">
+                        <i class="fa fa-user"></i>
+                        REGISTER GROUP REP. & PRINT
+                    </button>
+                </div>
+
             </div>
 
             <!--Secion to Add new Group-->
@@ -93,7 +101,7 @@
                     </div>
                 </div>
                 <button class="btn-xs btn-primary btn" ng-click="addGroup(group)">
-                    <i class="fa fa-user"></i> ADD GROUP
+                    <i class="fa fa-group"></i> ADD GROUP
                 </button>
             </div>
         </div>

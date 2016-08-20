@@ -7,3 +7,9 @@ angular.module 'nbaAgcAdminApp'
     requireLogin: true
     templateUrl: 'app/custom_tag_printer/custom_tag_printer.html'
     controller: 'CustomTagPrinterCtrl'
+
+  $stateProvider.state 'onsite_reg',
+    url: '/onsite_reg'
+    requireLogin: true
+    templateUrl: 'app/custom_tag_printer/onsite_reg.html'
+    controller: 'CustomTagPrinterCtrl'
