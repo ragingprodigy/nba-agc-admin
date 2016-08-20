@@ -123,7 +123,7 @@ exports.qrCode = function (req, res) {
 exports.qrCodeInstant = function (req, res) {
     var branch = req.query.branch;
 
-    var theData = 'BEGIN:VCARD\nVERSION:3.0\nN:' + req.query.surname + ';' + req.query.firstName + ';;\nFN:' + (req.query.firstName + ' ' + req.query.surname + ' ' + req.query.suffix) + '\nORG:' + branch + ' BRANCH\nTITLE:\nEMAIL;type=INTERNET;type=WORK;type=pref:' + req.query.email + '\nTEL;type=MOBILE;type=pref:' + req.query.phone + '\nEND:VCARD',
+    var theData = 'BEGIN:VCARD\nVERSION:3.0\nN:' + req.query.surname + ';' + req.query.firstName + ';;\nFN:' + (req.query.firstName + ' ' + req.query.surname) + '\nORG:\nTITLE:\nEMAIL;type=INTERNET;type=WORK;type=pref:' + req.query.email + '\nTEL;type=MOBILE;type=pref:' + req.query.phone + '\nEND:VCARD',
         code = qr.image(theData, {type: 'svg'});
     res.type('svg');
     code.pipe(res);

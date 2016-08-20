@@ -164,10 +164,10 @@
                         </small>
                     </h1>
 
-                    <h5 ng-if="tag.branch" class="text-uppercase branch print" style="color: #aba7ac !important;">{{tag.branch}} BRANCHby </h5>
+                    <h5 ng-if="tag.branch" class="text-uppercase branch print" style="color: #aba7ac !important;">{{tag.branch}} BRANCH </h5>
                 </div>
                 <div style="background-color: #ffd66a;" class="delegate">
-                    <img ng-src="/api/registrations/qrCodeInstant?firstName={{tag.firstName}}&surname={{tag.surname}}&branch={{tag.branch}}&phone={{tag.phone}}&email={{tag.email}}&suffix={{tag.suffix}}">
+                    <img ng-src="/api/registrations/qrCodeInstant?firstName={{tag.firstName}}&surname={{tag.surname}}&phone={{tag.phone}}&email={{tag.email}}">
                 </div>
 
                 <div class="qr-code">
@@ -196,7 +196,7 @@
                     <h5 ng-if="tag.branch" class="text-uppercase branch print" style="color: #aba7ac !important;">{{tag.branch}} BRANCH</h5>
                 </div>
                 <div style="background-color: #ffd66a;" class="delegate">
-                    <img ng-src="/api/registrations/qrCodeInstant?firstName={{tag.firstName}}&surname={{tag.surname}}&branch={{tag.branch}}&phone={{tag.phone}}&email={{tag.email}}&suffix={{tag.suffix}}">
+                    <img ng-src="/api/registrations/qrCodeInstant?firstName={{tag.firstName}}&surname={{tag.surname}}&phone={{tag.phone}}&email={{tag.email}}">
                 </div>
 
 

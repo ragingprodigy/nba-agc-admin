@@ -47,25 +47,25 @@
                             <input class="form-control" ng-model="tag.registrationCode" id="leftCode">
                         </div>-->
                         <div class="form-group row">
-                            <label class="col-xs-2" for="leftPhone">Phone <span class="required">*</span> </label>
-                            <input required type="tel" class="col-xs-9" ng-model="tag.phone" id="leftPhone">
+                            <label class="col-xs-2" for="leftPhone">Phone </label>
+                            <input  type="tel" class="col-xs-9" ng-model="tag.phone" id="leftPhone">
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-xs-2" for="leftEmail">Email <span class="required">*</span> </label>
-                            <input required class="col-xs-9" ng-model="tag.email" id="leftEmail">
+                            <label class="col-xs-2" for="leftEmail">Email </label>
+                            <input  class="col-xs-9" ng-model="tag.email" id="leftEmail">
                         </div>
                         <div class="form-group row">
                             <label class="col-xs-2" for="leftYearCalled">Year Of Call </label>
                             <input pattern="" maxlength="4" class="col-xs-9" ng-model="tag.yearCalled" id="leftYearCalled">
                         </div>
                         <div ng-if="isGroup" class="form-group row" title="THIS MUST BE SELECTED FOR ANY GROUP ADMIN REGISTRATION">
-                            <label class="col-xs-2" for="leftGroup">Group <span class="required">*</span></label>
+                            <label class="col-xs-2" for="leftGroup">Group </label>
                             <select  class="col-xs-9" ng-model="tag.group" ng-options="item.groupName as item.groupName for item in groups track by item._id"
                                     id="leftGroup"></select>
                         </div>
                         <div ng-if="isGroup" class="form-group row" title="THIS MUST BE SELECTED FOR GROUP MEMBER REGISTRATION" >
-                            <label class="col-xs-2" for="leftDistinctGroup">Group Rep. <span class="required">*</span> </label>
+                            <label class="col-xs-2" for="leftDistinctGroup">Group Rep.  </label>
                             <select class="col-xs-9" ng-model="tag.owner" ng-options="item._id as item.groupName for item in distinctGroups track by item._id"
                                     id="leftDistinctGroup"></select>
                         </div>
@@ -153,10 +153,10 @@
                         </small>
                     </h1>
 
-                    <h5 ng-if="tag.branch" class="text-uppercase branch print" style="color: #aba7ac !important;">{{tag.branch}} BRANCHby </h5>
+                    <h5 ng-if="tag.branch" class="text-uppercase branch print" style="color: #aba7ac !important;">{{tag.branch}} BRANCH</h5>
                 </div>
                 <div style="background-color: #ffd66a;" class="delegate">
-                    <img ng-src="/api/registrations/qrCodeInstant?firstName={{tag.firstName}}&surname={{tag.surname}}&branch={{tag.branch}}&phone={{tag.phone}}&email={{tag.email}}&suffix={{tag.suffix}}">
+                    <img ng-src="/api/registrations/qrCodeInstant?firstName={{tag.firstName}}&surname={{tag.surname}}&branch={{tag.branch}}&phone={{tag.phone}}&email={{tag.email}}">
                 </div>
 
                 <div class="qr-code">
@@ -185,7 +185,7 @@
                     <h5 ng-if="tag.branch" class="text-uppercase branch print" style="color: #aba7ac !important;">{{tag.branch}} BRANCH</h5>
                 </div>
                 <div style="background-color: #ffd66a;" class="delegate">
-                    <img ng-src="/api/registrations/qrCodeInstant?firstName={{tag.firstName}}&surname={{tag.surname}}&branch={{tag.branch}}&phone={{tag.phone}}&email={{tag.email}}&suffix={{tag.suffix}}">
+                    <img ng-src="/api/registrations/qrCodeInstant?firstName={{tag.firstName}}&surname={{tag.surname}}&branch={{tag.branch}}&phone={{tag.phone}}&email={{tag.email}}">
                 </div>
 
 
