@@ -1,14 +1,57 @@
 <div class="container">
-  <div class="panel panel-default">
-    <div class="pull-right">
-      <select name="branch" ng-change="byBranch(selectedBranch)" id="branch" ng-model="selectedBranch"
-              class="form-control">
-        <option value="">Please select a Branch</option>
-        <option  ng-repeat=" branch in branchData | orderBy:'-name':'reverse'"
-                 value="{{branch.name}}">{{branch.name}}
-        </option>
-      </select>
+
+  <group-members invoice="selectedInvoice" ng-show="selectedInvoice"></group-members>
+  <div ng-hide="toggle==false" class="btn btn-success pull-right" ng-click="toggle=false">View By Groups</div>
+  <div ng-hide="toggle==true" class="btn btn-success pull-right" ng-click="toggle=true">View By Individuals</div>
+
+  <div ng-if="toggle==false" class="panel panel-default">
+    <div class="panel-heading">
+      All Confirmed Registrations ({{invoices.length}})
+      <div class="pull-right">
+        {{countDelegates(invoices)}} DELEGATES
+      </div>
     </div>
+    <div class="panel-body main-grid">
+      <div class="row">
+        <table class="table table-hover table-striped" datatable="ng">
+          <thead class="bg-success">
+          <tr>
+            <th>Group Name</th>
+            <th>Contact Details</th>
+            <th>Order ID</th>
+            <th>Amount Paid</th>
+            <th>Payment Date</th>
+            <th></th>
+            <th>Proccessed</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="r in invoices">
+            <td><span title="{{r._group.phone}}">{{r._group.groupName}} ({{r.registrations.length}})</span></td>
+            <td>{{r._group.email}}<br>{{r._group.phone}}</td>
+            <td>{{r.code+'-'+r.invoiceAmount}}</td>
+            <td>NGN {{formatMoney(r.webpay?r.Amount:r.bankDeposit)}}</td>
+            <td>{{(r.webpay?r.DateTime:r.bankDatePaid) | date}}</td>
+            <td>
+              <button class="btn btn-xs btn-success" type="button" ng-click="showMembers(r)">DETAILS </button>
+                            </td>
+            <td class="text-center">
+              <span ng-show="r.fastTracked" class="label label-success">YES</span>
+              <span ng-hide="r.fastTracked" class="label label-danger">NOT YET</span>
+            </td>
+            <td>
+                            <span ng-show="r.fastTracked" class="label label-info">{{ago(r.fastTrackTime)
+                                }}</span>
+              <button ng-hide="r.fastTracked" ng-click="groupCollected(r)"
+                      class="btn btn-sm btn-block btn-primary">
+                <i class="glyphicon glyphicon-edit"></i> Mark Collected</button></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div ng-if="toggle==true" class="panel panel-info">
     <div class="panel-heading">
       DELEGATES FOUND - {{registrations.length}}
     </div>
@@ -32,7 +75,7 @@
             <td>{{m.registrationCode}}</td>
             <td>N {{formatMoney(m.conferenceFee)}}</td>
             <td>{{m.mobile}}</td>
-            <td>{{m.email}} -<br> {{m.user.email}}</td>
+            <td>{{m.email}} -<br> {{m.owner.groupName}}</td>
 
             <td class="text-center">
               <span ng-show="m.fastTracked" class="label label-success">YES</span>

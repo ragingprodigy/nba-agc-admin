@@ -18,7 +18,6 @@ var offlineUserSchema = new Schema({
     _doneBy_ : { type: Schema.Types.ObjectId, ref: 'Auth' },
     email : {
         type: String,
-        // unique: true,
         lowercase: true
     },
     password     : {

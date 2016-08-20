@@ -1,29 +1,5 @@
-
 <div class="container">
-  <div class="">
-    <div ng-if="BranchRep" class="alert alert-info" style="margin-left:300px; width: 500px; height: 80px">
-     <div class="pull-left"> <p>Name: {{BranchRep.repName}}</p>
-       <p>Email/phone : {{BranchRep.repEmail}} - {{BranchRep.repPhone}}</p></div>
-      <div class="pull-right">
-        <span ng-show="BranchRep.fastTracked" class="label label-info">Collected</span>
-      <button ng-hide="BranchRep.fastTracked"
-        class=" btn btn-sm btn-success" ng-click="branchCollected(registrations,BranchRep)">Mark Collected</button>
-    </div>
-    </div>
-  </div>
-  <div class="panel panel-primary">
-    <div class="pull-right">
-      <select class="form-control" ng-model="selectedBranch" ng-options="branch.name for branch in branchData | orderBy:'-name':'reverse'" ng-change="byBranch(selectedBranch)">
-        <option value="">Please select a Branch</option>
-      </select>
-      <!--<select name="branch" ng-change="byBranch(selectedBranch)" id="branch" ng-model="selectedBranch"
-              class="form-control">
-        <option value="">Please select a Branch</option>
-        <option  ng-repeat="branch in branchData track by $index | orderBy:'-name':'reverse'"
-                 value="{{branch}}">{{branch.name}}
-        </option>
-      </select>-->
-    </div>
+  <div class="panel panel-danger">
     <div class="panel-heading">
       DELEGATES FOUND - {{registrations.length}}
     </div>

@@ -47,7 +47,7 @@ angular.module 'nbaAgcAdminApp'
         toastr.info response.surname + ' was created Onsite!'
       , (e) ->
         $scope.doingPrint = false
-        if e.data.message
+        if e.data.message?
           toastr.error e.data.message
         else
 	        toastr.error 'Data was not saved!, Please check and try again!'
@@ -59,7 +59,7 @@ angular.module 'nbaAgcAdminApp'
         toastr.info response.surname + ' was created on site as a group member!'
       , (e) ->
         $scope.doingPrint = false
-        if e.data.message
+        if e.data.message?
           toastr.error e.data.message
         else
           toastr.error 'Data was not saved!, Please check and try again!'
@@ -71,7 +71,7 @@ angular.module 'nbaAgcAdminApp'
         toastr.info response.surname + ' was created on site as a group admin!'
       , (e) ->
         $scope.doingPrint = false
-        if e.data.message
+        if e.data.message?
           toastr.error e.data.message
         else
           toastr.error 'Data was not saved!, Please check and try again!'

@@ -73,6 +73,7 @@ exports.create = function(req, res) {
 
 // Updates an existing branch in the DB.
 exports.update = function(req, res) {
+  console.log('i got here');
   if(req.body._id) { delete req.body._id; }
   Branch.findById(req.params.id, function (err, branch) {
     if (err) { return handleError(res, err); }
