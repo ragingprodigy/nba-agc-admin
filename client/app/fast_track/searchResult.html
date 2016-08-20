@@ -13,6 +13,7 @@
             <th>FEE</th>
             <th>Phone</th>
             <th>Email</th>
+            <th>Category</th>
             <th>PROCESSED</th>
             <th/>
           </tr>
@@ -24,7 +25,12 @@
             <td>N {{formatMoney(m.conferenceFee)}}</td>
             <td>{{m.mobile}}</td>
             <td>{{m.email}} -<br> {{m.user.email}}</td>
-
+            <td class="text-center">
+              <span ng-show="m.paymentSuccessful==true && m.isGroup==true" class="label label-info">GROUP</span>
+              <span ng-show="m.paymentSuccessful==true && m.isGroup==false && m.material=='onsite' && m.registrationCode.toLowerCase().includes('VIP') == false" class="label label-danger">INDIVIDUAL</span>
+              <span ng-show="m.paymentSuccessful==true && m.isGroup==false && m.registrationCode.includes('VIP') == true" class="label label-primary">VIP</span>
+              <span ng-show="m.paymentSuccessful==true && m.isGroup==false && m.material=='branch' && m.registrationCode.includes('VIP') == false" class="label label-success">BRANCH</span>
+            </td>
             <td class="text-center">
               <span ng-show="m.fastTracked" class="label label-success">YES</span>
               <span ng-hide="m.fastTracked" class="label label-danger">NOT YET</span>
