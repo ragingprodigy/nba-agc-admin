@@ -49,12 +49,12 @@
                             <input required type="tel" class="col-xs-9" ng-model="tag.phone" id="leftPhone">
                         </div>
                         <div class="form-group row">
-                            <label class="col-xs-2" for="leftEmail">Email <span class="required">*</span> </label>
-                            <input required class="col-xs-9" ng-model="tag.email" id="leftEmail">
+                            <label class="col-xs-2" for="leftEmail">Email </label>
+                            <input class="col-xs-9" ng-model="tag.email" id="leftEmail">
                         </div>
                         <div class="form-group row">
-                            <label class="col-xs-2" for="leftAmount">Amount Paid </label>
-                            <input type="number" class="col-xs-9" ng-model="tag.Amount" id="leftAmount">
+                            <label class="col-xs-2" for="leftAmount">Amount Paid <span class="required">*</span></label>
+                            <input type="number" class="col-xs-9" ng-model="tag.Amount" id="leftAmount" required>
                         </div>
                         <div class="form-group row">
                             <label class="col-xs-2" for="leftYearCalled">Year Of Call </label>
@@ -73,7 +73,7 @@
                     </div>
                 </div>
                 <div class="btn-group" ng-if="!isGroup">
-                    <button class=" btn-success btn " ng-click="registerAndPrint(tagForm)" ng-disabled="tagForm.$invalid"><i
+                    <button class=" btn-success btn " ng-click="registerAndPrint(tagForm)"><i
                             class="glyphicon glyphicon-book"></i> REGISTER & PRINT
                     </button>
                 </div>
@@ -167,7 +167,8 @@
                     <h5 ng-if="tag.branch" class="text-uppercase branch print" style="color: #aba7ac !important;">{{tag.branch}} BRANCH </h5>
                 </div>
                 <div style="background-color: #ffd66a;" class="delegate">
-                    <img ng-src="/api/registrations/qrCodeInstant?firstName={{tag.firstName}}&surname={{tag.surname}}&phone={{tag.phone}}&email={{tag.email}}">
+                    <img ng-if="email" ng-src="/api/registrations/qrCodeInstant?firstName={{tag.firstName}}&surname={{tag.surname}}&phone={{tag.phone}}&email={{tag.email}}">
+                    <img ng-if="!email" ng-src="/api/registrations/qrCodeInstant?firstName={{tag.firstName}}&surname={{tag.surname}}&phone={{tag.phone}}">
                 </div>
 
                 <div class="qr-code">
@@ -196,7 +197,8 @@
                     <h5 ng-if="tag.branch" class="text-uppercase branch print" style="color: #aba7ac !important;">{{tag.branch}} BRANCH</h5>
                 </div>
                 <div style="background-color: #ffd66a;" class="delegate">
-                    <img ng-src="/api/registrations/qrCodeInstant?firstName={{tag.firstName}}&surname={{tag.surname}}&phone={{tag.phone}}&email={{tag.email}}">
+                    <img ng-if="email" ng-src="/api/registrations/qrCodeInstant?firstName={{tag.firstName}}&surname={{tag.surname}}&phone={{tag.phone}}&email={{tag.email}}">
+                    <img ng-if="!email" ng-src="/api/registrations/qrCodeInstant?firstName={{tag.firstName}}&surname={{tag.surname}}&phone={{tag.phone}}">
                 </div>
 
 
