@@ -5,14 +5,13 @@ angular.module 'nbaAgcAdminApp'
   $scope.branches = Branch.list()
 
   $scope.doPrint = (branch) ->
-    $state.go 'print_branch', branch:branch
+    $state.go 'print_branch', branch: branch
 
 .controller 'PrintCtrl', ($scope, Branch, $stateParams) ->
-
   $scope.branch = $stateParams.branch
   $scope.data = []
 
-  Branch.getPrintData branch:$stateParams.branch, (data) ->
+  Branch.getPrintData branch: $stateParams.branch, (data) ->
     $scope.printData = data
 
     $scope.currentFirstPage = 1
@@ -36,14 +35,13 @@ angular.module 'nbaAgcAdminApp'
       i++
 
     $scope.showing = cPages.length
-    $scope.currentFirstPage = ($scope.offset*100)+1
+    $scope.currentFirstPage = ($scope.offset * 100) + 1
 
 .controller 'VipPrintCtrl', ($scope, Branch, $stateParams) ->
-
   $scope.branch = $stateParams.branch
   $scope.data = []
 
-  Branch.getVipPrintData vip:$stateParams.type, (data) ->
+  Branch.getVipPrintData vip: $stateParams.type, (data) ->
     $scope.printData = data
     $scope.prefaceList = angular.copy data
 
