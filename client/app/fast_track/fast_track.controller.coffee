@@ -25,7 +25,6 @@ angular.module 'nbaAgcAdminApp'
   $scope.byBranch = (branch)->
     $scope.BranchRep = {
       id: branch._id
-      repEmail:branch.repEmail,
       repPhone:branch.repPhone,
       repName:branch.repName
     }

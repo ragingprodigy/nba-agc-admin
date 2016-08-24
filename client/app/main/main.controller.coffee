@@ -21,7 +21,7 @@ angular.module 'nbaAgcAdminApp'
   #$scope.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers').withDisplayLength 10
 
   # Fetch Pending Registrations
-  Registration.query { statusConfirmed: false, responseGotten: false, completed: true, isGroup: false }
+  Registration.query { statusConfirmed: false, responseGotten: false, completed: true, isGroup: false, pending:true}
   .$promise.then (registrations) ->
     $scope.registrations = registrations
 

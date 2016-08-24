@@ -221,7 +221,10 @@ exports.stats = function (req, res) {
 
                                 Access.count({resolved: false, dataType: 'offline', deleted: {$ne: true}}, function (err, count) {
                                     ret.accessDataOffline = count;
+                                  Branch.count({fastTracked: true}, function (err, count) {
+                                    ret.branchFastTracked = count;
                                     return res.json(ret);
+                                  });
                                 });
                             });
                         });
@@ -234,19 +237,29 @@ exports.stats = function (req, res) {
 
 // Get list of registrations
 exports.index = function (req, res) {
-  console.log(req.query);
     var n_sn = new RegExp(req.query.term, 'i');
     delete req.query.term;
+  if(req.query.pending){
+    delete  req.query.pending;
     Registration.find()
-        .and([
-            {$or: [{email: {$regex: n_sn}}, {mobile: {$regex: n_sn}}, {firstName: {$regex: n_sn}}, {surname: {$regex: n_sn}}, {middleName: {$regex: n_sn}}, {regCode: {$regex: n_sn}}, {registrationCode: {$regex: n_sn}}]},
-            req.query
-        ]).exec(function (err, registrations) {
-        if (err) return handleError(res, err);
-        return res.json(registrations);
+      .and([
+        {$or: [{email: {$regex: n_sn}}, {mobile: {$regex: n_sn}}, {firstName: {$regex: n_sn}}, {surname: {$regex: n_sn}}, {middleName: {$regex: n_sn}}, {regCode: {$regex: n_sn}}, {registrationCode: {$regex: n_sn}}]},
+        req.query
+      ]).select('prefix firstName surname middleName email mobile regCode conferenceFee webpay lastModified suffix paymentSuccessful bankDeposit bankpay').exec(function (err, registrations) {
+      if (err) return handleError(res, err);
+      return res.json(registrations);
     });
-
-
+  }
+  else{
+    Registration.find()
+      .and([
+        {$or: [{email: {$regex: n_sn}}, {mobile: {$regex: n_sn}}, {firstName: {$regex: n_sn}}, {surname: {$regex: n_sn}}, {middleName: {$regex: n_sn}}, {regCode: {$regex: n_sn}}, {registrationCode: {$regex: n_sn}}]},
+        req.query
+      ]).exec(function (err, registrations) {
+      if (err) return handleError(res, err);
+      return res.json(registrations);
+    });
+  }
 };
 
 exports.fast = function (req, res) {
