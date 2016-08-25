@@ -50,10 +50,10 @@
   <div class="page bp">
     <div class="subpage">
       <!--<div class="registrationCode" style="margin-left: 12.95cm !important; margin-top: 1px !important; font-size: smaller; font-family: monospace !important;"><span>{{cert.registrationCode}}</span></div>-->
-      <div style="margin-top: 435px !important;" class="surname"><span>{{cert.surname.toLowerCase()}}</span></div>
-      <div class="firstName"><span>{{cert.firstName.toLowerCase()}}</span></div>
-      <div style="margin-top: -4px !important;" class="middleName"><span>{{cert.middleName.toLowerCase()}}</span></div>
-      <div style="margin-top: -6px !important;" class="branch"><span>{{cert.branch.toLowerCase()}}</span>
+      <div contenteditable="true" style="margin-top: 435px !important;" class="surname"><span>{{cert.surname}}</span></div>
+      <div contenteditable="true" class="firstName"><span>{{cert.firstName}}</span></div>
+      <div contenteditable="true" style="margin-top: -4px !important;" class="middleName"><span>{{cert.middleName}}</span></div>
+      <div contenteditable="true" style="margin-top: -6px !important;" class="branch"><span>{{cert.branch}}</span>
       </div>
     </div>
   </div>
@@ -61,9 +61,9 @@
   <div class="page" data-ng-repeat="r in data">
     <div class="subpage">
       <ul class="no-margin list-unstyled membersList">
-        <li data-ng-repeat="a in r">{{($parent.$index*45)+$index+1}}. {{a.firstName.toLowerCase()}}
-          {{a.middleName.toLowerCase()}}
-          {{a.surname.toLowerCase()}}
+        <li data-ng-repeat="a in r">{{($parent.$index*45)+$index+1}}. {{a.firstName}}
+          {{a.middleName}}
+          {{a.surname}}
         </li>
       </ul>
     </div>
