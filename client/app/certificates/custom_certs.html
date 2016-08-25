@@ -1,6 +1,3 @@
-<div ng-include="'components/navbar/navbar.html'" ng-hide="printOne "></div>
-
-
 <div class="container" ng-if="!printOne">
   <form name="certForm" ng-submit="certForm.$valid && printCerts(certForm)">
     <div class="row">
@@ -43,27 +40,42 @@
 </div>
 
 
-<div ng-if="printOne">
-  <div class="well hidden-print print-control text-center">
-    <div class="hidden-print text-center">
-        <button class="btn-danger btn" ng-click="cancelPrint()"> CANCEL</button>
+<div ng-if="printOne" class="well hidden-print print-control text-center">
+  <div class="hidden-print text-center">
+    <button class="btn-danger btn" ng-click="cancelPrint()"> CANCEL</button>
+  </div>
+</div>
+
+<div class="book" ng-if="printOne">
+  <div class="page bp">
+    <div class="subpage">
+      <!--<div class="registrationCode" style="margin-left: 12.95cm !important; margin-top: 1px !important; font-size: smaller; font-family: monospace !important;"><span>{{cert.registrationCode}}</span></div>-->
+      <div style="margin-top: 435px !important;" class="surname"><span>{{cert.surname.toLowerCase()}}</span></div>
+      <div class="firstName"><span>{{cert.firstName.toLowerCase()}}</span></div>
+      <div style="margin-top: -4px !important;" class="middleName"><span>{{cert.middleName.toLowerCase()}}</span></div>
+      <div style="margin-top: -6px !important;" class="branch"><span>{{cert.branch.toLowerCase()}}</span>
+      </div>
     </div>
   </div>
 
-  <div class="book">
-    <div class="page bp">
-      <div class="subpage">
-        <!--
-              <div class="registrationCode" style="margin-left: 12.95cm !important; margin-top: 1px !important; font-size: smaller; font-family: monospace !important;"><span>{{cert.registrationCode}}</span></div>
-        -->
-        <div class="surname"><span>{{cert.surname.toLowerCase()}}</span></div>
-        <div class="firstName"><span>{{cert.firstName.toLowerCase()}}</span></div>
-        <div style="margin-top: -4px !important;" class="middleName"><span>{{cert.middleName.toLowerCase()}}</span></div>
-        <div style="margin-top: -6px !important;" class="branch"><span>{{cert.branch.toLowerCase()}}</span>
-        </div>
-      </div>
+  <div class="page" data-ng-repeat="r in data">
+    <div class="subpage">
+      <ul class="no-margin list-unstyled membersList">
+        <li data-ng-repeat="a in r">{{($parent.$index*45)+$index+1}}. {{a.firstName.toLowerCase()}}
+          {{a.middleName.toLowerCase()}}
+          {{a.surname.toLowerCase()}}
+        </li>
+      </ul>
     </div>
 
+    <div class="page">
+      <div class="subpage">
+        <br><br><br>
+        ------------------------------------
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Branch Chairman
+      </div>
+    </div>
   </div>
 </div>
 
