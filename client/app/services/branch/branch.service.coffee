@@ -16,6 +16,14 @@ angular.module 'nbaAgcAdminApp'
       method: 'GET'
       url: '/api/branches/printData'
       isArray: true
+    listOnsite:
+      method: 'GET'
+      url: '/api/branches/onSiteUniqueList'
+      isArray: true
+    getOnsitePrintData:
+      method: 'GET'
+      url: '/api/branches/printOnsiteData'
+      isArray: true
     getVipPrintData:
       method: 'GET'
       url: '/api/branches/printVip'

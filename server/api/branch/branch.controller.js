@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var Branch = require('./branch.model'),
+  OfflineReg = require('../registration/offlineReg.model'),
     Registration = require('../registration/registration.model');
 
 // Get list of branches
@@ -37,11 +38,36 @@ exports.uniqueList = function(req, res) {
     });
 };
 
+exports.onSiteUniqueList = function(req, res) {
+    OfflineReg.aggregate([
+        { $match: {certPrinted:{$ne:true}} },
+        //{ $match: {statusConfirmed:true, paymentSuccessful:true} },
+        { $sort: { branch: -1 } },
+        { $group: {
+            _id: "$branch",
+            count: {$sum:1}
+        }}
+    ], function(err, data){
+        return res.json(data);
+    });
+};
+
 exports.printData = function(req, res) {
     Registration.find({statusConfirmed:true, paymentSuccessful:true, branch: req.query.branch}).sort({surname:1}).exec(function(err, records){
         return res.json(records);
 
         Registration.update({branch: req.query.branch}, {$set:{certPrinted:true}}, {multi:true}, function(err){
+            if (err) { return handleError(res, err); }
+
+        });
+    });
+};
+
+exports.printOnsiteData = function(req, res) {
+    OfflineReg.find({branch: req.query.branch}).sort({surname:1}).exec(function(err, records){
+        return res.json(records);
+
+      OfflineReg.update({branch: req.query.branch}, {$set:{certPrinted:true}}, {multi:true}, function(err){
             if (err) { return handleError(res, err); }
 
         });

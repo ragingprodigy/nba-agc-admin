@@ -9,6 +9,10 @@ router.get('/', controller.index);
 
 router.get('/uniqueList', controller.uniqueList);
 router.get('/printData', controller.printData);
+
+router.get('/onSiteUniqueList', controller.onSiteUniqueList);
+router.get('/printOnsiteData', controller.printOnsiteData);
+
 router.get('/printVip', controller.vipPrint);
 
 router.get('/:id', controller.show);
